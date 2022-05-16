@@ -3,7 +3,8 @@
 _realname=git
 pkgbase="mingw-w64-${_realname}"
 pkgname=("${MINGW_PACKAGE_PREFIX}-${_realname}"
-	     "${MINGW_PACKAGE_PREFIX}-${_realname}-doc-html")
+	     "${MINGW_PACKAGE_PREFIX}-${_realname}-doc-html"
+	     "${MINGW_PACKAGE_PREFIX}-${_realname}-doc-man")
 tag=2.36.1.windows.1
 pkgver=2.36.1.1.e2ff68a2d14
 pkgrel=1
@@ -14,6 +15,7 @@ license=('GPL2')
 
 options=()
 makedepends=("git"
+             "docbook-xsl"
              "${MINGW_PACKAGE_PREFIX}-cmake"
              "${MINGW_PACKAGE_PREFIX}-ninja"
              "${MINGW_PACKAGE_PREFIX}-asciidoc"
@@ -23,7 +25,6 @@ depends=("${MINGW_PACKAGE_PREFIX}-curl"
          "${MINGW_PACKAGE_PREFIX}-ca-certificates"
          "${MINGW_PACKAGE_PREFIX}-expat>=2.0"
          "${MINGW_PACKAGE_PREFIX}-openssl"
-         "${MINGW_PACKAGE_PREFIX}-pcre2"
          "${MINGW_PACKAGE_PREFIX}-tcl"
          "${MINGW_PACKAGE_PREFIX}-tk"
          "perl-Error"
@@ -86,12 +87,25 @@ package_git-doc-html () {
     make -C contrib/subtree prefix="$pkgdir/$MINGW_PREFIX" install-html
 }
 
+package_git-doc-man () {
+    cd "$srcdir"/git
+
+    make prefix="$pkgdir/$MINGW_PREFIX" install-man
+
+    # subtree, for backwards-compatibility with MSys2's Git package
+    make -C contrib/subtree prefix="$pkgdir/$MINGW_PREFIX" install-man
+}
+
 package_mingw-w64-i686-git () {
     package_git
 }
 
 package_mingw-w64-i686-git-doc-html () {
     package_git-doc-html
+}
+
+package_mingw-w64-i686-git-doc-man () {
+    package_git-doc-man
 }
 
 package_mingw-w64-x86_64-git () {
@@ -102,10 +116,18 @@ package_mingw-w64-x86_64-git-doc-html () {
     package_git-doc-html
 }
 
+package_mingw-w64-x86_64-git-doc-man () {
+    package_git-doc-man
+}
+
 package_mingw-w64-ucrt-x86_64-git () {
     package_git
 }
 
 package_mingw-w64-ucrt-x86_64-git-doc-html () {
     package_git-doc-html
+}
+
+package_mingw-w64-ucrt-x86_64-git-doc-man () {
+    package_git-doc-man
 }
