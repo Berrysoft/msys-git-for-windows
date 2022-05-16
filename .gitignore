@@ -1,0 +1,17 @@
+*.tar.xz
+*.tar.gz
+*.tar.bz2
+*.tar.zst
+*.tgz
+*.zip
+*.rar
+*.sig
+*.asc
+*.log
+*.log.[0-9]*
+*/src/
+*/pkg/
+*/git/
+*~
+*.swp
+*.swo
