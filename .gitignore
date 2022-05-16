@@ -9,9 +9,9 @@
 *.asc
 *.log
 *.log.[0-9]*
-*/src/
-*/pkg/
-*/git/
+/src/
+/pkg/
+/git/
 *~
 *.swp
 *.swo
