@@ -2,7 +2,8 @@
 
 _realname=git
 pkgbase="mingw-w64-${_realname}"
-pkgname=("${MINGW_PACKAGE_PREFIX}-${_realname}")
+pkgname=("${MINGW_PACKAGE_PREFIX}-${_realname}"
+	     "${MINGW_PACKAGE_PREFIX}-${_realname}-doc-html")
 tag=2.36.1.windows.1
 pkgver=2.36.1.1.e2ff68a2d14
 pkgrel=1
@@ -15,6 +16,7 @@ options=()
 makedepends=("git"
              "${MINGW_PACKAGE_PREFIX}-cmake"
              "${MINGW_PACKAGE_PREFIX}-ninja"
+             "${MINGW_PACKAGE_PREFIX}-asciidoc"
              "${MINGW_PACKAGE_PREFIX}-cc")
 
 depends=("${MINGW_PACKAGE_PREFIX}-curl"
@@ -70,7 +72,40 @@ build() {
     ${MINGW_PREFIX}/bin/ninja.exe
 }
 
-package () {
+package_git () {
     cd ${srcdir}/build
     ${MINGW_PREFIX}/bin/ninja.exe install
+}
+
+package_git-doc-html () {
+    cd "$srcdir"/git
+
+    make prefix="$pkgdir/$MINGW_PREFIX" install-html
+
+    # subtree, for backwards-compatibility with MSys2's Git package
+    make -C contrib/subtree prefix="$pkgdir/$MINGW_PREFIX" install-html
+}
+
+package_mingw-w64-i686-git () {
+    package_git
+}
+
+package_mingw-w64-i686-git-doc-html () {
+    package_git-doc-html
+}
+
+package_mingw-w64-x86_64-git () {
+    package_git
+}
+
+package_mingw-w64-x86_64-git-doc-html () {
+    package_git-doc-html
+}
+
+package_mingw-w64-ucrt-x86_64-git () {
+    package_git
+}
+
+package_mingw-w64-ucrt-x86_64-git-doc-html () {
+    package_git-doc-html
 }
