@@ -1,0 +1,12 @@
+diff --git a/contrib/buildsystems/CMakeLists.txt b/contrib/buildsystems/CMakeLists.txt
+index 2cab53b630..ad49fa31cf 100644
+--- a/contrib/buildsystems/CMakeLists.txt
++++ b/contrib/buildsystems/CMakeLists.txt
+@@ -261,7 +261,6 @@ add_compile_definitions(PAGER_ENV="LESS=FRX LV=-c"
+                        GIT_BUILT_FROM_COMMIT="")
+
+ if(WIN32)
+-       set(FALLBACK_RUNTIME_PREFIX /mingw64)
+        # Move system config into top-level /etc/
+        add_compile_definitions(FALLBACK_RUNTIME_PREFIX="${FALLBACK_RUNTIME_PREFIX}"
+                ETC_GITATTRIBUTES="../etc/gitattributes"

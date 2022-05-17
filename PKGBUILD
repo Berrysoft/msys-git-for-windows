@@ -19,6 +19,7 @@ makedepends=("git"
              "make"
              "xmlto"
              "tar"
+             "patch"
              "${MINGW_PACKAGE_PREFIX}-cmake"
              "${MINGW_PACKAGE_PREFIX}-ninja"
              "${MINGW_PACKAGE_PREFIX}-asciidoc"
@@ -40,9 +41,13 @@ depends=("${MINGW_PACKAGE_PREFIX}-curl"
 
 optdepends=("mintty")
 
-source=("${_realname}"::"git+https://github.com/git-for-windows/git.git#tag=v$tag")
+source=("${_realname}"::"git+https://github.com/git-for-windows/git.git#tag=v$tag"
+        "1-fallback-path.patch"
+        "2-mingw-clang.patch")
 
-sha256sums=('SKIP')
+sha256sums=('SKIP'
+            '85088667e6aa554d1bf66ec34520eb800090300f5237e1a7c4db2cbc3cc99a8b'
+            '66a689adef63e565713fed7fef1f556b89771379c575f191b4985b05f4cc041c')
 
 options+=('strip')
 
@@ -63,6 +68,8 @@ build() {
             rm .git/index
             git reset --hard
         fi
+        git apply ${srcdir}/1-fallback-path.patch
+        git apply ${srcdir}/2-mingw-clang.patch
     popd
 
     # Git wants to decide itself whether to use ANSI stdio emulation or not
@@ -71,8 +78,12 @@ build() {
 
     [ -d ${srcdir}/build ] || mkdir ${srcdir}/build
     cd ${srcdir}/build
-    pkgdir_git=${pkgdir}/../"${MINGW_PACKAGE_PREFIX}-${_realname}"/${MINGW_PREFIX}
-    ${MINGW_PREFIX}/bin/cmake.exe ../git/contrib/buildsystems -GNinja -DUSE_VCPKG=off -DCMAKE_INSTALL_PREFIX=${pkgdir_git}
+    pkgdir_git=${pkgdir}/../"${MINGW_PACKAGE_PREFIX}-${_realname}"${MINGW_PREFIX}
+    ${MINGW_PREFIX}/bin/cmake.exe ../git/contrib/buildsystems \
+        -GNinja \
+        -DUSE_VCPKG=off \
+        -DCMAKE_INSTALL_PREFIX=${pkgdir_git} \
+        -DFALLBACK_RUNTIME_PREFIX=${MINGW_PREFIX}
     ${MINGW_PREFIX}/bin/ninja.exe
 }
 
