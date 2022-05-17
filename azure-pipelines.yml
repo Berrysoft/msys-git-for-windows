@@ -4,16 +4,54 @@
 # https://aka.ms/yaml
 
 trigger:
-- master
+  branches:
+    include:
+      - master
+  paths:
+    exclude:
+      - LICENSE
+      - README.md
 
-pool:
-  vmImage: ubuntu-latest
+jobs:
+- job: Package
+  strategy:
+    matrix:
+      X86:
+        target: 'i686'
+        prefix: 'mingw32'
+        MSYSTEM: 'MINGW32'
+      X64:
+        target: 'x86_64'
+        prefix: 'mingw64'
+        MSYSTEM: 'MINGW64'
+      UCRT:
+        target: 'ucrt-x86_64'
+        prefix: 'ucrt64'
+        MSYSTEM: 'UCRT64'
+  pool:
+    vmImage: 'windows-latest'
+  
+  steps:
+  - pwsh: |
+      git config core.autocrlf false
+      rm .git/index
+      git reset --hard
+    displayName: "Fix CRLF"
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+  - pwsh: |
+      $env:PATH="$PATH;C:\msys64\$(prefix)\bin;C:\msys64\usr\bin;"
+      C:\msys64\usr\bin\pacman.exe -Syu --noconfirm
+      C:\msys64\usr\bin\pacman.exe -S --noconfirm mingw-w64-$(target)-binutils
+      C:\msys64\usr\bin\bash.exe C:\msys64\usr\bin\makepkg-mingw -s --noconfirm
+    displayName: "Package"
+    env:
+      MSYSTEM: $(MSYSTEM)
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+  - task: CopyFiles@2
+    inputs:
+      contents: '*.pkg.tar.*' 
+      targetFolder: $(build.artifactstagingdirectory)
+
+  - task: PublishBuildArtifacts@1
+    inputs:
+      ArtifactName: 'publish'
