@@ -16,8 +16,8 @@ license=('GPL2')
 options=()
 makedepends=("git"
              "docbook-xsl"
+             "make"
              "${MINGW_PACKAGE_PREFIX}-cmake"
-             "${MINGW_PACKAGE_PREFIX}-make"
              "${MINGW_PACKAGE_PREFIX}-ninja"
              "${MINGW_PACKAGE_PREFIX}-asciidoc"
              "${MINGW_PACKAGE_PREFIX}-cc")
