@@ -13,7 +13,8 @@ arch=('any')
 url="https://git-for-windows.github.io/"
 license=('GPL2')
 
-options=()
+options=('strip')
+
 makedepends=("docbook-xsl"
              "git"
              "make"
@@ -34,9 +35,9 @@ depends=("${MINGW_PACKAGE_PREFIX}-curl"
          "${MINGW_PACKAGE_PREFIX}-tcl"
          "${MINGW_PACKAGE_PREFIX}-tk"
          "${MINGW_PACKAGE_PREFIX}-zlib"
-         "perl-Error"
          "perl>=5.14.0"
          "perl-Authen-SASL"
+         "perl-Error"
          "perl-libwww"
          "perl-MIME-tools"
          "perl-Net-SMTP-SSL"
@@ -52,8 +53,6 @@ sha256sums=('SKIP'
             '014035f317ca89d15790b114301529bcbcea1110fc1287b571a4cb475cd8b649'
             '6005df74de976731bda3ff8d04416b5f7cd7d1b9f97a8fc8714c790f6d48a6b9')
 
-options+=('strip')
-
 pkgver() {
     cd "$srcdir/git"
     basever=${tag%.windows.*}
@@ -63,35 +62,30 @@ pkgver() {
     printf "%s.%s" "${basever}" "$(git rev-parse --short HEAD)"
 }
 
-build() {
-    pushd "$srcdir/git"
-        if test false != "$(git config core.autocrlf)"
-            then
-            git config core.autocrlf false
-            rm .git/index
-            git reset --hard
-        fi
-        git apply ${srcdir}/1-fallback-path.patch
-        git apply ${srcdir}/2-mingw-clang.patch
-    popd
+prepare() {
+    cd "$srcdir/git"
+    if test false != "$(git config core.autocrlf)"
+        then
+        git config core.autocrlf false
+        rm .git/index
+        git reset --hard
+    fi
+    git apply ${srcdir}/1-fallback-path.patch
+    git apply ${srcdir}/2-mingw-clang.patch
+}
 
+package_git () {
     # Git wants to decide itself whether to use ANSI stdio emulation or not
     CPPFLAGS="$(echo "$CPPFLAGS" |
         sed 's/-D__USE_MINGW_ANSI_STDIO\(=[0-9]*\)\?//')"
 
     [ -d ${srcdir}/build ] || mkdir ${srcdir}/build
     cd ${srcdir}/build
-    pkgdir_git=${pkgdir}/../"${MINGW_PACKAGE_PREFIX}-${_realname}"${MINGW_PREFIX}
-    ${MINGW_PREFIX}/bin/cmake.exe ../git/contrib/buildsystems \
+    MSYS2_ARG_CONV_EXCL="-DFALLBACK_RUNTIME_PREFIX=" ${MINGW_PREFIX}/bin/cmake.exe ${srcdir}/git/contrib/buildsystems \
         -GNinja \
         -DUSE_VCPKG=off \
-        -DCMAKE_INSTALL_PREFIX=${pkgdir_git} \
-        -DFALLBACK_RUNTIME_PREFIX=${MINGW_PREFIX}
-    ${MINGW_PREFIX}/bin/ninja.exe
-}
-
-package_git () {
-    cd ${srcdir}/build
+        -DCMAKE_INSTALL_PREFIX="$pkgdir/$MINGW_PREFIX" \
+        -DFALLBACK_RUNTIME_PREFIX="$MINGW_PREFIX"
     ${MINGW_PREFIX}/bin/ninja.exe install
 }
 
