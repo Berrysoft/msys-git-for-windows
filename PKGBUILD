@@ -17,6 +17,8 @@ options=()
 makedepends=("git"
              "docbook-xsl"
              "make"
+             "xmlto"
+             "tar"
              "${MINGW_PACKAGE_PREFIX}-cmake"
              "${MINGW_PACKAGE_PREFIX}-ninja"
              "${MINGW_PACKAGE_PREFIX}-asciidoc"
