@@ -33,8 +33,14 @@ jobs:
   
   steps:
   - pwsh: |
+      git config core.autocrlf false
+      rm .git/index
+      git reset --hard
+    displayName: "Fix CRLF"
+
+  - pwsh: |
       $env:PATH="$PATH;C:\msys64\$(prefix)\bin;C:\msys64\usr\bin;"
-      C:\msys64\usr\bin\bash.exe C:\msys64\usr\bin\makepkg-mingw -s
+      C:\msys64\usr\bin\bash.exe C:\msys64\usr\bin\makepkg-mingw -s --noconfirm
     displayName: "Package"
     env:
       MSYSTEM: $(MSYSTEM)
