@@ -6,7 +6,7 @@ pkgname=("${MINGW_PACKAGE_PREFIX}-${_realname}"
 	     "${MINGW_PACKAGE_PREFIX}-${_realname}-doc-html"
 	     "${MINGW_PACKAGE_PREFIX}-${_realname}-doc-man")
 tag=2.36.1.windows.1
-pkgver=2.36.1.1.e2ff68a2d14
+pkgver=2.36.1.1.e2ff68a2d1
 pkgrel=1
 pkgdesc="The fast distributed version control system (mingw-w64)"
 arch=('any')
@@ -24,7 +24,8 @@ makedepends=("docbook-xsl"
              "${MINGW_PACKAGE_PREFIX}-asciidoc"
              "${MINGW_PACKAGE_PREFIX}-cc"
              "${MINGW_PACKAGE_PREFIX}-cmake"
-             "${MINGW_PACKAGE_PREFIX}-ninja")
+             "${MINGW_PACKAGE_PREFIX}-ninja"
+             "${MINGW_PACKAGE_PREFIX}-pkgconf")
 
 depends=("${MINGW_PACKAGE_PREFIX}-curl"
          "${MINGW_PACKAGE_PREFIX}-ca-certificates"
@@ -32,6 +33,7 @@ depends=("${MINGW_PACKAGE_PREFIX}-curl"
          "${MINGW_PACKAGE_PREFIX}-gettext"
          "${MINGW_PACKAGE_PREFIX}-libiconv"
          "${MINGW_PACKAGE_PREFIX}-openssl"
+         "${MINGW_PACKAGE_PREFIX}-pcre2"
          "${MINGW_PACKAGE_PREFIX}-tcl"
          "${MINGW_PACKAGE_PREFIX}-tk"
          "${MINGW_PACKAGE_PREFIX}-zlib"
@@ -47,11 +49,13 @@ optdepends=("mintty")
 
 source=("${_realname}"::"git+https://github.com/git-for-windows/git.git#tag=v$tag"
         "1-fallback-path.patch"
-        "2-mingw-clang.patch")
+        "2-mingw-clang.patch"
+        "3-pcre2.patch")
 
 sha256sums=('SKIP'
             '014035f317ca89d15790b114301529bcbcea1110fc1287b571a4cb475cd8b649'
-            '6005df74de976731bda3ff8d04416b5f7cd7d1b9f97a8fc8714c790f6d48a6b9')
+            '6005df74de976731bda3ff8d04416b5f7cd7d1b9f97a8fc8714c790f6d48a6b9'
+            'e979d7238e282348e5c34d3dcc5f9371850b50d33367e2ccf8d2d0a45e22fcb9')
 
 pkgver() {
     cd "$srcdir/git"
@@ -70,8 +74,7 @@ prepare() {
         rm .git/index
         git reset --hard
     fi
-    git apply ${srcdir}/1-fallback-path.patch
-    git apply ${srcdir}/2-mingw-clang.patch
+    git apply ${srcdir}/*.patch
 }
 
 package_git () {
