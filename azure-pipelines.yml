@@ -1,0 +1,45 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+  branches:
+    include:
+      - master
+  paths:
+    exclude:
+      - LICENSE
+      - README.md
+
+jobs:
+- job: Package
+  strategy:
+    matrix:
+      X86:
+        target: 'i686'
+        MSYSTEM: 'MINGW32'
+      X64:
+        target: 'x86_64'
+        MSYSTEM: 'MINGW64'
+      UCRT:
+        target: 'ucrt-x86_64'
+        MSYSTEM: 'UCRT64'
+  pool:
+    vmImage: 'windows-latest'
+  
+  steps:
+  - pwsh: |
+      C:\msys64\usr\bin\bash.exe C:\msys64\usr\bin\makepkg-mingw -s
+    displayName: "Package"
+    env:
+      MSYSTEM: $(MSYSTEM)
+
+  - task: CopyFiles@2
+    inputs:
+      contents: '*.pkg.tar.*' 
+      targetFolder: $(build.artifactstagingdirectory)
+
+  - task: PublishBuildArtifacts@1
+    inputs:
+      ArtifactName: 'publish'
