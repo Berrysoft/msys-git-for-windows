@@ -14,23 +14,26 @@ url="https://git-for-windows.github.io/"
 license=('GPL2')
 
 options=()
-makedepends=("git"
-             "docbook-xsl"
+makedepends=("docbook-xsl"
+             "git"
              "make"
-             "xmlto"
-             "tar"
              "patch"
-             "${MINGW_PACKAGE_PREFIX}-cmake"
-             "${MINGW_PACKAGE_PREFIX}-ninja"
+             "tar"
+             "xmlto"
              "${MINGW_PACKAGE_PREFIX}-asciidoc"
-             "${MINGW_PACKAGE_PREFIX}-cc")
+             "${MINGW_PACKAGE_PREFIX}-cc"
+             "${MINGW_PACKAGE_PREFIX}-cmake"
+             "${MINGW_PACKAGE_PREFIX}-ninja")
 
 depends=("${MINGW_PACKAGE_PREFIX}-curl"
          "${MINGW_PACKAGE_PREFIX}-ca-certificates"
          "${MINGW_PACKAGE_PREFIX}-expat>=2.0"
+         "${MINGW_PACKAGE_PREFIX}-gettext"
+         "${MINGW_PACKAGE_PREFIX}-libiconv"
          "${MINGW_PACKAGE_PREFIX}-openssl"
          "${MINGW_PACKAGE_PREFIX}-tcl"
          "${MINGW_PACKAGE_PREFIX}-tk"
+         "${MINGW_PACKAGE_PREFIX}-zlib"
          "perl-Error"
          "perl>=5.14.0"
          "perl-Authen-SASL"
@@ -47,7 +50,7 @@ source=("${_realname}"::"git+https://github.com/git-for-windows/git.git#tag=v$ta
 
 sha256sums=('SKIP'
             '014035f317ca89d15790b114301529bcbcea1110fc1287b571a4cb475cd8b649'
-            '78c7978de2c620683ba70d5fcb4ed346cbd1c96d8e089d6970cc3990efe03bc6')
+            '9e423ef57d86653b15f2299694197b4220fc45b369bc11a4aa5b34d2231225ee')
 
 options+=('strip')
 

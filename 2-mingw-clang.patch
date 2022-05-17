@@ -1,7 +1,16 @@
 diff --git a/contrib/buildsystems/CMakeLists.txt b/contrib/buildsystems/CMakeLists.txt
-index 2cab53b630..fe67365815 100644
+index 2cab53b630..911027a3e9 100644
 --- a/contrib/buildsystems/CMakeLists.txt
 +++ b/contrib/buildsystems/CMakeLists.txt
+@@ -174,7 +174,7 @@ find_package(EXPAT)
+ find_package(Iconv)
+ 
+ #Don't use libintl on Windows Visual Studio and Clang builds
+-if(NOT (WIN32 AND (CMAKE_C_COMPILER_ID STREQUAL "MSVC" OR CMAKE_C_COMPILER_ID STREQUAL "Clang")))
++if(NOT (WIN32 AND (CMAKE_C_COMPILER_ID STREQUAL "MSVC")))
+ 	find_package(Intl)
+ endif()
+ 
 @@ -276,7 +276,7 @@ endif()
  
  #Platform Specific
