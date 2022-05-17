@@ -46,8 +46,8 @@ source=("${_realname}"::"git+https://github.com/git-for-windows/git.git#tag=v$ta
         "2-mingw-clang.patch")
 
 sha256sums=('SKIP'
-            '85088667e6aa554d1bf66ec34520eb800090300f5237e1a7c4db2cbc3cc99a8b'
-            '66a689adef63e565713fed7fef1f556b89771379c575f191b4985b05f4cc041c')
+            '014035f317ca89d15790b114301529bcbcea1110fc1287b571a4cb475cd8b649'
+            '78c7978de2c620683ba70d5fcb4ed346cbd1c96d8e089d6970cc3990efe03bc6')
 
 options+=('strip')
 
