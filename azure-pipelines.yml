@@ -18,18 +18,22 @@ jobs:
     matrix:
       X86:
         target: 'i686'
+        prefix: 'mingw32'
         MSYSTEM: 'MINGW32'
       X64:
         target: 'x86_64'
+        prefix: 'mingw64'
         MSYSTEM: 'MINGW64'
       UCRT:
         target: 'ucrt-x86_64'
+        prefix: 'ucrt64'
         MSYSTEM: 'UCRT64'
   pool:
     vmImage: 'windows-latest'
   
   steps:
   - pwsh: |
+      $env:PATH="$PATH;C:\msys64\$(prefix)\bin;C:\msys64\usr\bin;"
       C:\msys64\usr\bin\bash.exe C:\msys64\usr\bin\makepkg-mingw -s
     displayName: "Package"
     env:
