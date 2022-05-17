@@ -2,14 +2,6 @@ diff --git a/contrib/buildsystems/CMakeLists.txt b/contrib/buildsystems/CMakeLis
 index 2cab53b630..f275ea61b5 100644
 --- a/contrib/buildsystems/CMakeLists.txt
 +++ b/contrib/buildsystems/CMakeLists.txt
-@@ -126,7 +126,6 @@ project(git
- 
- #TODO gitk git-gui gitweb
- #TODO Enable NLS on windows natively
--#TODO Add pcre support
- 
- #macros for parsing the Makefile for sources and scripts
- macro(parse_makefile_for_sources list_var regex)
 @@ -178,6 +177,14 @@ if(NOT (WIN32 AND (CMAKE_C_COMPILER_ID STREQUAL "MSVC" OR CMAKE_C_COMPILER_ID ST
  	find_package(Intl)
  endif()

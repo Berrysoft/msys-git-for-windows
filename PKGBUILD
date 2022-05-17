@@ -55,7 +55,7 @@ source=("${_realname}"::"git+https://github.com/git-for-windows/git.git#tag=v$ta
 sha256sums=('SKIP'
             '014035f317ca89d15790b114301529bcbcea1110fc1287b571a4cb475cd8b649'
             '6005df74de976731bda3ff8d04416b5f7cd7d1b9f97a8fc8714c790f6d48a6b9'
-            'e979d7238e282348e5c34d3dcc5f9371850b50d33367e2ccf8d2d0a45e22fcb9')
+            'af2cdf0b91764c1b5c4428681b08a843a2883dfaafa436b57638edc67c4e3efc')
 
 pkgver() {
     cd "$srcdir/git"
