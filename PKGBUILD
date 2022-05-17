@@ -134,3 +134,27 @@ package_mingw-w64-ucrt-x86_64-git-doc-html () {
 package_mingw-w64-ucrt-x86_64-git-doc-man () {
     package_git-doc-man
 }
+
+package_mingw-w64-clang-i686-git () {
+    package_git
+}
+
+package_mingw-w64-clang-i686-git-doc-html () {
+    package_git-doc-html
+}
+
+package_mingw-w64-clang-i686-git-doc-man () {
+    package_git-doc-man
+}
+
+package_mingw-w64-clang-x86_64-git () {
+    package_git
+}
+
+package_mingw-w64-clang-x86_64-git-doc-html () {
+    package_git-doc-html
+}
+
+package_mingw-w64-clang-x86_64-git-doc-man () {
+    package_git-doc-man
+}
