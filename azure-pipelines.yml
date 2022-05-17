@@ -16,18 +16,26 @@ jobs:
 - job: Package
   strategy:
     matrix:
-      X86:
+      MINGW32:
         target: 'i686'
         prefix: 'mingw32'
         MSYSTEM: 'MINGW32'
-      X64:
+      MINGW64:
         target: 'x86_64'
         prefix: 'mingw64'
         MSYSTEM: 'MINGW64'
-      UCRT:
+      UCRT64:
         target: 'ucrt-x86_64'
         prefix: 'ucrt64'
         MSYSTEM: 'UCRT64'
+      CLANG32:
+        target: 'clang-i686'
+        prefix: 'clang32'
+        MSYSTEM: 'CLANG32'
+      CLANG64:
+        target: 'clang-x86_64'
+        prefix: 'clang64'
+        MSYSTEM: 'CLANG64'
   pool:
     vmImage: 'windows-latest'
   
