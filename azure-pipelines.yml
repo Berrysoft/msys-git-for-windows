@@ -66,6 +66,7 @@ jobs:
     displayName: "Clone build-extra from official repo"
 
   - pwsh: |
+      $env:PATH="$PATH;C:\msys64\$(prefix)\bin;C:\msys64\usr\bin;"
       cd build-extra/mingw-w64-git-lfs
       C:\msys64\usr\bin\bash.exe C:\msys64\usr\bin\makepkg-mingw -s --noconfirm
     displayName: "Package git-lfs"
@@ -73,6 +74,7 @@ jobs:
       MSYSTEM: $(MSYSTEM)
 
   - pwsh: |
+      $env:PATH="$PATH;C:\msys64\$(prefix)\bin;C:\msys64\usr\bin;"
       cd build-extra/mingw-w64-git-credential-manager
       C:\msys64\usr\bin\bash.exe C:\msys64\usr\bin\makepkg-mingw -s --noconfirm
     displayName: "Package gcm"
