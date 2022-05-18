@@ -2,9 +2,7 @@
 
 _realname=git
 pkgbase="mingw-w64-${_realname}"
-pkgname=("${MINGW_PACKAGE_PREFIX}-${_realname}"
-	     "${MINGW_PACKAGE_PREFIX}-${_realname}-doc-html"
-	     "${MINGW_PACKAGE_PREFIX}-${_realname}-doc-man")
+pkgname=("${MINGW_PACKAGE_PREFIX}-${_realname}")
 tag=2.36.1.windows.1
 pkgver=2.36.1.1.e2ff68a2d1
 pkgrel=1
@@ -47,6 +45,9 @@ depends=("${MINGW_PACKAGE_PREFIX}-curl"
 
 optdepends=("mintty")
 
+conflicts=("${MINGW_PACKAGE_PREFIX}-${_realname}-doc-html"
+	       "${MINGW_PACKAGE_PREFIX}-${_realname}-doc-man")
+
 source=("${_realname}"::"git+https://github.com/git-for-windows/git.git#tag=v$tag"
         "1-fallback-path.patch"
         "2-mingw-clang.patch"
@@ -77,7 +78,7 @@ prepare() {
     git apply ${srcdir}/*.patch
 }
 
-package_git () {
+package () {
     cd "$srcdir"/git
 
     make -C gitk-git prefix="$pkgdir/$MINGW_PREFIX" install
@@ -86,8 +87,13 @@ package_git () {
 
     DESTDIR="$pkgdir" make -C gitweb prefix="$MINGW_PREFIX" gitwebdir="$MINGW_PREFIX/var/www/cgi-bin" install
 
+    make prefix="$pkgdir/$MINGW_PREFIX" install-html
+    make prefix="$pkgdir/$MINGW_PREFIX" install-man
+
     # subtree, for backwards-compatibility with MSys2's Git package
     make -C contrib/subtree prefix="$pkgdir/$MINGW_PREFIX" install
+    make -C contrib/subtree prefix="$pkgdir/$MINGW_PREFIX" install-html
+    make -C contrib/subtree prefix="$pkgdir/$MINGW_PREFIX" install-man
 
     # completions
     install -d "$pkgdir/$MINGW_PREFIX/share/git/completion/"
@@ -106,82 +112,4 @@ package_git () {
         -DCMAKE_INSTALL_PREFIX="$pkgdir/$MINGW_PREFIX" \
         -DFALLBACK_RUNTIME_PREFIX="$MINGW_PREFIX"
     ${MINGW_PREFIX}/bin/ninja.exe install
-}
-
-package_git-doc-html () {
-    cd "$srcdir"/git
-
-    make prefix="$pkgdir/$MINGW_PREFIX" install-html
-
-    # subtree, for backwards-compatibility with MSys2's Git package
-    make -C contrib/subtree prefix="$pkgdir/$MINGW_PREFIX" install-html
-}
-
-package_git-doc-man () {
-    cd "$srcdir"/git
-
-    make prefix="$pkgdir/$MINGW_PREFIX" install-man
-
-    # subtree, for backwards-compatibility with MSys2's Git package
-    make -C contrib/subtree prefix="$pkgdir/$MINGW_PREFIX" install-man
-}
-
-package_mingw-w64-i686-git () {
-    package_git
-}
-
-package_mingw-w64-i686-git-doc-html () {
-    package_git-doc-html
-}
-
-package_mingw-w64-i686-git-doc-man () {
-    package_git-doc-man
-}
-
-package_mingw-w64-x86_64-git () {
-    package_git
-}
-
-package_mingw-w64-x86_64-git-doc-html () {
-    package_git-doc-html
-}
-
-package_mingw-w64-x86_64-git-doc-man () {
-    package_git-doc-man
-}
-
-package_mingw-w64-ucrt-x86_64-git () {
-    package_git
-}
-
-package_mingw-w64-ucrt-x86_64-git-doc-html () {
-    package_git-doc-html
-}
-
-package_mingw-w64-ucrt-x86_64-git-doc-man () {
-    package_git-doc-man
-}
-
-package_mingw-w64-clang-i686-git () {
-    package_git
-}
-
-package_mingw-w64-clang-i686-git-doc-html () {
-    package_git-doc-html
-}
-
-package_mingw-w64-clang-i686-git-doc-man () {
-    package_git-doc-man
-}
-
-package_mingw-w64-clang-x86_64-git () {
-    package_git
-}
-
-package_mingw-w64-clang-x86_64-git-doc-html () {
-    package_git-doc-html
-}
-
-package_mingw-w64-clang-x86_64-git-doc-man () {
-    package_git-doc-man
 }
