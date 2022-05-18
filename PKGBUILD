@@ -78,6 +78,12 @@ prepare() {
 }
 
 package_git () {
+    cd "$srcdir"/git/gitk-git
+    make prefix="$pkgdir/$MINGW_PREFIX" install
+
+    cd "$srcdir"/git/git-gui
+    make gitexecdir="$pkgdir/$MINGW_PREFIX/libexec/git-core" install
+
     # Git wants to decide itself whether to use ANSI stdio emulation or not
     CPPFLAGS="$(echo "$CPPFLAGS" |
         sed 's/-D__USE_MINGW_ANSI_STDIO\(=[0-9]*\)\?//')"
