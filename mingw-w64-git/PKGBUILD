@@ -49,7 +49,7 @@ optdepends=("mintty")
 conflicts=("${MINGW_PACKAGE_PREFIX}-${_realname}-doc-html"
 	       "${MINGW_PACKAGE_PREFIX}-${_realname}-doc-man")
 
-source=("${_realname}"::"git+https://github.com/git-for-windows/git.git#tag=v$tag"
+source=("git"::"git+https://github.com/git-for-windows/git.git#tag=v$tag"
         "1-fallback-path.patch"
         "2-mingw-clang.patch"
         "3-pcre2.patch")

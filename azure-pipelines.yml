@@ -50,30 +50,23 @@ jobs:
       $env:PATH="$PATH;C:\msys64\$(prefix)\bin;C:\msys64\usr\bin;"
       C:\msys64\usr\bin\pacman.exe -Syu --noconfirm
       C:\msys64\usr\bin\pacman.exe -S --noconfirm mingw-w64-$(target)-binutils
+      cd mingw-w64-git
       C:\msys64\usr\bin\bash.exe C:\msys64\usr\bin\makepkg-mingw -s --noconfirm
-    displayName: "Package"
+    displayName: "Package git"
     env:
       MSYSTEM: $(MSYSTEM)
 
-  - task: CopyFiles@2
-    inputs:
-      contents: '*.pkg.tar.*' 
-      targetFolder: $(build.artifactstagingdirectory)
-      flattenFolders: true
-      preserveTimestamp: true
-    displayName: "Copy git package"
-
-  - pwsh: |
-      git clone https://github.com/git-for-windows/build-extra.git
-    displayName: "Clone build-extra from official repo"
-
   - pwsh: |
       $env:PATH="$PATH;C:\msys64\$(prefix)\bin;C:\msys64\usr\bin;"
-      cd build-extra/mingw-w64-git-lfs
+      cd mingw-w64-git-lfs
       C:\msys64\usr\bin\bash.exe C:\msys64\usr\bin\makepkg-mingw -s --noconfirm
     displayName: "Package git-lfs"
     env:
       MSYSTEM: $(MSYSTEM)
+
+  - pwsh: |
+      git clone https://github.com/git-for-windows/build-extra.git
+    displayName: "Clone build-extra from official repo"
 
   - pwsh: |
       $env:PATH="$PATH;C:\msys64\$(prefix)\bin;C:\msys64\usr\bin;"
@@ -85,11 +78,11 @@ jobs:
 
   - task: CopyFiles@2
     inputs:
-      contents: 'build-extra/**/*.pkg.tar.*' 
+      contents: '**/*.pkg.tar.*' 
       targetFolder: $(build.artifactstagingdirectory)
       flattenFolders: true
       preserveTimestamp: true
-    displayName: "Copy git tools package"
+    displayName: "Copy git packages"
 
   - task: PublishBuildArtifacts@1
     inputs:

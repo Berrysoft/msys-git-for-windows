@@ -1,0 +1,41 @@
+# Maintainer: Berrysoft <Strawberry_Str@hotail.com>
+
+_realname="git-lfs"
+pkgbase="mingw-w64-${_realname}"
+pkgname=("${MINGW_PACKAGE_PREFIX}-${_realname}")
+pkgver=3.1.4
+# pkgrel should be larger than the official one
+pkgrel=2
+pkgdesc="An open source Git extension for versioning large files"
+arch=('any')
+url="https://github.com/git-lfs/git-lfs"
+license=('MIT')
+options=('!strip')
+groups=('VCS')
+
+makedepends=("git"
+             "make"
+             "${MINGW_PACKAGE_PREFIX}-go")
+
+depends=("${MINGW_PACKAGE_PREFIX}-git")
+
+source=("git"::"git+https://github.com/git-lfs/git-lfs#tag=v$pkgver")
+
+sha256sums=('SKIP')
+
+build() {
+    cd "$srcdir/git"
+    ${MINGW_PREFIX}/bin/go build \
+        -gcflags "all=-trimpath=${PWD}" \
+        -asmflags "all=-trimpath=${PWD}" \
+        -buildvcs=false \
+        .
+}
+
+package() {
+    install -d -m755 $pkgdir/$MINGW_PREFIX/bin
+    install -m755 $srcdir/git/git-lfs.exe $pkgdir/$MINGW_PREFIX/bin/git-lfs.exe
+    install -d -m755 $pkgdir/$MINGW_PREFIX/share/doc/git-lfs
+    install -m755 $srcdir/git/README.md $pkgdir/$MINGW_PREFIX/share/doc/git-lfs/README.md
+    install -Dm644 LICENSE.md "${pkgdir}${MINGW_PREFIX}"/share/licenses/${_realname}/LICENSE
+}
