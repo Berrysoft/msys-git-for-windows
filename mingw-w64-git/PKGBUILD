@@ -96,6 +96,9 @@ package () {
     make -C contrib/subtree prefix="$pkgdir/$MINGW_PREFIX" install-html
     make -C contrib/subtree prefix="$pkgdir/$MINGW_PREFIX" install-man
 
+    # git-credential-wincred.exe
+    make -C contrib/credential/wincred prefix="$pkgdir/$PREFIX" install
+
     # completions
     install -d "$pkgdir/$MINGW_PREFIX/share/git/completion/"
     install contrib/completion/* "$pkgdir/$MINGW_PREFIX/share/git/completion/"
