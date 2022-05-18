@@ -14,12 +14,13 @@ license=('GPL2')
 
 options=('strip')
 
-makedepends=("asciidoc"
+makedepends=("docbook-xsl"
              "git"
              "make"
              "patch"
              "tar"
              "xmlto"
+             "${MINGW_PACKAGE_PREFIX}-asciidoc"
              "${MINGW_PACKAGE_PREFIX}-cc"
              "${MINGW_PACKAGE_PREFIX}-cmake"
              "${MINGW_PACKAGE_PREFIX}-ninja"
@@ -87,8 +88,8 @@ package () {
 
     DESTDIR="$pkgdir" make -C gitweb prefix="$MINGW_PREFIX" gitwebdir="$MINGW_PREFIX/var/www/cgi-bin" install
 
-    make prefix="$pkgdir/$MINGW_PREFIX" install-html
-    make prefix="$pkgdir/$MINGW_PREFIX" install-man
+    DESTDIR="$pkgdir" make prefix="$MINGW_PREFIX" install-html
+    DESTDIR="$pkgdir" make prefix="$MINGW_PREFIX" install-man
 
     # subtree, for backwards-compatibility with MSys2's Git package
     make -C contrib/subtree prefix="$pkgdir/$MINGW_PREFIX" install
