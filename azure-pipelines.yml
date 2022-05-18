@@ -59,6 +59,8 @@ jobs:
     inputs:
       contents: '*.pkg.tar.*' 
       targetFolder: $(build.artifactstagingdirectory)
+      flattenFolders: true
+      preserveTimestamp: true
     displayName: "Copy git package"
 
   - pwsh: |
@@ -85,6 +87,8 @@ jobs:
     inputs:
       contents: 'build-extra/**/*.pkg.tar.*' 
       targetFolder: $(build.artifactstagingdirectory)
+      flattenFolders: true
+      preserveTimestamp: true
     displayName: "Copy git tools package"
 
   - task: PublishBuildArtifacts@1
