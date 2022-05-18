@@ -78,11 +78,20 @@ prepare() {
 }
 
 package_git () {
-    cd "$srcdir"/git/gitk-git
-    make prefix="$pkgdir/$MINGW_PREFIX" install
+    cd "$srcdir"/git
 
-    cd "$srcdir"/git/git-gui
-    make gitexecdir="$pkgdir/$MINGW_PREFIX/libexec/git-core" install
+    make -C gitk-git prefix="$pkgdir/$MINGW_PREFIX" install
+
+    DESTDIR="$pkgdir" make -C git-gui gitexecdir="$MINGW_PREFIX/libexec/git-core" install
+
+    DESTDIR="$pkgdir" make -C gitweb prefix="$MINGW_PREFIX" gitwebdir="$MINGW_PREFIX/var/www/cgi-bin" install
+
+    # subtree, for backwards-compatibility with MSys2's Git package
+    make -C contrib/subtree prefix="$pkgdir/$MINGW_PREFIX" install
+
+    # completions
+    install -d "$pkgdir/$MINGW_PREFIX/share/git/completion/"
+    install contrib/completion/* "$pkgdir/$MINGW_PREFIX/share/git/completion/"
 
     # Git wants to decide itself whether to use ANSI stdio emulation or not
     CPPFLAGS="$(echo "$CPPFLAGS" |
