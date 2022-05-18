@@ -102,6 +102,7 @@ package_git () {
     MSYS2_ARG_CONV_EXCL="-DFALLBACK_RUNTIME_PREFIX=" ${MINGW_PREFIX}/bin/cmake.exe ${srcdir}/git/contrib/buildsystems \
         -GNinja \
         -DUSE_VCPKG=off \
+        -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_INSTALL_PREFIX="$pkgdir/$MINGW_PREFIX" \
         -DFALLBACK_RUNTIME_PREFIX="$MINGW_PREFIX"
     ${MINGW_PREFIX}/bin/ninja.exe install
