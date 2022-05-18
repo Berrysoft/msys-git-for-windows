@@ -5,7 +5,8 @@ pkgbase="mingw-w64-${_realname}"
 pkgname=("${MINGW_PACKAGE_PREFIX}-${_realname}")
 tag=2.36.1.windows.1
 pkgver=2.36.1.1.e2ff68a2d1
-pkgrel=1
+# pkgrel should be larger than the official one
+pkgrel=2
 pkgdesc="The fast distributed version control system (mingw-w64)"
 arch=('any')
 url="https://git-for-windows.github.io/"
@@ -13,13 +14,12 @@ license=('GPL2')
 
 options=('strip')
 
-makedepends=("docbook-xsl"
+makedepends=("asciidoc"
              "git"
              "make"
              "patch"
              "tar"
              "xmlto"
-             "${MINGW_PACKAGE_PREFIX}-asciidoc"
              "${MINGW_PACKAGE_PREFIX}-cc"
              "${MINGW_PACKAGE_PREFIX}-cmake"
              "${MINGW_PACKAGE_PREFIX}-ninja"
