@@ -1,7 +1,4 @@
-*.tar.xz
-*.tar.gz
-*.tar.bz2
-*.tar.zst
+*.tar.*
 *.tgz
 *.zip
 *.rar
@@ -9,9 +6,9 @@
 *.asc
 *.log
 *.log.[0-9]*
-/src/
-/pkg/
-/git/
+*/src/
+*/pkg/
+*/git/
 *~
 *.swp
 *.swo
