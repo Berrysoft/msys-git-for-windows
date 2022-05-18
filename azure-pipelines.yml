@@ -59,6 +59,31 @@ jobs:
     inputs:
       contents: '*.pkg.tar.*' 
       targetFolder: $(build.artifactstagingdirectory)
+    displayName: "Copy git package"
+
+  - pwsh: |
+      git clone https://github.com/git-for-windows/build-extra.git
+    displayName: "Clone build-extra from official repo"
+
+  - pwsh: |
+      cd build-extra/mingw-w64-git-lfs
+      C:\msys64\usr\bin\bash.exe C:\msys64\usr\bin\makepkg-mingw -s --noconfirm
+    displayName: "Package git-lfs"
+    env:
+      MSYSTEM: $(MSYSTEM)
+
+  - pwsh: |
+      cd build-extra/mingw-w64-git-credential-manager
+      C:\msys64\usr\bin\bash.exe C:\msys64\usr\bin\makepkg-mingw -s --noconfirm
+    displayName: "Package gcm"
+    env:
+      MSYSTEM: $(MSYSTEM)
+
+  - task: CopyFiles@2
+    inputs:
+      contents: 'build-extra/**/*.pkg.tar.*' 
+      targetFolder: $(build.artifactstagingdirectory)
+    displayName: "Copy git tools package"
 
   - task: PublishBuildArtifacts@1
     inputs:
