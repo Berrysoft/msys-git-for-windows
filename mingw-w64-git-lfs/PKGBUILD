@@ -17,8 +17,6 @@ makedepends=("git"
              "make"
              "${MINGW_PACKAGE_PREFIX}-go")
 
-depends=("${MINGW_PACKAGE_PREFIX}-git")
-
 source=("git"::"git+https://github.com/git-lfs/git-lfs#tag=v$pkgver")
 
 sha256sums=('SKIP')
