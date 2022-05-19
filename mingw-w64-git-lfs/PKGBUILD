@@ -35,5 +35,5 @@ package() {
     install -m755 $srcdir/git/git-lfs.exe $pkgdir/$MINGW_PREFIX/bin/git-lfs.exe
     install -d -m755 $pkgdir/$MINGW_PREFIX/share/doc/git-lfs
     install -m755 $srcdir/git/README.md $pkgdir/$MINGW_PREFIX/share/doc/git-lfs/README.md
-    install -Dm644 LICENSE.md "${pkgdir}${MINGW_PREFIX}"/share/licenses/${_realname}/LICENSE
+    install -Dm644 $srcdir/git/LICENSE.md "${pkgdir}${MINGW_PREFIX}"/share/licenses/git-lfs/LICENSE
 }
