@@ -14,7 +14,8 @@ license=('GPL2')
 
 options=('strip')
 
-makedepends=("docbook-xsl"
+makedepends=("diffutils"
+             "docbook-xsl"
              "git"
              "make"
              "patch"
@@ -76,18 +77,28 @@ prepare() {
         rm .git/index
         git reset --hard
     fi
-    git apply ${srcdir}/*.patch
+    git apply -v ${srcdir}/1-fallback-path.patch
+    git apply -v ${srcdir}/2-mingw-clang.patch
+    git apply -v ${srcdir}/3-pcre2.patch
 }
 
 package () {
+    # Git wants to decide itself whether to use ANSI stdio emulation or not
+    CPPFLAGS="$(echo "$CPPFLAGS" |
+        sed 's/-D__USE_MINGW_ANSI_STDIO\(=[0-9]*\)\?//')"
+
     cd "$srcdir"/git
 
+    # gitk
     make -C gitk-git prefix="$pkgdir/$MINGW_PREFIX" install
 
+    # git-gui
     DESTDIR="$pkgdir" make -C git-gui gitexecdir="$MINGW_PREFIX/libexec/git-core" install
 
+    # gitweb
     DESTDIR="$pkgdir" make -C gitweb prefix="$MINGW_PREFIX" gitwebdir="$MINGW_PREFIX/var/www/cgi-bin" install
 
+    # docs
     DESTDIR="$pkgdir" make prefix="$MINGW_PREFIX" install-html
     DESTDIR="$pkgdir" make prefix="$MINGW_PREFIX" install-man
 
@@ -103,10 +114,7 @@ package () {
     install -d "$pkgdir/$MINGW_PREFIX/share/git/completion/"
     install contrib/completion/* "$pkgdir/$MINGW_PREFIX/share/git/completion/"
 
-    # Git wants to decide itself whether to use ANSI stdio emulation or not
-    CPPFLAGS="$(echo "$CPPFLAGS" |
-        sed 's/-D__USE_MINGW_ANSI_STDIO\(=[0-9]*\)\?//')"
-
+    # git
     [ -d ${srcdir}/build ] || mkdir ${srcdir}/build
     cd ${srcdir}/build
     MSYS2_ARG_CONV_EXCL="-DFALLBACK_RUNTIME_PREFIX=" ${MINGW_PREFIX}/bin/cmake.exe ${srcdir}/git/contrib/buildsystems \
