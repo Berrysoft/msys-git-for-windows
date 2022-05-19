@@ -87,3 +87,29 @@ jobs:
   - task: PublishBuildArtifacts@1
     inputs:
       ArtifactName: 'publish'
+
+- job: RepoAdd
+  dependsOn: Package
+  pool:
+    vmImage: 'windows-latest'
+
+  steps:
+  - task: DownloadPipelineArtifact@2
+    inputs:
+      artifact: 'publish'
+      path: $(Build.SourcesDirectory)/repo
+    displayName: "Download packages"
+
+  - pwsh: |
+      $env:PATH="$PATH;C:\msys64\usr\bin;"
+      cd repo
+      C:\msys64\usr\bin\bash.exe C:\msys64\usr\bin\repo-add git-for-windows.db.tar.gz *
+    displayName: "Run repo-add"
+
+  - task: CopyFiles@2
+    inputs:
+      contents: 'repo/*' 
+      targetFolder: $(build.artifactstagingdirectory)
+      flattenFolders: true
+      preserveTimestamp: true
+    displayName: "Copy repo"
