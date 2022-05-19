@@ -23,16 +23,12 @@ sha256sums=('SKIP')
 
 build() {
     cd "$srcdir/git"
-    ${MINGW_PREFIX}/bin/go build \
-        -gcflags "all=-trimpath=${PWD}" \
-        -asmflags "all=-trimpath=${PWD}" \
-        -buildvcs=false \
-        .
+    make
 }
 
 package() {
     install -d -m755 $pkgdir/$MINGW_PREFIX/bin
-    install -m755 $srcdir/git/git-lfs.exe $pkgdir/$MINGW_PREFIX/bin/git-lfs.exe
+    install -m755 $srcdir/git/bin/git-lfs.exe $pkgdir/$MINGW_PREFIX/bin/git-lfs.exe
     install -d -m755 $pkgdir/$MINGW_PREFIX/share/doc/git-lfs
     install -m755 $srcdir/git/README.md $pkgdir/$MINGW_PREFIX/share/doc/git-lfs/README.md
     install -Dm644 $srcdir/git/LICENSE.md "${pkgdir}${MINGW_PREFIX}"/share/licenses/git-lfs/LICENSE
