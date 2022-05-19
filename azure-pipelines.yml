@@ -113,3 +113,7 @@ jobs:
       flattenFolders: true
       preserveTimestamp: true
     displayName: "Copy repo"
+
+  - task: PublishBuildArtifacts@1
+    inputs:
+      ArtifactName: 'publish'
