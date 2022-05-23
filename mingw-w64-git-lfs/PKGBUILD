@@ -28,7 +28,7 @@ prepare() {
 
 build() {
     cd "$srcdir/git"
-    GOPATH="$srcdir/go" PATH="$PATH:$srcdir/go" make
+    GOPATH="$srcdir/go" PATH="$PATH:$srcdir/go/bin" make
 }
 
 package() {
