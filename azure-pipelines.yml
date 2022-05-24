@@ -51,7 +51,7 @@ jobs:
       C:\msys64\usr\bin\pacman.exe -Syu --noconfirm
       C:\msys64\usr\bin\pacman.exe -S --noconfirm mingw-w64-$(target)-binutils
       cd mingw-w64-git
-      C:\msys64\usr\bin\bash.exe C:\msys64\usr\bin\makepkg-mingw -s --noconfirm
+      C:\msys64\usr\bin\bash.exe -c "makepkg-mingw -s --noconfirm"
     displayName: "Package git"
     env:
       MSYSTEM: $(MSYSTEM)
@@ -59,7 +59,7 @@ jobs:
   - pwsh: |
       $env:PATH="$PATH;C:\msys64\$(prefix)\bin;C:\msys64\usr\bin;"
       cd mingw-w64-git-lfs
-      C:\msys64\usr\bin\bash.exe C:\msys64\usr\bin\makepkg-mingw -s --noconfirm
+      C:\msys64\usr\bin\bash.exe -c "makepkg-mingw -s --noconfirm"
     displayName: "Package git-lfs"
     env:
       MSYSTEM: $(MSYSTEM)
