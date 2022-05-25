@@ -64,7 +64,7 @@ sha256sums=('SKIP'
             'af2cdf0b91764c1b5c4428681b08a843a2883dfaafa436b57638edc67c4e3efc'
             'b5edee84ac261a554d73deadfe7c538a0c7ebc85b87e6633061138d55de3f93e'
             '0e1bac656e942206e805a50ec3f1c21d5e1ba619c2718800c4f43e142f31f818'
-            '220cda3a0111e9a479edd45fd455981aa74a8969f10b897fd1363cf6781bcefa')
+            'f3380f14ed3e02ad6fe60cdb8bfe18eba9555e1b9b897a4806b2419e26cc9b51')
 
 pkgver() {
     cd "$srcdir/git"
