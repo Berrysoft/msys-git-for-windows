@@ -25,7 +25,8 @@ makedepends=("diffutils"
              "${MINGW_PACKAGE_PREFIX}-cc"
              "${MINGW_PACKAGE_PREFIX}-cmake"
              "${MINGW_PACKAGE_PREFIX}-ninja"
-             "${MINGW_PACKAGE_PREFIX}-pkgconf")
+             "${MINGW_PACKAGE_PREFIX}-pkgconf"
+             "${MINGW_PACKAGE_PREFIX}-tk")
 
 depends=("${MINGW_PACKAGE_PREFIX}-curl"
          "${MINGW_PACKAGE_PREFIX}-ca-certificates"
@@ -34,8 +35,6 @@ depends=("${MINGW_PACKAGE_PREFIX}-curl"
          "${MINGW_PACKAGE_PREFIX}-libiconv"
          "${MINGW_PACKAGE_PREFIX}-openssl"
          "${MINGW_PACKAGE_PREFIX}-pcre2"
-         "${MINGW_PACKAGE_PREFIX}-tcl"
-         "${MINGW_PACKAGE_PREFIX}-tk"
          "${MINGW_PACKAGE_PREFIX}-zlib"
          "perl>=5.14.0"
          "perl-Authen-SASL"
@@ -45,18 +44,22 @@ depends=("${MINGW_PACKAGE_PREFIX}-curl"
          "perl-Net-SMTP-SSL"
          "perl-TermReadKey")
 
-optdepends=("mintty")
+optdepends=("mintty"
+            "${MINGW_PACKAGE_PREFIX}-python: git-p4 support"
+            "${MINGW_PACKAGE_PREFIX}-tk: gitk & git-gui support")
 
 conflicts=("${MINGW_PACKAGE_PREFIX}-${_realname}-doc-html"
 	       "${MINGW_PACKAGE_PREFIX}-${_realname}-doc-man")
 
-source=("git"::"git+https://github.com/git-for-windows/git.git#tag=v$tag"
-        "1-fallback-path.patch"
-        "2-mingw-clang.patch"
-        "3-pcre2.patch"
-        "4-headless.patch"
-        "5-no-unicode.patch"
-        "6-interpr.patch")
+source=("git"::"git+https://github.com/git-for-windows/git.git#tag=v$tag")
+
+patches=("1-fallback-path.patch"
+         "2-mingw-clang.patch"
+         "3-pcre2.patch"
+         "4-headless.patch"
+         "5-no-unicode.patch"
+         "6-interpr.patch")
+source+=(${patches[@]})
 
 sha256sums=('SKIP'
             '014035f317ca89d15790b114301529bcbcea1110fc1287b571a4cb475cd8b649'
@@ -83,12 +86,10 @@ prepare() {
         rm .git/index
         git reset --hard
     fi
-    git apply -v ${srcdir}/1-fallback-path.patch
-    git apply -v ${srcdir}/2-mingw-clang.patch
-    git apply -v ${srcdir}/3-pcre2.patch
-    git apply -v ${srcdir}/4-headless.patch
-    git apply -v ${srcdir}/5-no-unicode.patch
-    git apply -v ${srcdir}/6-interpr.patch
+    for p in ${patches[@]}
+    do
+        git apply -v ${srcdir}/$p
+    done
 }
 
 package () {
