@@ -6,7 +6,7 @@ pkgname=("${MINGW_PACKAGE_PREFIX}-${_realname}")
 tag=2.36.1.windows.1
 pkgver=2.36.1.1.e2ff68a2d1
 # pkgrel should be larger than the official one
-pkgrel=3
+pkgrel=4
 pkgdesc="The fast distributed version control system (mingw-w64)"
 arch=('any')
 url="https://git-for-windows.github.io/"
@@ -55,14 +55,16 @@ source=("git"::"git+https://github.com/git-for-windows/git.git#tag=v$tag"
         "2-mingw-clang.patch"
         "3-pcre2.patch"
         "4-headless.patch"
-        "5-no-unicode.patch")
+        "5-no-unicode.patch"
+        "6-interpr.patch")
 
 sha256sums=('SKIP'
             '014035f317ca89d15790b114301529bcbcea1110fc1287b571a4cb475cd8b649'
             '6005df74de976731bda3ff8d04416b5f7cd7d1b9f97a8fc8714c790f6d48a6b9'
             'af2cdf0b91764c1b5c4428681b08a843a2883dfaafa436b57638edc67c4e3efc'
             'b5edee84ac261a554d73deadfe7c538a0c7ebc85b87e6633061138d55de3f93e'
-            '0e1bac656e942206e805a50ec3f1c21d5e1ba619c2718800c4f43e142f31f818')
+            '0e1bac656e942206e805a50ec3f1c21d5e1ba619c2718800c4f43e142f31f818'
+            '220cda3a0111e9a479edd45fd455981aa74a8969f10b897fd1363cf6781bcefa')
 
 pkgver() {
     cd "$srcdir/git"
@@ -86,6 +88,7 @@ prepare() {
     git apply -v ${srcdir}/3-pcre2.patch
     git apply -v ${srcdir}/4-headless.patch
     git apply -v ${srcdir}/5-no-unicode.patch
+    git apply -v ${srcdir}/6-interpr.patch
 }
 
 package () {
