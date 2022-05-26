@@ -1,16 +1,8 @@
 diff --git a/compat/mingw.c b/compat/mingw.c
-index 182498bbb4..16d147d880 100644
+index 182498bbb4..d36c1573d3 100644
 --- a/compat/mingw.c
 +++ b/compat/mingw.c
-@@ -23,7 +23,6 @@
- void open_in_gdb(void)
- {
- 	static struct child_process cp = CHILD_PROCESS_INIT;
--	extern char *_pgmptr;
- 
- 	strvec_pushl(&cp.args, "mintty", "gdb", NULL);
- 	strvec_pushf(&cp.args, "--pid=%d", getpid());
-@@ -1530,41 +1529,6 @@ static const char *quote_arg_msys2(const char *arg)
+@@ -1530,41 +1530,6 @@ static const char *quote_arg_msys2(const char *arg)
  	return strbuf_detach(&buf, 0);
  }
  
@@ -52,7 +44,7 @@ index 182498bbb4..16d147d880 100644
  /*
   * exe_only means that we only want to detect .exe files, but not scripts
   * (which do not have an extension)
-@@ -2151,26 +2115,20 @@ pid_t mingw_spawnvpe(const char *cmd, const char **argv, char **deltaenv,
+@@ -2151,26 +2116,20 @@ pid_t mingw_spawnvpe(const char *cmd, const char **argv, char **deltaenv,
  		pid = -1;
  	}
  	else {
@@ -90,7 +82,7 @@ index 182498bbb4..16d147d880 100644
  		free(prog);
  	}
  	return pid;
-@@ -2178,12 +2136,10 @@ pid_t mingw_spawnvpe(const char *cmd, const char **argv, char **deltaenv,
+@@ -2178,12 +2137,10 @@ pid_t mingw_spawnvpe(const char *cmd, const char **argv, char **deltaenv,
  
  static int try_shell_exec(const char *cmd, char *const *argv)
  {
