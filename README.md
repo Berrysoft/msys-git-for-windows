@@ -26,8 +26,8 @@ Note that `mingw-w64-git-lfs` should be built before `mingw-w64-git` is installe
 because the latter will confuse `go` to get the right VCS info.
 
 ``` bash
-$ git clone https://github.com/Berrysoft/msys2-git-for-windows.git
-$ cd msys2-git-for-windows
+$ git clone https://github.com/Berrysoft/msys-git-for-windows.git
+$ cd msys-git-for-windows
 $ pushd mingw-w64-git-lfs
 $ makepkg-mingw -sifC
 $ popd
