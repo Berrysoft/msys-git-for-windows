@@ -3,10 +3,11 @@
 _realname=git
 pkgbase="mingw-w64-${_realname}"
 pkgname=("${MINGW_PACKAGE_PREFIX}-${_realname}")
-tag=2.36.1.windows.1
+postfix=windows.1
+tag=2.36.1.$postfix
 pkgver=2.36.1.1.e2ff68a2d1
 # pkgrel should be larger than the official one
-pkgrel=4
+pkgrel=5
 pkgdesc="The fast distributed version control system (mingw-w64)"
 arch=('any')
 url="https://git-for-windows.github.io/"
@@ -54,6 +55,7 @@ conflicts=("${MINGW_PACKAGE_PREFIX}-${_realname}-doc-html"
 source=("git"::"git+https://github.com/git-for-windows/git.git#tag=v$tag")
 
 patches=("1-mingw.patch"
+         "2-version.patch"
          "3-pcre2.patch"
          "4-headless.patch"
          "5-no-unicode.patch"
@@ -62,24 +64,16 @@ source+=(${patches[@]})
 
 sha256sums=('SKIP'
             '94a2ee925a17130fd0c1debd5c72dff8f8f1dfd22612b456fdd45ae5d0e1b215'
+            '6f4e2b6111ff30e28a6d4e78ecb371e71a59af6d882b0fa2c1ed8aa88f81d1f1'
             'af2cdf0b91764c1b5c4428681b08a843a2883dfaafa436b57638edc67c4e3efc'
             'b5edee84ac261a554d73deadfe7c538a0c7ebc85b87e6633061138d55de3f93e'
             '0e1bac656e942206e805a50ec3f1c21d5e1ba619c2718800c4f43e142f31f818'
             'a5475d4a5a839246293ca49044b03f996cf0f623e1cbe4e4042faf251126a079')
 
-pkgver() {
-    cd "$srcdir/git"
-    basever=${tag%.windows.*}
-    test "$tag" = "$basever" ||
-    basever="$basever.${tag##*.windows.}"
-    basever="${basever/-/.}"
-    printf "%s.%s" "${basever}" "$(git rev-parse --short HEAD)"
-}
-
 prepare() {
     cd "$srcdir/git"
     if test false != "$(git config core.autocrlf)"
-        then
+    then
         git config core.autocrlf false
         rm .git/index
         git reset --hard
@@ -94,6 +88,23 @@ package () {
     # Git wants to decide itself whether to use ANSI stdio emulation or not
     CPPFLAGS="$(echo "$CPPFLAGS" |
         sed 's/-D__USE_MINGW_ANSI_STDIO\(=[0-9]*\)\?//')"
+
+    cd "$srcdir"/git
+
+    GIT_BUILT_FROM_COMMIT="$(git rev-parse -q --verify HEAD 2>/dev/null)"
+    export GIT_VERSION_POSTFIX="$postfix.Berrysoft.$pkgrel"
+
+    # run cmake first, it will generate GIT-VERSION-FILE
+    [ -d ${srcdir}/build ] || mkdir ${srcdir}/build
+    cd ${srcdir}/build
+    MSYS2_ARG_CONV_EXCL="-DFALLBACK_RUNTIME_PREFIX=" ${MINGW_PREFIX}/bin/cmake.exe ${srcdir}/git/contrib/buildsystems \
+        -GNinja \
+        -DUSE_VCPKG=off \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_INSTALL_PREFIX="$pkgdir/$MINGW_PREFIX" \
+        -DFALLBACK_RUNTIME_PREFIX="$MINGW_PREFIX" \
+        -DGIT_BUILT_FROM_COMMIT="$GIT_BUILT_FROM_COMMIT"
+    ${MINGW_PREFIX}/bin/ninja.exe install
 
     cd "$srcdir"/git
 
@@ -121,15 +132,4 @@ package () {
     # completions
     install -d "$pkgdir/$MINGW_PREFIX/share/git/completion/"
     install contrib/completion/* "$pkgdir/$MINGW_PREFIX/share/git/completion/"
-
-    # git
-    [ -d ${srcdir}/build ] || mkdir ${srcdir}/build
-    cd ${srcdir}/build
-    MSYS2_ARG_CONV_EXCL="-DFALLBACK_RUNTIME_PREFIX=" ${MINGW_PREFIX}/bin/cmake.exe ${srcdir}/git/contrib/buildsystems \
-        -GNinja \
-        -DUSE_VCPKG=off \
-        -DCMAKE_BUILD_TYPE=Release \
-        -DCMAKE_INSTALL_PREFIX="$pkgdir/$MINGW_PREFIX" \
-        -DFALLBACK_RUNTIME_PREFIX="$MINGW_PREFIX"
-    ${MINGW_PREFIX}/bin/ninja.exe install
 }
