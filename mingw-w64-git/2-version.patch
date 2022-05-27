@@ -1,15 +1,3 @@
-diff --git a/GIT-VERSION-GEN b/GIT-VERSION-GEN
-index c1e8552d27..4a36ab9430 100755
---- a/GIT-VERSION-GEN
-+++ b/GIT-VERSION-GEN
-@@ -27,6 +27,7 @@ else
- fi
- 
- VN=$(expr "$VN" : v*'\(.*\)')
-+VN="$VN.$GIT_VERSION_POSTFIX"
- 
- if test -r $GVF
- then
 diff --git a/contrib/buildsystems/CMakeLists.txt b/contrib/buildsystems/CMakeLists.txt
 index 948baf0312..06ada3356f 100644
 --- a/contrib/buildsystems/CMakeLists.txt

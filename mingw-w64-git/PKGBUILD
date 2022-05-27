@@ -3,8 +3,7 @@
 _realname=git
 pkgbase="mingw-w64-${_realname}"
 pkgname=("${MINGW_PACKAGE_PREFIX}-${_realname}")
-postfix=windows.1
-tag=2.36.1.$postfix
+tag=2.36.1.windows.1
 pkgver=2.36.1.1.e2ff68a2d1
 # pkgrel should be larger than the official one
 pkgrel=5
@@ -64,7 +63,7 @@ source+=(${patches[@]})
 
 sha256sums=('SKIP'
             '94a2ee925a17130fd0c1debd5c72dff8f8f1dfd22612b456fdd45ae5d0e1b215'
-            '6f4e2b6111ff30e28a6d4e78ecb371e71a59af6d882b0fa2c1ed8aa88f81d1f1'
+            'c7fe26ea8d51918506d3adfa0a21aedc322f3c04e933cd31e0eb40a2f899d022'
             'af2cdf0b91764c1b5c4428681b08a843a2883dfaafa436b57638edc67c4e3efc'
             'b5edee84ac261a554d73deadfe7c538a0c7ebc85b87e6633061138d55de3f93e'
             '0e1bac656e942206e805a50ec3f1c21d5e1ba619c2718800c4f43e142f31f818'
@@ -82,6 +81,7 @@ prepare() {
     do
         git apply -v ${srcdir}/$p
     done
+    echo "v$tag.Berrysoft.$pkgrel" > version
 }
 
 package () {
@@ -92,7 +92,6 @@ package () {
     cd "$srcdir"/git
 
     GIT_BUILT_FROM_COMMIT="$(git rev-parse -q --verify HEAD 2>/dev/null)"
-    export GIT_VERSION_POSTFIX="$postfix.Berrysoft.$pkgrel"
 
     # run cmake first, it will generate GIT-VERSION-FILE
     [ -d ${srcdir}/build ] || mkdir ${srcdir}/build
