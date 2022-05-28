@@ -43,5 +43,5 @@ package() {
     install -d -m755 $pkgdir/$MINGW_PREFIX/libexec/git-core/
     install -m755 $srcdir/git/bin/git-sizer-windows-${GOARCH}.exe $pkgdir/$MINGW_PREFIX/libexec/git-core/git-sizer.exe
     install -d -m755 $pkgdir/$MINGW_PREFIX/share/doc/git-sizer
-    install -m644 $srcdir/README.md $pkgdir/$MINGW_PREFIX/share/doc/git-sizer/README.md
+    install -m644 $srcdir/git/README.md $pkgdir/$MINGW_PREFIX/share/doc/git-sizer/README.md
 }
