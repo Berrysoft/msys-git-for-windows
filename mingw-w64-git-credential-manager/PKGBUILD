@@ -1,4 +1,3 @@
-# Maintainer: Berrysoft <Strawberry_Str@hotail.com>
 
 _realname="git-credential-manager"
 pkgbase="mingw-w64-${_realname}"
