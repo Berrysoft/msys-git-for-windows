@@ -6,7 +6,7 @@ pkgname=("${MINGW_PACKAGE_PREFIX}-${_realname}")
 tag=2.36.1.windows.1
 pkgver=2.36.1.1.e2ff68a2d1
 # pkgrel should be larger than the official one
-pkgrel=5
+pkgrel=6
 pkgdesc="The fast distributed version control system (mingw-w64)"
 arch=('any')
 url="https://git-for-windows.github.io/"
@@ -46,6 +46,7 @@ depends=("${MINGW_PACKAGE_PREFIX}-ca-certificates"
 
 optdepends=("mintty"
             "python: git-p4 support"
+            "subversion: git-svn"
             "${MINGW_PACKAGE_PREFIX}-tk: gitk & git-gui support")
 
 conflicts=("${MINGW_PACKAGE_PREFIX}-${_realname}-doc-html"
@@ -121,9 +122,21 @@ package () {
     DESTDIR="$pkgdir" make prefix="$MINGW_PREFIX" install-man
 
     # subtree, for backwards-compatibility with MSys2's Git package
-    make -C contrib/subtree prefix="$pkgdir/$MINGW_PREFIX" install
-    make -C contrib/subtree prefix="$pkgdir/$MINGW_PREFIX" install-html
-    make -C contrib/subtree prefix="$pkgdir/$MINGW_PREFIX" install-man
+    DESTDIR="$pkgdir" make -C contrib/subtree prefix="$MINGW_PREFIX" install
+    DESTDIR="$pkgdir" make -C contrib/subtree prefix="$MINGW_PREFIX" install-doc
+
+    # contacts
+    DESTDIR="$pkgdir" make -C contrib/contacts prefix="$MINGW_PREFIX" install
+    DESTDIR="$pkgdir" make -C contrib/contacts prefix="$MINGW_PREFIX" install-doc
+
+    # jump
+    install contrib/git-jump/git-jump "$pkgdir/$MINGW_PREFIX/libexec/git-core/"
+
+    # resurrect
+    install contrib/git-resurrect.sh "$pkgdir/$MINGW_PREFIX/libexec/git-core/git-resurrect"
+
+    # mw
+    DESTDIR="$pkgdir" make -C contrib/mw-to-git prefix="$MINGW_PREFIX" perllibdir="$MINGW_PREFIX/share/perl5" install
 
     # git-credential-wincred.exe
     make -C contrib/credential/wincred prefix="$pkgdir/$MINGW_PREFIX" install
