@@ -50,6 +50,10 @@ jobs:
       $env:PATH="$PATH;C:\msys64\$(prefix)\bin;C:\msys64\usr\bin;"
       C:\msys64\usr\bin\pacman.exe -Syu --noconfirm
       C:\msys64\usr\bin\pacman.exe -S --noconfirm mingw-w64-$(target)-binutils
+    displayName: "Install pre-package dependencies"
+
+  - pwsh: |
+      $env:PATH="$PATH;C:\msys64\$(prefix)\bin;C:\msys64\usr\bin;"
       cd mingw-w64-git
       C:\msys64\usr\bin\bash.exe -c "makepkg-mingw -s --noconfirm"
     displayName: "Package git"
@@ -65,12 +69,16 @@ jobs:
       MSYSTEM: $(MSYSTEM)
 
   - pwsh: |
-      git clone https://github.com/git-for-windows/build-extra.git
-    displayName: "Clone build-extra from official repo"
+      $env:PATH="$PATH;C:\msys64\$(prefix)\bin;C:\msys64\usr\bin;"
+      cd mingw-w64-git-sizer
+      C:\msys64\usr\bin\bash.exe -c "makepkg-mingw -s --noconfirm"
+    displayName: "Package git-sizer"
+    env:
+      MSYSTEM: $(MSYSTEM)
 
   - pwsh: |
       $env:PATH="$PATH;C:\msys64\$(prefix)\bin;C:\msys64\usr\bin;"
-      cd build-extra/mingw-w64-git-credential-manager
+      cd mingw-w64-git-credential-manager
       C:\msys64\usr\bin\bash.exe -c "makepkg-mingw -s --noconfirm"
     displayName: "Package gcm"
     env:
