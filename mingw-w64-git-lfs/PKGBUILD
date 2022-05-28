@@ -5,8 +5,9 @@ pkgbase="mingw-w64-${_realname}"
 pkgname=("${MINGW_PACKAGE_PREFIX}-${_realname}")
 pkgver=3.2.0
 # pkgrel should be larger than the official one
-pkgrel=2
+pkgrel=3
 pkgdesc="An open source Git extension for versioning large files"
+install=git-lfs.install
 arch=('any')
 url="https://github.com/git-lfs/git-lfs"
 license=('MIT')
@@ -46,7 +47,7 @@ build() {
 
 package() {
     install -d -m755 $pkgdir/$MINGW_PREFIX/bin
-    install -m755 $srcdir/git/bin/git-lfs-windows-${GOARCH}.exe $pkgdir/$MINGW_PREFIX/bin/git-lfs.exe
+    install -m755 $srcdir/git/bin/git-lfs-windows-${GOARCH}.exe $pkgdir/$MINGW_PREFIX/libexec/git-core/git-lfs.exe
     install -d -m755 $pkgdir/$MINGW_PREFIX/share/doc/git-lfs
     install -m755 $srcdir/git/README.md $pkgdir/$MINGW_PREFIX/share/doc/git-lfs/README.md
     install -Dm644 $srcdir/git/LICENSE.md "${pkgdir}${MINGW_PREFIX}"/share/licenses/git-lfs/LICENSE
