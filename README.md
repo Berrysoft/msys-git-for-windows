@@ -30,8 +30,8 @@ It is newer than the one in the [official repo](https://github.com/msys2/MINGW-p
 It builds from source, and installs to `libexec/git-core`.
 
 # Usage
-Note that `mingw-w64-git-lfs` and `mingw-w64-git-sizer` should be built before `mingw-w64-git` is installed,
-because the latter will confuse `go` to get the right VCS info.
+Note that some packages should be built before `mingw-w64-git` is installed,
+because two `git` will confuse each other.
 
 ``` bash
 $ git clone https://github.com/Berrysoft/msys-git-for-windows.git
