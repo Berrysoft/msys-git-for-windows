@@ -1,4 +1,4 @@
-# Maintainer: Michael Haggerty <mhagger@github.com>
+# Maintainer: Berrysoft <Strawberry_Str@hotail.com>
 
 _realname="git-sizer"
 pkgbase="mingw-w64-${_realname}"
