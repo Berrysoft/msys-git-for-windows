@@ -12,6 +12,8 @@ license=('MIT')
 makedepends=("git"
              "make")
 
+depends=('python')
+
 source=("git"::"git+https://github.com/newren/git-filter-repo#tag=v$pkgver")
 
 sha256sums=('SKIP')
@@ -20,6 +22,7 @@ prepare() {
     cd "${srcdir}/git"
     git remote set-url origin https://github.com/newren/git-filter-repo.git
     git fetch origin docs
+    sed -i 's/#!\/usr\/bin\/env python3/#!\/usr\/bin\/python3/' git-filter-repo
 }
 
 package() {

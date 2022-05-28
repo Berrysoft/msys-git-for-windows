@@ -23,6 +23,9 @@ It doesn't build from source, because .NET SDK is not part of MSYS2.
 # `mingw-w64-git-extras`
 They are just a series of scripts for `git`.
 
+# `mingw-w64-git-filter-repo`
+It is said to perform better than `git-filter-branch`.
+
 # `mingw-w64-git-lfs`
 It is newer than the one in the [official repo](https://github.com/msys2/MINGW-packages/tree/master/mingw-w64-git-lfs).
 
