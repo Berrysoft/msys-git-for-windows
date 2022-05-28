@@ -17,21 +17,25 @@ I add some patches for multiple proposes.
 5. Remove `UNICODE` definitions. Tracking: [git/git#1269](https://github.com/git/git/pull/1269)
 6. Fix shebang parsing. Tracking: [git-for-windows/git#3869](https://github.com/git-for-windows/git/pull/3869)
 
+# `mingw-w64-git-credential-manager`
+It doesn't build from source, because .NET SDK is not part of MSYS2.
+
+# `mingw-w64-git-extras`
+They are just a series of scripts for `git`.
+
 # `mingw-w64-git-lfs`
-This repo also provides a `PKGBUILD` for [`git-lfs`](https://github.com/git-lfs/git-lfs/).
 It is newer than the one in the [official repo](https://github.com/msys2/MINGW-packages/tree/master/mingw-w64-git-lfs).
 
+# `mingw-w64-git-sizer`
+It builds from source, and installs to `libexec/git-core`.
+
 # Usage
-Note that `mingw-w64-git-lfs` should be built before `mingw-w64-git` is installed,
+Note that `mingw-w64-git-lfs` and `mingw-w64-git-sizer` should be built before `mingw-w64-git` is installed,
 because the latter will confuse `go` to get the right VCS info.
 
 ``` bash
 $ git clone https://github.com/Berrysoft/msys-git-for-windows.git
 $ cd msys-git-for-windows
-$ pushd mingw-w64-git-lfs
+$ # cd to the package folder...
 $ makepkg-mingw -sifC
-$ popd
-$ pushd mingw-w64-git
-$ makepkg-mingw -sifC
-$ popd
 ```
