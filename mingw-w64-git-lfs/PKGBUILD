@@ -46,7 +46,7 @@ build() {
 }
 
 package() {
-    install -d -m755 $pkgdir/$MINGW_PREFIX/bin
+    install -d -m755 $pkgdir/$MINGW_PREFIX/libexec/git-core/
     install -m755 $srcdir/git/bin/git-lfs-windows-${GOARCH}.exe $pkgdir/$MINGW_PREFIX/libexec/git-core/git-lfs.exe
     install -d -m755 $pkgdir/$MINGW_PREFIX/share/doc/git-lfs
     install -m755 $srcdir/git/README.md $pkgdir/$MINGW_PREFIX/share/doc/git-lfs/README.md
