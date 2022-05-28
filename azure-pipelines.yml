@@ -92,6 +92,22 @@ jobs:
     env:
       MSYSTEM: $(MSYSTEM)
 
+  - pwsh: |
+      $env:PATH="$PATH;C:\msys64\$(prefix)\bin;C:\msys64\usr\bin;"
+      cd mingw-w64-git-filter-repo
+      C:\msys64\usr\bin\bash.exe -c "makepkg-mingw -s --noconfirm"
+    displayName: "Package git-filter-repo"
+    env:
+      MSYSTEM: $(MSYSTEM)
+
+  - pwsh: |
+      $env:PATH="$PATH;C:\msys64\$(prefix)\bin;C:\msys64\usr\bin;"
+      cd mingw-w64-git-crypt
+      C:\msys64\usr\bin\bash.exe -c "makepkg-mingw -s --noconfirm"
+    displayName: "Package git-crypt"
+    env:
+      MSYSTEM: $(MSYSTEM)
+
   - task: CopyFiles@2
     inputs:
       contents: '**/*.pkg.tar.*' 
