@@ -31,6 +31,7 @@ parameters:
 
 jobs:
 - job: Package
+  timeoutInMinutes: 0
   strategy:
     matrix:
       MINGW32:
