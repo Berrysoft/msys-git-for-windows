@@ -52,6 +52,9 @@ This repo is NOT maintained with `git-flow`.
 # `mingw-w64-git-lfs`
 It is newer than the one in the [official repo](https://github.com/msys2/MINGW-packages/tree/master/mingw-w64-git-lfs).
 
+# `mingw-w64-git-recall`
+Recall works with interactive UI.
+
 # `mingw-w64-git-sizer`
 It builds from source, and installs to `libexec/git-core`.
 

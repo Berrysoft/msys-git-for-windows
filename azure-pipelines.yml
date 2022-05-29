@@ -24,6 +24,7 @@ parameters:
   - git-fire
   - git-flow
   - git-lfs
+  - git-recall
   - git-sizer
 - name: packages_rust
   type: object
