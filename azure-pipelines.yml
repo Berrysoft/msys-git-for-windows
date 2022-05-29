@@ -83,10 +83,10 @@ jobs:
         $env:PATH="$PATH;C:\msys64\$(prefix)\bin;C:\msys64\usr\bin;"
         cd mingw-w64-${{ p }}
         C:\msys64\usr\bin\bash.exe -c "makepkg-mingw -s --noconfirm"
+      condition: ne(variables.MSYSTEM, 'CLANG32')
       displayName: "Package ${{ p }}"
       env:
         MSYSTEM: $(MSYSTEM)
-    condition: ne(variables.MSYSTEM, 'CLANG32')
 
   - task: CopyFiles@2
     inputs:
