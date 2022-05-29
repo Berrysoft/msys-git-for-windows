@@ -10,7 +10,6 @@ arch=('any')
 url="https://github.com/github/git-sizer"
 license=('MIT')
 options=('!strip')
-groups=('VCS')
 
 makedepends=("git"
              "make"

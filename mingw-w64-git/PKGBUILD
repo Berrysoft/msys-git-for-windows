@@ -10,6 +10,7 @@ pkgdesc="The fast distributed version control system (mingw-w64)"
 arch=('any')
 url="https://git-for-windows.github.io/"
 license=('GPL2')
+groups=('VCS')
 
 options=('strip')
 
