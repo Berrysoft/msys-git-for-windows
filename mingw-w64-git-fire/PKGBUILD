@@ -1,0 +1,21 @@
+
+_realname=git-fire
+pkgbase="mingw-w64-${_realname}"
+pkgname=("${MINGW_PACKAGE_PREFIX}-${_realname}")
+pkgver=0.2.3
+pkgrel=1
+arch=('any')
+url="https://github.com/qw3rtman/git-fire"
+license=('MIT')
+
+makedepends=("git")
+
+source=("git"::"git+https://github.com/qw3rtman/git-fire#tag=v$pkgver")
+
+sha256sums=('SKIP')
+
+package() {
+    install -Dm755 $srcdir/git/git-fire $pkgdir/$MINGW_PREFIX/libexec/git-core/git-fire
+    install -Dm644 $srcdir/git/README.md $pkgdir/$MINGW_PREFIX/share/doc/git-fire/README.md
+    install -Dm644 $srcdir/git/LICENSE "${pkgdir}${MINGW_PREFIX}"/share/licenses/git-fire/LICENSE
+}

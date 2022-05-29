@@ -21,6 +21,7 @@ parameters:
   - git-crypt
   - git-extras
   - git-filter-repo
+  - git-fire
   - git-lfs
   - git-sizer
 - name: packages_rust
