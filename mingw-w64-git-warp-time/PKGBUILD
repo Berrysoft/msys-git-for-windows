@@ -22,6 +22,8 @@ depends=("${MINGW_PACKAGE_PREFIX}-libgit2")
 source=("git"::"git+https://github.com/alerque/git-warp-time#tag=v$pkgver")
 sha256sums=('SKIP')
 
+options=('strip')
+
 prepare() {
     cd "$srcdir/git"
     aclocal
