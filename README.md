@@ -35,6 +35,9 @@ It is newer than the one in the [official repo](https://github.com/msys2/MINGW-p
 # `mingw-w64-git-sizer`
 It builds from source, and installs to `libexec/git-core`.
 
+# `mingw-w64-git-warp-time`
+A tool fixes timestamps.
+
 # Usage
 Note that some packages should be built before `mingw-w64-git` is installed,
 because two `git` will confuse each other.

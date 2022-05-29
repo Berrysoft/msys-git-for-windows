@@ -1,0 +1,47 @@
+
+_realname=git-warp-time
+pkgbase="mingw-w64-${_realname}"
+pkgname=("${MINGW_PACKAGE_PREFIX}-${_realname}")
+pkgver=0.4.5
+pkgrel=1
+pkgdesc='reset timestamps of Git repository files to the time of the last modifying commit'
+arch=('any')
+url="https://github.com/alerque/git-warp-time"
+license=(GPL3)
+
+makedepends=("diffutils"
+             "git"
+             "make"
+             "${MINGW_PACKAGE_PREFIX}-autotools"
+             "${MINGW_PACKAGE_PREFIX}-jq"
+             "${MINGW_PACKAGE_PREFIX}-pkgconf"
+             "${MINGW_PACKAGE_PREFIX}-rust")
+
+depends=("${MINGW_PACKAGE_PREFIX}-libgit2")
+
+source=("git"::"git+https://github.com/alerque/git-warp-time#tag=v$pkgver")
+sha256sums=('SKIP')
+
+prepare() {
+    cd "$srcdir/git"
+    aclocal
+    automake --add-missing
+	autoreconf
+}
+
+build() {
+    cd "$srcdir/git"
+    echo "$pkgver.Berrysoft.$pkgrel" > .tarball-version
+	./configure --prefix $MINGW_PREFIX
+	make
+}
+
+check() {
+    cd "$srcdir/git"
+	make check
+}
+
+package() {
+    cd "$srcdir/git"
+	make DESTDIR="$pkgdir" bindir="$MINGW_PREFIX/libexec/git-core" install
+}
