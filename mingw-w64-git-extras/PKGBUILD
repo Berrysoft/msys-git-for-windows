@@ -1,0 +1,23 @@
+
+_realname=git-extras
+pkgbase="mingw-w64-${_realname}"
+pkgname=("${MINGW_PACKAGE_PREFIX}-${_realname}")
+pkgver=6.4.0
+pkgrel=1
+pkgdesc="GIT utilities -- repo summary, commit counting, repl, changelog population and more"
+arch=('any')
+license=('MIT')
+url='https://github.com/tj/git-extras'
+
+makedepends=("git"
+             "make")
+
+source=("git"::"git+https://github.com/tj/git-extras#tag=$pkgver")
+
+sha256sums=('SKIP')
+
+package() {
+    cd "${srcdir}/git"
+    make DESTDIR="$pkgdir" PREFIX=$MINGW_PREFIX SYSCONFDIR=$MINGW_PREFIX/etc BINPREFIX=$MINGW_PREFIX/libexec/git-core install
+    install -Dm644 LICENSE "${pkgdir}${MINGW_PREFIX}/share/licenses/${_realname}/LICENSE"
+}

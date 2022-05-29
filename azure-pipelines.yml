@@ -12,8 +12,26 @@ trigger:
       - LICENSE
       - README.md
 
+parameters:
+- name: packages
+  type: object
+  default:
+  - git
+  - git-credential-manager
+  - git-crypt
+  - git-extras
+  - git-filter-repo
+  - git-lfs
+  - git-sizer
+- name: packages_rust
+  type: object
+  default:
+  - git-delta
+  - git-warp-time
+
 jobs:
 - job: Package
+  timeoutInMinutes: 0
   strategy:
     matrix:
       MINGW32:
@@ -38,7 +56,7 @@ jobs:
         MSYSTEM: 'CLANG64'
   pool:
     vmImage: 'windows-latest'
-  
+
   steps:
   - pwsh: |
       git config core.autocrlf false
@@ -50,31 +68,26 @@ jobs:
       $env:PATH="$PATH;C:\msys64\$(prefix)\bin;C:\msys64\usr\bin;"
       C:\msys64\usr\bin\pacman.exe -Syu --noconfirm
       C:\msys64\usr\bin\pacman.exe -S --noconfirm mingw-w64-$(target)-binutils
-      cd mingw-w64-git
-      C:\msys64\usr\bin\bash.exe -c "makepkg-mingw -s --noconfirm"
-    displayName: "Package git"
-    env:
-      MSYSTEM: $(MSYSTEM)
+    displayName: "Install pre-package dependencies"
 
-  - pwsh: |
-      $env:PATH="$PATH;C:\msys64\$(prefix)\bin;C:\msys64\usr\bin;"
-      cd mingw-w64-git-lfs
-      C:\msys64\usr\bin\bash.exe -c "makepkg-mingw -s --noconfirm"
-    displayName: "Package git-lfs"
-    env:
-      MSYSTEM: $(MSYSTEM)
+  - ${{ each p in parameters.packages }}:
+    - pwsh: |
+        $env:PATH="$PATH;C:\msys64\$(prefix)\bin;C:\msys64\usr\bin;"
+        cd mingw-w64-${{ p }}
+        C:\msys64\usr\bin\bash.exe -c "makepkg-mingw -s --noconfirm"
+      displayName: "Package ${{ p }}"
+      env:
+        MSYSTEM: $(MSYSTEM)
 
-  - pwsh: |
-      git clone https://github.com/git-for-windows/build-extra.git
-    displayName: "Clone build-extra from official repo"
-
-  - pwsh: |
-      $env:PATH="$PATH;C:\msys64\$(prefix)\bin;C:\msys64\usr\bin;"
-      cd build-extra/mingw-w64-git-credential-manager
-      C:\msys64\usr\bin\bash.exe -c "makepkg-mingw -s --noconfirm"
-    displayName: "Package gcm"
-    env:
-      MSYSTEM: $(MSYSTEM)
+  - ${{ each p in parameters.packages_rust }}:
+    - pwsh: |
+        $env:PATH="$PATH;C:\msys64\$(prefix)\bin;C:\msys64\usr\bin;"
+        cd mingw-w64-${{ p }}
+        C:\msys64\usr\bin\bash.exe -c "makepkg-mingw -s --noconfirm --nocheck"
+      condition: ne(variables.MSYSTEM, 'CLANG32')
+      displayName: "Package ${{ p }}"
+      env:
+        MSYSTEM: $(MSYSTEM)
 
   - task: CopyFiles@2
     inputs:

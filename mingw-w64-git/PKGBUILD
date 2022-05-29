@@ -1,4 +1,3 @@
-# Maintainer: Berrysoft <Strawberry_Str@hotail.com>
 
 _realname=git
 pkgbase="mingw-w64-${_realname}"
@@ -11,6 +10,7 @@ pkgdesc="The fast distributed version control system (mingw-w64)"
 arch=('any')
 url="https://git-for-windows.github.io/"
 license=('GPL2')
+groups=('VCS')
 
 options=('strip')
 
@@ -45,9 +45,9 @@ depends=("${MINGW_PACKAGE_PREFIX}-ca-certificates"
          "perl-TermReadKey")
 
 optdepends=("mintty"
-            "python: git-p4 support"
+            "python: git-p4"
             "subversion: git-svn"
-            "${MINGW_PACKAGE_PREFIX}-tk: gitk & git-gui support")
+            "${MINGW_PACKAGE_PREFIX}-tk: gitk & git-gui")
 
 conflicts=("${MINGW_PACKAGE_PREFIX}-${_realname}-doc-html"
 	       "${MINGW_PACKAGE_PREFIX}-${_realname}-doc-man")

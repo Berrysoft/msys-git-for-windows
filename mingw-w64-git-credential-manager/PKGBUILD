@@ -1,0 +1,30 @@
+
+_realname="git-credential-manager"
+pkgbase="mingw-w64-${_realname}"
+pkgname=("${MINGW_PACKAGE_PREFIX}-${_realname}")
+conflicts=("${MINGW_PACKAGE_PREFIX}-git-credential-manager-core")
+replaces=("${MINGW_PACKAGE_PREFIX}-git-credential-manager-core")
+pkgver=2.0.696
+# pkgrel should be larger than the official one
+pkgrel=3
+_realver=$pkgver
+_realtag=v${pkgver}
+pkgdesc="Credential Manager for Git"
+install=git-credential-manager.install
+arch=('any')
+project_url="https://github.com/GitCredentialManager/git-credential-manager"
+zip_url="${project_url}/releases/download/${_realtag}/gcmcore-win-x86-${_realver}.zip"
+license=('MIT')
+options=('!strip')
+
+source=("${zip_url}")
+
+sha256sums=('9c80110b4ff0f8e30d572431ee612fc57f398019f83cecb617ad32bb9cb5cacd')
+
+package() {
+    prefix="$pkgdir/${MINGW_PREFIX}"
+    install -d -m755 "${prefix}"/libexec/git-core
+    install -m755 "$srcdir"/*.{dll,exe,config} "${prefix}"/libexec/git-core/
+    install -d -m755 "${prefix}"/share/licenses/git-credential-manager
+    install -m644 "$srcdir"/NOTICE "${prefix}"/share/licenses/git-credential-manager
+}

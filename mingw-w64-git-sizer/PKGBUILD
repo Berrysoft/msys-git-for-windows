@@ -1,0 +1,45 @@
+
+_realname="git-sizer"
+pkgbase="mingw-w64-${_realname}"
+pkgname=("${MINGW_PACKAGE_PREFIX}-${_realname}")
+pkgver=1.5.0
+# pkgrel should be larger than the official one
+pkgrel=2
+pkgdesc="Compute various size metrics for a Git repository, flagging those that might cause problems"
+arch=('any')
+url="https://github.com/github/git-sizer"
+license=('MIT')
+options=('!strip')
+
+makedepends=("git"
+             "make"
+             "${MINGW_PACKAGE_PREFIX}-go")
+
+source=("git"::"git+https://github.com/github/git-sizer#tag=v$pkgver")
+
+sha256sums=('SKIP')
+
+case "$CARCH" in
+i686)
+    GOARCH=386
+    ;;
+x86_64)
+    GOARCH=amd64
+    ;;
+aarch64)
+    GOARCH=arm64
+    ;;
+esac
+
+build() {
+    cd "$srcdir/git"
+    LDFLAGS="$(echo "$LDFLAGS" | sed 's/-Wl,--no-seh//')"
+    GOPATH="$srcdir/go" make USE_ISATTY=true bin/git-sizer-windows-${GOARCH}.exe
+}
+
+package() {
+    install -d -m755 $pkgdir/$MINGW_PREFIX/libexec/git-core/
+    install -m755 $srcdir/git/bin/git-sizer-windows-${GOARCH}.exe $pkgdir/$MINGW_PREFIX/libexec/git-core/git-sizer.exe
+    install -d -m755 $pkgdir/$MINGW_PREFIX/share/doc/git-sizer
+    install -m644 $srcdir/git/README.md $pkgdir/$MINGW_PREFIX/share/doc/git-sizer/README.md
+}
