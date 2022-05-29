@@ -22,6 +22,7 @@ parameters:
   - git-extras
   - git-filter-repo
   - git-fire
+  - git-flow
   - git-lfs
   - git-sizer
 - name: packages_rust
