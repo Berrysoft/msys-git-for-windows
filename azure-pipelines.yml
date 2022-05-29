@@ -16,18 +16,18 @@ parameters:
 - name: packages
   type: object
   default:
-    git
-    git-credential-manager
-    git-crypt
-    git-extras
-    git-filter-repo
-    git-lfs
-    git-sizer
+  - git
+  - git-credential-manager
+  - git-crypt
+  - git-extras
+  - git-filter-repo
+  - git-lfs
+  - git-sizer
 - name: packages_rust
   type: object
   default:
-    git-delta
-    git-warp-time
+  - git-delta
+  - git-warp-time
 
 jobs:
 - job: Package
