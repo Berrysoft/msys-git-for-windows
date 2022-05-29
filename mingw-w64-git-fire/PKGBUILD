@@ -4,6 +4,7 @@ pkgbase="mingw-w64-${_realname}"
 pkgname=("${MINGW_PACKAGE_PREFIX}-${_realname}")
 pkgver=0.2.3
 pkgrel=1
+pkgdesc="Save Your Code in an Emergency"
 arch=('any')
 url="https://github.com/qw3rtman/git-fire"
 license=('MIT')
