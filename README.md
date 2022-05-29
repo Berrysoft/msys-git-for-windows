@@ -33,6 +33,10 @@ It doesn't build from source, because .NET SDK is not part of MSYS2.
 # `mingw-w64-git-crypt`
 It is (maybe) newer than the MSYS2 one.
 
+# `mingw-w64-git-delta`
+A colorful diff plugin for `git`.
+It is actually `delta`, but mostly works for `git`.
+
 # `mingw-w64-git-extras`
 They are just a series of scripts for `git`.
 

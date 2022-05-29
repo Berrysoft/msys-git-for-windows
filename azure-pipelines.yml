@@ -17,12 +17,13 @@ parameters:
   type: object
   default:
   - git
-  - git-lfs
-  - git-sizer
   - git-credential-manager
+  - git-crypt
+  - git-delta
   - git-extras
   - git-filter-repo
-  - git-crypt
+  - git-lfs
+  - git-sizer
   - git-warp-time
 
 jobs:
