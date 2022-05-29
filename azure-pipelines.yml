@@ -12,6 +12,19 @@ trigger:
       - LICENSE
       - README.md
 
+parameters:
+- name: packages
+  type: object
+  default:
+  - git
+  - git-lfs
+  - git-sizer
+  - git-credential-manager
+  - git-extras
+  - git-filter-repo
+  - git-crypt
+  - git-warp-time
+
 jobs:
 - job: Package
   strategy:
@@ -39,19 +52,6 @@ jobs:
   pool:
     vmImage: 'windows-latest'
 
-  parameters:
-  - name: packages
-    type: object
-    default:
-    - git
-    - git-lfs
-    - git-sizer
-    - git-credential-manager
-    - git-extras
-    - git-filter-repo
-    - git-crypt
-    - git-warp-time
-  
   steps:
   - pwsh: |
       git config core.autocrlf false
