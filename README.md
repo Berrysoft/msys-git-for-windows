@@ -1,3 +1,13 @@
+# Copyright statements
+Many `PKGBUILD` are not totally written by myself, and the MIT `LICENSE` here may conflict with the original one.
+If you care about the license, please review the code and compare it with the following repos:
+
+* [MSYS2 packages](https://github.com/msys2/MSYS2-packages)
+* [MinGW packages](https://github.com/msys2/MINGW-packages)
+* [git-for-windows](https://github.com/git-for-windows/MINGW-packages)
+* [build-extra](https://github.com/git-for-windows/build-extra)
+* Arch Linux packages
+
 # `mingw-w64-git`
 This repo is a `PKGBUILD` for [`git-for-windows`](https://github.com/git-for-windows/).
 There's already one in the [official repo](https://github.com/git-for-windows/MINGW-packages/tree/main/mingw-w64-git),
@@ -36,7 +46,7 @@ It is newer than the one in the [official repo](https://github.com/msys2/MINGW-p
 It builds from source, and installs to `libexec/git-core`.
 
 # `mingw-w64-git-warp-time`
-A tool fixes timestamps.
+A tool fixes timestamps. The version is postfixed.
 
 # Usage
 Note that some packages should be built before `mingw-w64-git` is installed,
