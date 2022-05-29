@@ -16,15 +16,18 @@ parameters:
 - name: packages
   type: object
   default:
-  - git
-  - git-credential-manager
-  - git-crypt
-  - git-delta
-  - git-extras
-  - git-filter-repo
-  - git-lfs
-  - git-sizer
-  - git-warp-time
+    git
+    git-credential-manager
+    git-crypt
+    git-extras
+    git-filter-repo
+    git-lfs
+    git-sizer
+- name: packages_rust
+  type: object
+  default:
+    git-delta
+    git-warp-time
 
 jobs:
 - job: Package
@@ -72,6 +75,16 @@ jobs:
         cd mingw-w64-${{ p }}
         C:\msys64\usr\bin\bash.exe -c "makepkg-mingw -s --noconfirm"
       displayName: "Package ${{ p }}"
+      env:
+        MSYSTEM: $(MSYSTEM)
+
+  - ${{ each p in parameters.packages_rust }}:
+    - pwsh: |
+        $env:PATH="$PATH;C:\msys64\$(prefix)\bin;C:\msys64\usr\bin;"
+        cd mingw-w64-${{ p }}
+        C:\msys64\usr\bin\bash.exe -c "makepkg-mingw -s --noconfirm"
+      displayName: "Package ${{ p }}"
+      condition: ne('$(MSYSTEM)', 'CLANG32')
       env:
         MSYSTEM: $(MSYSTEM)
 
