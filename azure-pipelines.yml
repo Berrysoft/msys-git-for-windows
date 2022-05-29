@@ -30,6 +30,7 @@ parameters:
   type: object
   default:
   - git-delta
+  - git-smash
   - git-warp-time
 
 jobs:

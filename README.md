@@ -58,6 +58,9 @@ Recall works with interactive UI.
 # `mingw-w64-git-sizer`
 It builds from source, and installs to `libexec/git-core`.
 
+# `mingw-w64-git-smash`
+No documents because the author is [working](https://github.com/anthraxx/git-smash/issues/1) on it.
+
 # `mingw-w64-git-warp-time`
 A tool fixes timestamps. The version is postfixed.
 
