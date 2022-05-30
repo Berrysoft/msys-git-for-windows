@@ -27,6 +27,10 @@ I add some patches for multiple proposes.
 5. Remove `UNICODE` definitions. Tracking: [git/git#1269](https://github.com/git/git/pull/1269)
 6. Fix shebang parsing. Tracking: [git-for-windows/git#3869](https://github.com/git-for-windows/git/pull/3869)
 
+# `mingw-w64-git-cal`
+It shows a GitHub like calendar.
+Some terminals won't show correct format due to the width of characters.
+
 # `mingw-w64-git-credential-manager`
 It doesn't build from source, because .NET SDK is not part of MSYS2.
 
@@ -43,11 +47,23 @@ They are just a series of scripts for `git`.
 # `mingw-w64-git-filter-repo`
 It is said to perform better than `git-filter-branch`.
 
+# `mingw-w64-git-fire`
+In case on fire, it is very useful to save your works.
+
+# `mingw-w64-git-flow`
+This repo is NOT maintained with `git-flow`.
+
 # `mingw-w64-git-lfs`
 It is newer than the one in the [official repo](https://github.com/msys2/MINGW-packages/tree/master/mingw-w64-git-lfs).
 
+# `mingw-w64-git-recall`
+Recall works with interactive UI.
+
 # `mingw-w64-git-sizer`
 It builds from source, and installs to `libexec/git-core`.
+
+# `mingw-w64-git-smash`
+No documents because the author is [working](https://github.com/anthraxx/git-smash/issues/1) on it.
 
 # `mingw-w64-git-warp-time`
 A tool fixes timestamps. The version is postfixed.

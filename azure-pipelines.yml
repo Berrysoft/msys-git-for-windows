@@ -17,16 +17,21 @@ parameters:
   type: object
   default:
   - git
+  - git-cal
   - git-credential-manager
   - git-crypt
   - git-extras
   - git-filter-repo
+  - git-fire
+  - git-flow
   - git-lfs
+  - git-recall
   - git-sizer
 - name: packages_rust
   type: object
   default:
   - git-delta
+  - git-smash
   - git-warp-time
 
 jobs:
@@ -95,7 +100,7 @@ jobs:
       targetFolder: $(build.artifactstagingdirectory)
       flattenFolders: true
       preserveTimestamp: true
-    displayName: "Copy git packages"
+    displayName: "Copy packages"
 
   - task: PublishBuildArtifacts@1
     inputs:
@@ -121,7 +126,7 @@ jobs:
 
   - task: CopyFiles@2
     inputs:
-      contents: 'repo/*' 
+      contents: 'repo/git-for-windows*' 
       targetFolder: $(build.artifactstagingdirectory)
       flattenFolders: true
       preserveTimestamp: true

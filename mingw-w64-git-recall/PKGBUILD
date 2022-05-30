@@ -1,0 +1,22 @@
+
+_realname=git-recall
+pkgbase="mingw-w64-${_realname}"
+pkgname=("${MINGW_PACKAGE_PREFIX}-${_realname}")
+pkgver=1.2.4
+pkgrel=1
+pkgdesc="An interactive way to peruse your git history from the terminal "
+arch=('any')
+url="https://github.com/Fakerr/git-recall"
+license=('MIT')
+
+makedepends=("git")
+
+source=("git"::"git+https://github.com/Fakerr/git-recall#tag=v$pkgver")
+
+sha256sums=('SKIP')
+
+package() {
+    install -Dm755 $srcdir/git/git-recall $pkgdir/$MINGW_PREFIX/libexec/git-core/git-recall
+    install -Dm644 $srcdir/git/README.md $pkgdir/$MINGW_PREFIX/share/doc/git-recall/README.md
+    install -Dm644 $srcdir/git/LICENSE "${pkgdir}${MINGW_PREFIX}"/share/licenses/git-recall/LICENSE
+}

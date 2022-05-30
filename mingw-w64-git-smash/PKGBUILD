@@ -1,0 +1,37 @@
+
+_realname=git-smash
+pkgbase="mingw-w64-${_realname}"
+pkgname=("${MINGW_PACKAGE_PREFIX}-${_realname}")
+pkgver=0.0.2
+pkgrel=1
+pkgdesc='Smash staged changes into previous commits to support your Git workflow'
+arch=('any')
+url="https://github.com/anthraxx/git-smash"
+license=('MIT')
+
+makedepends=("git"
+             "make"
+             "${MINGW_PACKAGE_PREFIX}-rust")
+
+source=("git"::"git+https://github.com/anthraxx/git-smash#tag=$pkgver")
+
+sha256sums=('SKIP')
+
+options=('strip')
+
+build() {
+    cd "$srcdir/git"
+    make git-smash
+}
+
+check() {
+    cd "$srcdir/git"
+    make test
+}
+
+package() {
+    cd "$srcdir/git"
+    DESTDIR="$pkgdir" make PREFIX="$MINGW_PREFIX" BINDIR="$MINGW_PREFIX/libexec/git-core" install
+
+    install -Dm644 LICENSE "$pkgdir$MINGW_PREFIX/share/licenses/$_realname"
+}
