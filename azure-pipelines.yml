@@ -99,7 +99,7 @@ jobs:
       targetFolder: $(build.artifactstagingdirectory)
       flattenFolders: true
       preserveTimestamp: true
-    displayName: "Copy git packages"
+    displayName: "Copy packages"
 
   - task: PublishBuildArtifacts@1
     inputs:
@@ -125,7 +125,7 @@ jobs:
 
   - task: CopyFiles@2
     inputs:
-      contents: 'repo/*' 
+      contents: 'repo/git-for-windows*' 
       targetFolder: $(build.artifactstagingdirectory)
       flattenFolders: true
       preserveTimestamp: true
