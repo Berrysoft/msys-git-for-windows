@@ -1,0 +1,26 @@
+
+_realname=git-cal
+pkgbase="mingw-w64-${_realname}"
+pkgname=("${MINGW_PACKAGE_PREFIX}-${_realname}")
+pkgver=0.9.1
+pkgrel=1
+pkgdesc="An interactive way to peruse your git history from the terminal "
+arch=('any')
+url="https://github.com/k4rthik/git-cal"
+license=('MIT')
+
+makedepends=("git"
+             "make"
+             "perl-ExtUtils-MakeMaker")
+
+depends=("perl")
+
+source=("git"::"git+https://github.com/k4rthik/git-cal#tag=v$pkgver")
+
+sha256sums=('SKIP')
+
+package() {
+    cd "$srcdir/git"
+    /usr/bin/perl Makefile.PL PREFIX=$pkgdir$MINGW_PREFIX
+    make INSTALLSITESCRIPT="$pkgdir$MINGW_PREFIX/libexec/git-core" install
+}

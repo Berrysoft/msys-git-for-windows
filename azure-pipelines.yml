@@ -17,6 +17,7 @@ parameters:
   type: object
   default:
   - git
+  - git-cal
   - git-credential-manager
   - git-crypt
   - git-extras

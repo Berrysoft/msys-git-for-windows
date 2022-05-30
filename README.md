@@ -27,6 +27,10 @@ I add some patches for multiple proposes.
 5. Remove `UNICODE` definitions. Tracking: [git/git#1269](https://github.com/git/git/pull/1269)
 6. Fix shebang parsing. Tracking: [git-for-windows/git#3869](https://github.com/git-for-windows/git/pull/3869)
 
+# `mingw-w64-git-cal`
+It shows a GitHub like calendar.
+Some terminals won't show correct format due to the width of characters.
+
 # `mingw-w64-git-credential-manager`
 It doesn't build from source, because .NET SDK is not part of MSYS2.
 
