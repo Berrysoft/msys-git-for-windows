@@ -104,7 +104,7 @@ jobs:
 
   - task: PublishBuildArtifacts@1
     inputs:
-      ArtifactName: 'publish'
+      ArtifactName: 'g4w'
 
 - job: RepoAdd
   dependsOn: Package
@@ -114,19 +114,19 @@ jobs:
   steps:
   - task: DownloadPipelineArtifact@2
     inputs:
-      artifact: 'publish'
+      artifact: 'g4w'
       path: $(Build.SourcesDirectory)/repo
     displayName: "Download packages"
 
   - pwsh: |
       $env:PATH="$PATH;C:\msys64\usr\bin;"
       cd repo
-      C:\msys64\usr\bin\bash.exe -c "repo-add git-for-windows.db.tar.gz *"
+      C:\msys64\usr\bin\bash.exe -c "repo-add g4w.db.tar.gz *"
     displayName: "Run repo-add"
 
   - task: CopyFiles@2
     inputs:
-      contents: 'repo/git-for-windows*' 
+      contents: 'repo/g4w*' 
       targetFolder: $(build.artifactstagingdirectory)
       flattenFolders: true
       preserveTimestamp: true
@@ -134,4 +134,4 @@ jobs:
 
   - task: PublishBuildArtifacts@1
     inputs:
-      ArtifactName: 'publish'
+      ArtifactName: 'g4w'
