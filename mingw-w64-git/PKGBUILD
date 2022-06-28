@@ -53,18 +53,14 @@ source=("git"::"git+https://github.com/git-for-windows/git.git#tag=v$pkgver")
 
 patches=("1-mingw.patch"
          "2-version.patch"
-         "3-pcre2.patch"
          "4-headless.patch"
-         "5-no-unicode.patch"
          "6-interpr.patch")
 source+=(${patches[@]})
 
 sha256sums=('SKIP'
             '94a2ee925a17130fd0c1debd5c72dff8f8f1dfd22612b456fdd45ae5d0e1b215'
             'c7fe26ea8d51918506d3adfa0a21aedc322f3c04e933cd31e0eb40a2f899d022'
-            'af2cdf0b91764c1b5c4428681b08a843a2883dfaafa436b57638edc67c4e3efc'
             'b5edee84ac261a554d73deadfe7c538a0c7ebc85b87e6633061138d55de3f93e'
-            '0e1bac656e942206e805a50ec3f1c21d5e1ba619c2718800c4f43e142f31f818'
             'cc582f4526aa57c64436cca5d8ab583837213c03408a1cc32ea4795577f575ce')
 
 prepare() {
