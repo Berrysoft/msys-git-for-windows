@@ -2,10 +2,9 @@
 _realname=git
 pkgbase="mingw-w64-${_realname}"
 pkgname=("${MINGW_PACKAGE_PREFIX}-${_realname}")
-tag=2.36.1.windows.1
-pkgver=2.36.1.1.e2ff68a2d1
+pkgver=2.37.0.windows.1
 # pkgrel should be larger than the official one
-pkgrel=6
+pkgrel=2
 pkgdesc="The fast distributed version control system (mingw-w64)"
 arch=('any')
 url="https://git-for-windows.github.io/"
@@ -52,7 +51,7 @@ optdepends=("mintty"
 conflicts=("${MINGW_PACKAGE_PREFIX}-${_realname}-doc-html"
 	       "${MINGW_PACKAGE_PREFIX}-${_realname}-doc-man")
 
-source=("git"::"git+https://github.com/git-for-windows/git.git#tag=v$tag")
+source=("git"::"git+https://github.com/git-for-windows/git.git#tag=v$pkgver")
 
 patches=("1-mingw.patch"
          "2-version.patch"
@@ -82,7 +81,7 @@ prepare() {
     do
         git apply -v ${srcdir}/$p
     done
-    echo "v$tag.Berrysoft.$pkgrel" > version
+    echo "v$pkgver.Berrysoft.$pkgrel" > version
 }
 
 package () {
