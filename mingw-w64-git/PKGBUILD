@@ -17,7 +17,6 @@ makedepends=("diffutils"
              "docbook-xsl"
              "git"
              "make"
-             "patch"
              "tar"
              "xmlto"
              "${MINGW_PACKAGE_PREFIX}-asciidoc"
@@ -43,9 +42,8 @@ depends=("${MINGW_PACKAGE_PREFIX}-ca-certificates"
          "perl-Net-SMTP-SSL"
          "perl-TermReadKey")
 
-optdepends=("mintty"
-            "python: git-p4"
-            "subversion: git-svn"
+optdepends=("subversion: git-svn"
+            "${MINGW_PACKAGE_PREFIX}-python: git-p4"
             "${MINGW_PACKAGE_PREFIX}-tk: gitk & git-gui")
 
 conflicts=("${MINGW_PACKAGE_PREFIX}-${_realname}-doc-html"
@@ -67,7 +65,7 @@ sha256sums=('SKIP'
             'af2cdf0b91764c1b5c4428681b08a843a2883dfaafa436b57638edc67c4e3efc'
             'b5edee84ac261a554d73deadfe7c538a0c7ebc85b87e6633061138d55de3f93e'
             '0e1bac656e942206e805a50ec3f1c21d5e1ba619c2718800c4f43e142f31f818'
-            'a5475d4a5a839246293ca49044b03f996cf0f623e1cbe4e4042faf251126a079')
+            'cc582f4526aa57c64436cca5d8ab583837213c03408a1cc32ea4795577f575ce')
 
 prepare() {
     cd "$srcdir/git"

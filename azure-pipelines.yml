@@ -89,7 +89,7 @@ jobs:
         $env:PATH="$PATH;C:\msys64\$(prefix)\bin;C:\msys64\usr\bin;"
         cd mingw-w64-${{ p }}
         C:\msys64\usr\bin\bash.exe -c "makepkg-mingw -s --noconfirm --nocheck"
-      condition: ne(variables.MSYSTEM, 'CLANG32')
+      condition: and(succeeded(), ne(variables.MSYSTEM, 'CLANG32'))
       displayName: "Package ${{ p }}"
       env:
         MSYSTEM: $(MSYSTEM)
