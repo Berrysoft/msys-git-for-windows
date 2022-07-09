@@ -13,7 +13,7 @@ pkgdesc="Credential Manager for Git"
 install=git-credential-manager.install
 arch=('any')
 project_url="https://github.com/GitCredentialManager/git-credential-manager"
-zip_url="${project_url}/releases/download/${_realtag}/gcmcore-win-x86-${_realver}.zip"
+zip_url="${project_url}/releases/download/${_realtag}/gcm-win-x86-${_realver}.zip"
 license=('MIT')
 options=('!strip')
 
