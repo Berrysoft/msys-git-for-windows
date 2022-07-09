@@ -4,9 +4,9 @@ pkgbase="mingw-w64-${_realname}"
 pkgname=("${MINGW_PACKAGE_PREFIX}-${_realname}")
 conflicts=("${MINGW_PACKAGE_PREFIX}-git-credential-manager-core")
 replaces=("${MINGW_PACKAGE_PREFIX}-git-credential-manager-core")
-pkgver=2.0.696
+pkgver=2.0.785
 # pkgrel should be larger than the official one
-pkgrel=3
+pkgrel=2
 _realver=$pkgver
 _realtag=v${pkgver}
 pkgdesc="Credential Manager for Git"
