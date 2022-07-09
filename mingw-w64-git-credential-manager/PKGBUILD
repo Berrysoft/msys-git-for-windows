@@ -19,7 +19,7 @@ options=('!strip')
 
 source=("${zip_url}")
 
-sha256sums=('9c80110b4ff0f8e30d572431ee612fc57f398019f83cecb617ad32bb9cb5cacd')
+sha256sums=('825dbecad84959f84294469ccbdc8dd623dfb60e3d8f312f5e210d5394223f0b')
 
 package() {
     prefix="$pkgdir/${MINGW_PREFIX}"
