@@ -60,7 +60,7 @@ source+=(${patches[@]})
 sha256sums=('SKIP'
             '94a2ee925a17130fd0c1debd5c72dff8f8f1dfd22612b456fdd45ae5d0e1b215'
             'c7fe26ea8d51918506d3adfa0a21aedc322f3c04e933cd31e0eb40a2f899d022'
-            'b5edee84ac261a554d73deadfe7c538a0c7ebc85b87e6633061138d55de3f93e'
+            'd08164a391d63cdad3932818538bd20e465baa85b1a0d1a0bb383bb4963d94e4'
             'cc582f4526aa57c64436cca5d8ab583837213c03408a1cc32ea4795577f575ce')
 
 prepare() {
@@ -108,7 +108,7 @@ package () {
     DESTDIR="$pkgdir" make -C git-gui gitexecdir="$MINGW_PREFIX/libexec/git-core" install
 
     # gitweb
-    DESTDIR="$pkgdir" make -C gitweb prefix="$MINGW_PREFIX" gitwebdir="$MINGW_PREFIX/var/www/cgi-bin" install
+    DESTDIR="$pkgdir" make prefix="$MINGW_PREFIX" gitwebdir="$MINGW_PREFIX/var/www/cgi-bin" install-gitweb
 
     # docs
     DESTDIR="$pkgdir" make prefix="$MINGW_PREFIX" install-html
