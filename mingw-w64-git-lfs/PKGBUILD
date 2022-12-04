@@ -40,6 +40,7 @@ prepare() {
 build() {
     cd "$srcdir/git"
     LDFLAGS="$(echo "$LDFLAGS" | sed 's/-Wl,--no-seh//')"
+    LDFLAGS="$(echo "$LDFLAGS" | sed 's/-Wl,--large-address-aware//')"
     GOPATH="$srcdir/go" PATH="$PATH:$srcdir/go/bin" make bin/git-lfs-windows-${GOARCH}.exe
 }
 
