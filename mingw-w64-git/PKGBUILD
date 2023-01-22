@@ -2,9 +2,9 @@
 _realname=git
 pkgbase="mingw-w64-${_realname}"
 pkgname=("${MINGW_PACKAGE_PREFIX}-${_realname}")
-pkgver=2.39.0.windows.2
+pkgver=2.39.1.windows.1
 # pkgrel should be larger than the official one
-pkgrel=3
+pkgrel=2
 pkgdesc="The fast distributed version control system (mingw-w64)"
 arch=('any')
 url="https://git-for-windows.github.io/"
