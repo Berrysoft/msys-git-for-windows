@@ -70,14 +70,14 @@ jobs:
     displayName: "Fix CRLF"
 
   - pwsh: |
-      $env:PATH="$env:PATH;C:\msys64\$(prefix)\bin;C:\msys64\usr\bin;"
+      $env:PATH="$PATH;C:\msys64\$(prefix)\bin;C:\msys64\usr\bin;"
       C:\msys64\usr\bin\pacman.exe -Syu --noconfirm
       C:\msys64\usr\bin\pacman.exe -S --noconfirm mingw-w64-$(target)-binutils
     displayName: "Install pre-package dependencies"
 
   - ${{ each p in parameters.packages }}:
     - pwsh: |
-        $env:PATH="$env:PATH;C:\msys64\$(prefix)\bin;C:\msys64\usr\bin;"
+        $env:PATH="$PATH;C:\msys64\$(prefix)\bin;C:\msys64\usr\bin;"
         cd mingw-w64-${{ p }}
         C:\msys64\usr\bin\bash.exe -c "makepkg-mingw -s --noconfirm"
       displayName: "Package ${{ p }}"
@@ -86,7 +86,7 @@ jobs:
 
   - ${{ each p in parameters.packages_rust }}:
     - pwsh: |
-        $env:PATH="$env:PATH;C:\msys64\$(prefix)\bin;C:\msys64\usr\bin;"
+        $env:PATH="$PATH;C:\msys64\$(prefix)\bin;C:\msys64\usr\bin;"
         cd mingw-w64-${{ p }}
         C:\msys64\usr\bin\bash.exe -c "makepkg-mingw -s --noconfirm --nocheck"
       condition: and(succeeded(), and(ne(variables.MSYSTEM, 'CLANG32'), ne(variables.MSYSTEM, 'CLANG64')))
@@ -119,7 +119,7 @@ jobs:
     displayName: "Download packages"
 
   - pwsh: |
-      $env:PATH="$env:PATH;C:\msys64\usr\bin;"
+      $env:PATH="$PATH;C:\msys64\usr\bin;"
       cd repo
       C:\msys64\usr\bin\bash.exe -c "repo-add g4w.db.tar.gz *"
     displayName: "Run repo-add"
