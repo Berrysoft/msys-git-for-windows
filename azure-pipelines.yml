@@ -88,7 +88,7 @@ jobs:
     - pwsh: |
         $env:PATH="$PATH;C:\msys64\$(prefix)\bin;C:\msys64\usr\bin;"
         cd mingw-w64-${{ p }}
-        C:\msys64\usr\bin\bash.exe -c "makepkg-mingw -s --noconfirm --nocheck"
+        C:\msys64\usr\bin\bash.exe -c "makepkg-mingw -s --noconfirm --nocheck WINAPI_NO_BUNDLED_LIBRARIES=1"
       #condition: and(succeeded(), and(ne(variables.MSYSTEM, 'CLANG32'), ne(variables.MSYSTEM, 'CLANG64')))
       displayName: "Package ${{ p }}"
       env:
