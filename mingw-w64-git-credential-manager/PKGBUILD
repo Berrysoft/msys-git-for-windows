@@ -6,7 +6,7 @@ conflicts=("${MINGW_PACKAGE_PREFIX}-git-credential-manager-core")
 replaces=("${MINGW_PACKAGE_PREFIX}-git-credential-manager-core")
 pkgver=2.0.785
 # pkgrel should be larger than the official one
-pkgrel=2
+pkgrel=3
 _realver=$pkgver
 _realtag=v${pkgver}
 pkgdesc="Credential Manager for Git"
