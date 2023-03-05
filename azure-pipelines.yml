@@ -135,3 +135,24 @@ jobs:
   - task: PublishBuildArtifacts@1
     inputs:
       ArtifactName: 'g4w'
+
+- job: Publish
+  dependsOn: RepoAdd
+  pool:
+    vmImage: 'ubuntu-latest'
+
+  steps:
+  - script: |
+      git config --global user.name "$NAME"
+      git config --global user.email "$EMAIL"
+      cd $(Build.ArtifactStagingDirectory)/g4w
+      git init
+      git checkout -b publish
+      git add -A
+      git commit -m "Create build $(Build.BuildId)"
+      git push -f https://$PAT@github.com/Berrysoft/msys-git-for-windows.git publish
+    displayName: 'Publish to GitHub'
+    env:
+      PAT: $(GitHubPAT)
+      NAME: $(GitHubName)
+      EMAIL: $(GitHubEmail)
