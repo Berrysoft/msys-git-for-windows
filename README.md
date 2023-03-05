@@ -9,6 +9,7 @@ If you care about the license, please review the code and compare it with the fo
 * Arch Linux packages
 
 # Usage
+## Use pre-built packages
 Add following lines to `/etc/pacman.conf`:
 ``` conf
 [g4w]
@@ -18,6 +19,16 @@ SigLevel = Never
 It *should* be placed above official sections (for example, `[clangarm64]`), because there are some packages with the same name.
 
 Packages are not signed. Use them at your own risk.
+## Build packages manually
+Note that some packages should be built before `mingw-w64-git` is installed,
+because two `git` will confuse each other.
+
+``` bash
+$ git clone https://github.com/Berrysoft/msys-git-for-windows.git
+$ cd msys-git-for-windows
+$ # cd to the package folder...
+$ makepkg-mingw -sifC
+```
 
 # `mingw-w64-git`
 This repo is a `PKGBUILD` for [`git-for-windows`](https://github.com/git-for-windows/).
@@ -63,7 +74,7 @@ In case on fire, it is very useful to save your works.
 This repo is NOT maintained with `git-flow`.
 
 # `mingw-w64-git-lfs`
-It is newer than the one in the [official repo](https://github.com/msys2/MINGW-packages/tree/master/mingw-w64-git-lfs).
+It may be different from the one in the [official repo](https://github.com/msys2/MINGW-packages/tree/master/mingw-w64-git-lfs).
 
 # `mingw-w64-git-recall`
 Recall works with interactive UI.
@@ -76,14 +87,3 @@ No documents because the author is [working](https://github.com/anthraxx/git-sma
 
 # `mingw-w64-git-warp-time`
 A tool fixes timestamps. The version is postfixed.
-
-# Usage
-Note that some packages should be built before `mingw-w64-git` is installed,
-because two `git` will confuse each other.
-
-``` bash
-$ git clone https://github.com/Berrysoft/msys-git-for-windows.git
-$ cd msys-git-for-windows
-$ # cd to the package folder...
-$ makepkg-mingw -sifC
-```
