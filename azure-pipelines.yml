@@ -141,7 +141,16 @@ jobs:
   pool:
     vmImage: 'ubuntu-latest'
 
+  variables:
+  - group: GitHubPATGroup
+
   steps:
+  - task: DownloadPipelineArtifact@2
+    inputs:
+      artifact: 'g4w'
+      path: $(Build.SourcesDirectory)/repo
+    displayName: "Download packages"
+
   - script: |
       git config --global user.name "$NAME"
       git config --global user.email "$EMAIL"
