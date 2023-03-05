@@ -8,6 +8,17 @@ If you care about the license, please review the code and compare it with the fo
 * [build-extra](https://github.com/git-for-windows/build-extra)
 * Arch Linux packages
 
+# Usage
+Add following lines to `/etc/pacman.conf`:
+``` conf
+[g4w]
+Server = https://raw.githubusercontent.com/Berrysoft/msys-git-for-windows/publish
+SigLevel = Never
+```
+It *should* be placed above official sections (for example, `[clangarm64]`), because there are some packages with the same name.
+
+Packages are not signed. Use them at your own risk.
+
 # `mingw-w64-git`
 This repo is a `PKGBUILD` for [`git-for-windows`](https://github.com/git-for-windows/).
 There's already one in the [official repo](https://github.com/git-for-windows/MINGW-packages/tree/main/mingw-w64-git),
