@@ -67,7 +67,7 @@ jobs:
   - pwsh: |
       $env:PATH="$PATH;C:\msys64\$(prefix)\bin;C:\msys64\usr\bin;"
       C:\msys64\usr\bin\pacman.exe -Syu --noconfirm
-      C:\msys64\usr\bin\pacman.exe -S --noconfirm mingw-w64-$(target)-binutils
+      C:\msys64\usr\bin\pacman.exe -S --noconfirm mingw-w64-$(target)-binutils diffutils make patch
     displayName: "Install pre-package dependencies"
 
   - ${{ each p in parameters.packages }}:
