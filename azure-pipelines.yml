@@ -20,17 +20,12 @@ parameters:
   - git-cal
   - git-credential-manager
   - git-crypt
-  - git-extras
-  - git-filter-repo
   - git-fire
-  - git-flow
-  - git-lfs
   - git-recall
   - git-sizer
 - name: packages_rust
   type: object
   default:
-  - git-delta
   - git-smash
   - git-warp-time
 
