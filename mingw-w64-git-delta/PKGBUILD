@@ -1,0 +1,69 @@
+
+_realname=git-delta
+pkgbase="mingw-w64-${_realname}"
+pkgname=("${MINGW_PACKAGE_PREFIX}-${_realname}")
+pkgver=0.15.1
+pkgrel=1
+pkgdesc='Syntax-highlighting pager for git and diff output'
+install=git-delta.install
+arch=('any')
+url="https://github.com/dandavison/delta"
+license=('MIT')
+
+makedepends=("git"
+             "${MINGW_PACKAGE_PREFIX}-rust")
+
+depends=("${MINGW_PACKAGE_PREFIX}-libgit2")
+
+replaces=("${MINGW_PACKAGE_PREFIX}-delta")
+
+source=("git"::"git+https://github.com/dandavison/delta#tag=$pkgver")
+
+sha256sums=('SKIP')
+
+options=('strip')
+
+prepare() {
+    mkdir -p "$srcdir/cargo"
+    cargo install mdbook --root "$srcdir/cargo"
+}
+
+build() {
+    cd "$srcdir/git"
+
+    # binary
+    cargo build --release --all-features
+
+    # html manual
+    cd manual
+    $srcdir/cargo/bin/mdbook build --dest-dir html
+}
+
+check() {
+    cd "$srcdir/git"
+    # some tests hang for 60+ seconds, find out why
+    # took my machine ~ 470 seconds
+    cargo test --all-features
+}
+
+package() {
+    cd "$srcdir/git"
+
+    # binary
+    install -vDm755 -t "$pkgdir$MINGW_PREFIX/bin" target/release/delta.exe
+
+    # license
+    install -vDm644 -t "$pkgdir$MINGW_PREFIX/share/licenses/$_realname" LICENSE
+
+    # shell auto-completions
+    install -vDm644 etc/completion/completion.bash \
+        "$pkgdir$MINGW_PREFIX/share/bash-completion/completions/$_realname"
+    install -vDm644 etc/completion/completion.zsh \
+        "$pkgdir$MINGW_PREFIX/share/zsh/site-functions/_$_realname"
+
+    # documentation
+    install -vDm644 -t "$pkgdir$MINGW_PREFIX/share/doc/$_realname" README.md
+
+    # html manual
+    cp -r manual/html "$pkgdir$MINGW_PREFIX/share/doc/$_realname"
+}

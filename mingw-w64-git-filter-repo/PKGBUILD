@@ -1,0 +1,33 @@
+
+_realname="git-filter-repo"
+pkgbase="mingw-w64-${_realname}"
+pkgname=("${MINGW_PACKAGE_PREFIX}-${_realname}")
+pkgver=2.38.0
+pkgrel=1
+pkgdesc='Quickly rewrite git repository history (filter-branch replacement)'
+arch=('any')
+url='https://github.com/newren/git-filter-repo'
+license=('MIT')
+
+makedepends=("git"
+             "make")
+
+depends=("${MINGW_PACKAGE_PREFIX}-python")
+
+source=("git"::"git+https://github.com/newren/git-filter-repo#tag=v$pkgver")
+
+sha256sums=('SKIP')
+
+prepare() {
+    cd "${srcdir}/git"
+    git remote set-url origin https://github.com/newren/git-filter-repo.git
+    git fetch origin docs
+}
+
+package() {
+    cd "${srcdir}/git"
+    make prefix="$pkgdir/$MINGW_PREFIX" snag_docs
+    install -Dm0755 git-filter-repo "${pkgdir}${MINGW_PREFIX}/libexec/git-core/git-filter-repo"
+    install -Dm0644 Documentation/man1/git-filter-repo.1 "${pkgdir}${MINGW_PREFIX}/share/man/man1/git-filter-repo.1"
+    install -Dm0644 Documentation/html/git-filter-repo.html "${pkgdir}${MINGW_PREFIX}/share/doc/git-doc/git-filter-repo.html"
+}
