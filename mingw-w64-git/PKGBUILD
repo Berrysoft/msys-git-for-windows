@@ -9,7 +9,6 @@ arch=('any')
 mingw_arch=('mingw32' 'mingw64' 'ucrt64' 'clang64' 'clang32' 'clangarm64')
 url="https://git-for-windows.github.io/"
 license=('GPL2')
-provides=('git' 'git-core')
 
 
 makedepends=("docbook-xsl"
