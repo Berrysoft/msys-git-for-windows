@@ -4,9 +4,9 @@ pkgbase="mingw-w64-${_realname}"
 pkgname=("${MINGW_PACKAGE_PREFIX}-${_realname}")
 conflicts=("${MINGW_PACKAGE_PREFIX}-git-credential-manager-core")
 replaces=("${MINGW_PACKAGE_PREFIX}-git-credential-manager-core")
-pkgver=2.0.931
+pkgver=2.1.2
 # pkgrel should be larger than the official one
-pkgrel=3
+pkgrel=2
 _realver=$pkgver
 _realtag=v${pkgver}
 pkgdesc="Credential Manager for Git"
@@ -19,7 +19,7 @@ options=('!strip')
 
 source=("${zip_url}")
 
-sha256sums=('f699a6ad2801927db0b923d3489357da89c565207232d1605e114eab01b84b35')
+sha256sums=('14e0fae94c14ef100544dbb77aad0d59238d58afc6edfae4160f6ae6cb2588e2')
 
 package() {
     prefix="$pkgdir/${MINGW_PREFIX}"
