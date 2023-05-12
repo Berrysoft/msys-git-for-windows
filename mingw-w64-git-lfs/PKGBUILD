@@ -4,16 +4,18 @@ pkgbase="mingw-w64-${_realname}"
 pkgname=("${MINGW_PACKAGE_PREFIX}-${_realname}")
 pkgver=3.3.0
 # pkgrel should be larger than the official one
-pkgrel=2
+pkgrel=3
 pkgdesc="An open source Git extension for versioning large files"
 install=git-lfs.install
 arch=('any')
+mingw_arch=('mingw32' 'mingw64' 'ucrt64' 'clang64' 'clang32' 'clangarm64')
 url="https://github.com/git-lfs/git-lfs"
 license=('MIT')
 options=('!strip')
 
 makedepends=("git"
              "make"
+             "${MINGW_PACKAGE_PREFIX}-asciidoctor"
              "${MINGW_PACKAGE_PREFIX}-go")
 
 source=("git"::"git+https://github.com/git-lfs/git-lfs#tag=v$pkgver")
@@ -42,12 +44,15 @@ build() {
     LDFLAGS="$(echo "$LDFLAGS" | sed 's/-Wl,--no-seh//')"
     LDFLAGS="$(echo "$LDFLAGS" | sed 's/-Wl,--large-address-aware//')"
     GOPATH="$srcdir/go" PATH="$PATH:$srcdir/go/bin" make bin/git-lfs-windows-${GOARCH}.exe
+    GOPATH="$srcdir/go" PATH="$PATH:$srcdir/go/bin" make man
 }
 
 package() {
     install -d -m755 $pkgdir/$MINGW_PREFIX/libexec/git-core/
     install -m755 $srcdir/git/bin/git-lfs-windows-${GOARCH}.exe $pkgdir/$MINGW_PREFIX/libexec/git-core/git-lfs.exe
     install -d -m755 $pkgdir/$MINGW_PREFIX/share/doc/git-lfs
+    cp -r $srcdir/git/man $pkgdir/$MINGW_PREFIX/share/
+    rm -rf $pkgdir/$MINGW_PREFIX/share/man/html
     install -m755 $srcdir/git/README.md $pkgdir/$MINGW_PREFIX/share/doc/git-lfs/README.md
     install -Dm644 $srcdir/git/LICENSE.md "${pkgdir}${MINGW_PREFIX}"/share/licenses/git-lfs/LICENSE
 }
