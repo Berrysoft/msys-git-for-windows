@@ -2,7 +2,7 @@
 _realname=git-delta
 pkgbase="mingw-w64-${_realname}"
 pkgname=("${MINGW_PACKAGE_PREFIX}-${_realname}")
-pkgver=0.16.4
+pkgver=0.16.5
 pkgrel=1
 pkgdesc='Syntax-highlighting pager for git and diff output'
 install=git-delta.install
