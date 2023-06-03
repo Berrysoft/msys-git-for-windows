@@ -30,7 +30,7 @@ parameters:
 - name: packages_rust
   type: object
   default:
-  #- git-delta
+  - git-delta
   - git-smash
   - git-warp-time
 
