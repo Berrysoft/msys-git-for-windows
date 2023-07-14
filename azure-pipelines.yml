@@ -39,10 +39,6 @@ jobs:
   timeoutInMinutes: 0
   strategy:
     matrix:
-      MINGW32:
-        target: 'i686'
-        prefix: 'mingw32'
-        MSYSTEM: 'MINGW32'
       MINGW64:
         target: 'x86_64'
         prefix: 'mingw64'
@@ -51,10 +47,6 @@ jobs:
         target: 'ucrt-x86_64'
         prefix: 'ucrt64'
         MSYSTEM: 'UCRT64'
-      CLANG32:
-        target: 'clang-i686'
-        prefix: 'clang32'
-        MSYSTEM: 'CLANG32'
       CLANG64:
         target: 'clang-x86_64'
         prefix: 'clang64'
