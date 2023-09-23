@@ -26,9 +26,7 @@ options=('strip')
 
 prepare() {
     cd "$srcdir/git"
-    aclocal
-    automake --add-missing
-	autoreconf
+	./bootstrap.sh
 }
 
 build() {
