@@ -28,20 +28,12 @@ index 948baf0312..06ada3356f 100644
  
  if(WIN32)
  	# Move system config into top-level /etc/
-@@ -708,21 +709,21 @@ if(WIN32)
- 	if(CMAKE_C_COMPILER_ID STREQUAL "GNU")#use windres when compiling with gcc and clang
+@@ -708,14 +709,14 @@ if(WIN32)
+ 	if(NOT MSVC)#use windres when compiling with gcc and clang
  		add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/git.res
  				COMMAND ${WINDRES_EXE} -O coff -DMAJOR=${PROJECT_VERSION_MAJOR} -DMINOR=${PROJECT_VERSION_MINOR}
 -					-DMICRO=${PROJECT_VERSION_PATCH} -DPATCHLEVEL=0 -DGIT_VERSION="\\\"${PROJECT_VERSION}.GIT\\\""
 +					-DMICRO=${PROJECT_VERSION_PATCH} -DPATCHLEVEL=0 -DGIT_VERSION="\\\"${git_full_version}\\\""
- 					-i ${CMAKE_SOURCE_DIR}/git.rc -o ${CMAKE_BINARY_DIR}/git.res
- 				WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
- 				VERBATIM)
- 	elseif(CMAKE_C_COMPILER_ID STREQUAL "Clang")
- 		add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/git.res
- 				COMMAND ${WINDRES_EXE} -O coff -DMAJOR=${PROJECT_VERSION_MAJOR} -DMINOR=${PROJECT_VERSION_MINOR}
--					-DMICRO=${PROJECT_VERSION_PATCH} -DPATCHLEVEL=0 -DGIT_VERSION="${PROJECT_VERSION}.GIT"
-+					-DMICRO=${PROJECT_VERSION_PATCH} -DPATCHLEVEL=0 -DGIT_VERSION="${git_full_version}"
  					-i ${CMAKE_SOURCE_DIR}/git.rc -o ${CMAKE_BINARY_DIR}/git.res
  				WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
  				VERBATIM)

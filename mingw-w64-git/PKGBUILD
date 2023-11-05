@@ -54,8 +54,8 @@ source=("https://github.com/git-for-windows/git/archive/refs/tags/v$pkgver.tar.g
 
 sha256sums=('1a683f199395c847abbabe1380fc43985960df7c182f54b60a255e2d88b9198f'
             '5119b9b816a8fc0de5f677bc1aa69b92fe11ecb4ecd4e65b7583aff727cb4222'
-            '94a2ee925a17130fd0c1debd5c72dff8f8f1dfd22612b456fdd45ae5d0e1b215'
-            'c7fe26ea8d51918506d3adfa0a21aedc322f3c04e933cd31e0eb40a2f899d022'
+            'be17cad4f3ed6bf8185fe35fb77bdc4490bde313406ae35d9544da8a89681d97'
+            'dd4a269ffdf9c0e5ea3d921e7fc9309c65babe40916113759950d64cdec468ce'
             'bbfed618535375f173afcedd956365924fd36f1e2e4a66a98eb02fdc6bd424d2'
             'bdf4f6026c6ad81620e5b4402873d30ea4bb19fb361f5ec13aff8ea9600ce219'
             '2464016253e6f8f35d27036d7708c779b599350d8d062007ab52a6341df3fd77')
