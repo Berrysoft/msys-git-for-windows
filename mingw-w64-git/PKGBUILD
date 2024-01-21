@@ -3,7 +3,7 @@ _realname=git
 pkgbase="mingw-w64-${_realname}"
 pkgname=("${MINGW_PACKAGE_PREFIX}-${_realname}")
 pkgver=2.43.0.windows.1
-pkgrel=1
+pkgrel=2
 pkgdesc="The fast distributed version control system (mingw-w64)"
 arch=('any')
 mingw_arch=('mingw32' 'mingw64' 'ucrt64' 'clang64' 'clang32' 'clangarm64')
@@ -56,7 +56,7 @@ sha256sums=('0ea75075a54c1d267393802ec9de2d40c2a98f4d8dca02561f6d5709f9cbca1e'
             '5119b9b816a8fc0de5f677bc1aa69b92fe11ecb4ecd4e65b7583aff727cb4222'
             'be17cad4f3ed6bf8185fe35fb77bdc4490bde313406ae35d9544da8a89681d97'
             'dd4a269ffdf9c0e5ea3d921e7fc9309c65babe40916113759950d64cdec468ce'
-            'bbfed618535375f173afcedd956365924fd36f1e2e4a66a98eb02fdc6bd424d2'
+            '2af342592696fa4c55439634a82ae0c37133e82fcf623f4b70d59a0bb4450cad'
             'bdf4f6026c6ad81620e5b4402873d30ea4bb19fb361f5ec13aff8ea9600ce219'
             '2464016253e6f8f35d27036d7708c779b599350d8d062007ab52a6341df3fd77')
 

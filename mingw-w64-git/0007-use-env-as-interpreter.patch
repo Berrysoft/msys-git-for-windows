@@ -1,49 +1,22 @@
-From b62c19a1f12faef765a6d28ef8db3f79881b4117 Mon Sep 17 00:00:00 2001
-From: Yuyi Wang <Strawberry_Str@hotmail.com>
-Date: Thu, 26 May 2022 12:43:54 +0800
-Subject: [PATCH] Use env as interpreter for all exe and scripts.
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-Git requires a MSYS2 perl. However, there are many distributions
-of perl. If another perl is in the PATH in front of the MSYS2 one,
-git will mistakenly find it. The shebang is right #!/usr/bin/perl,
-but actually git only recognizes perl and finds the first one in
-the PATH.
-
-This pull request removes the naïve parser of shebang, and just finds
-`env.exe` as the interpreter. It should be in the `PATH` in MSYS2.
-
-Signed-off-by: Yuyi Wang <Strawberry_Str@hotmail.com>
----
- compat/mingw.c | 67 +++++++++-----------------------------------------
- 1 file changed, 12 insertions(+), 55 deletions(-)
-
 diff --git a/compat/mingw.c b/compat/mingw.c
-index 182498bbb48526..d36c1573d3a1bc 100644
+index 262ab940b5..503a4be6f6 100644
 --- a/compat/mingw.c
 +++ b/compat/mingw.c
-@@ -1530,41 +1530,6 @@ static const char *quote_arg_msys2(const char *arg)
- 	return strbuf_detach(&buf, 0);
- }
+@@ -1609,8 +1609,6 @@ static const char *quote_arg_msys2(const char *arg)
  
--static const char *parse_interpreter(const char *cmd)
--{
+ static const char *parse_interpreter(const char *cmd)
+ {
 -	static char buf[MAX_PATH];
 -	char *p, *opt;
--	int n, fd;
--
--	/* don't even try a .exe */
--	n = strlen(cmd);
--	if (n >= 4 && !strcasecmp(cmd+n-4, ".exe"))
--		return NULL;
--
--	fd = open(cmd, O_RDONLY);
--	if (fd < 0)
--		return NULL;
+ 	int n, fd;
+ 
+ 	/* don't even try a .exe */
+@@ -1621,25 +1619,8 @@ static const char *parse_interpreter(const char *cmd)
+ 	fd = open(cmd, O_RDONLY);
+ 	if (fd < 0)
+ 		return NULL;
 -	n = read(fd, buf, sizeof(buf)-1);
--	close(fd);
+ 	close(fd);
 -	if (n < 4)	/* at least '#!/x' and not error */
 -		return NULL;
 -
@@ -61,60 +34,7 @@ index 182498bbb48526..d36c1573d3a1bc 100644
 -	if ((opt = strchr(p+1, ' ')))
 -		*opt = '\0';
 -	return p+1;
--}
--
++	return "env.exe";
+ }
+ 
  /*
-  * exe_only means that we only want to detect .exe files, but not scripts
-  * (which do not have an extension)
-@@ -2151,26 +2116,20 @@ pid_t mingw_spawnvpe(const char *cmd, const char **argv, char **deltaenv,
- 		pid = -1;
- 	}
- 	else {
--		const char *interpr = parse_interpreter(prog);
--
--		if (interpr) {
--			const char *argv0 = argv[0];
--			char *iprog = path_lookup(interpr, 1);
-+		const char *interpr = "env.exe";
-+		const char *argv0 = argv[0];
-+		char *iprog = path_lookup(interpr, 1);
-+		if (!iprog) {
-+			errno = ENOENT;
-+			pid = -1;
-+		}
-+		else {
- 			argv[0] = prog;
--			if (!iprog) {
--				errno = ENOENT;
--				pid = -1;
--			}
--			else {
--				pid = mingw_spawnve_fd(iprog, argv, deltaenv, dir, interpr,
--						       fhin, fhout, fherr);
--				free(iprog);
--			}
-+			pid = mingw_spawnve_fd(iprog, argv, deltaenv, dir, interpr,
-+							fhin, fhout, fherr);
-+			free(iprog);
- 			argv[0] = argv0;
- 		}
--		else
--			pid = mingw_spawnve_fd(prog, argv, deltaenv, dir, NULL,
--					       fhin, fhout, fherr);
- 		free(prog);
- 	}
- 	return pid;
-@@ -2178,12 +2137,10 @@ pid_t mingw_spawnvpe(const char *cmd, const char **argv, char **deltaenv,
- 
- static int try_shell_exec(const char *cmd, char *const *argv)
- {
--	const char *interpr = parse_interpreter(cmd);
-+	const char *interpr = "env.exe";
- 	char *prog;
- 	int pid = 0;
- 
--	if (!interpr)
--		return 0;
- 	prog = path_lookup(interpr, 1);
- 	if (prog) {
- 		int exec_id;
