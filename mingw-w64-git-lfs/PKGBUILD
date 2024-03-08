@@ -2,7 +2,7 @@
 _realname="git-lfs"
 pkgbase="mingw-w64-${_realname}"
 pkgname=("${MINGW_PACKAGE_PREFIX}-${_realname}")
-pkgver=3.4.1
+pkgver=3.5.1
 # pkgrel should be larger than the official one
 pkgrel=2
 pkgdesc="An open source Git extension for versioning large files"
