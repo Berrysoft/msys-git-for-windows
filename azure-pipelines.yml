@@ -12,30 +12,27 @@ trigger:
       - LICENSE
       - README.md
 
-parameters:
-- name: packages
-  type: object
-  default:
-  - git
-  - git-cal
-  - git-credential-manager
-  - git-crypt
-  - git-extras
-  - git-filter-repo
-  - git-fire
-  - git-flow
-  - git-lfs
-  - git-recall
-  - git-sizer
-- name: packages_rust
-  type: object
-  default:
-  - git-delta
-  - git-smash
-  - git-warp-time
-
 jobs:
+- job: Determine
+  steps:
+  - pwsh: |
+      $changedFiles = git diff --name-only HEAD HEAD^
+      $matches = $changedFiles | Select-Object | Select-String -Pattern "mingw-w64-(.*)/PKGBUILD" | %{$_.matches.groups[1].value} | Select-Object -Unique
+      $mustPackage = $matches.Count -gt 0
+      $cm = $matches | Join-String -Separator ","
+      Write-host "##vso[task.setvariable variable=Packages;isOutput=true;]$cm"
+      Write-host "vso[task.setvariable variable=Packages;isOutput=true;]$cm"
+      Write-host "##vso[task.setvariable variable=MustPackage;isOutput=true;]$mustPackage"
+      Write-host "vso[task.setvariable variable=MustPackage;isOutput=true;]$mustPackage"
+    displayName: "Find changed packages"
+    name: Det
+
 - job: Package
+  dependsOn: Determine
+  variables:
+    mustPackage: $[ dependencies.Determine.outputs['Det.MustPackage'] ]
+    packages: $[ dependencies.Determine.outputs['Det.Packages'] ]
+  condition: eq(variables.mustPackage, 'True')
   timeoutInMinutes: 0
   strategy:
     matrix:
@@ -67,24 +64,19 @@ jobs:
       C:\msys64\usr\bin\pacman.exe -S --noconfirm binutils diffutils make patch
     displayName: "Install pre-package dependencies"
 
-  - ${{ each p in parameters.packages }}:
-    - pwsh: |
-        $env:PATH="$PATH;C:\msys64\$(prefix)\bin;C:\msys64\usr\bin;"
-        cd mingw-w64-${{ p }}
-        C:\msys64\usr\bin\bash.exe -c "makepkg-mingw -s --noconfirm"
-      displayName: "Package ${{ p }}"
-      env:
-        MSYSTEM: $(MSYSTEM)
-
-  - ${{ each p in parameters.packages_rust }}:
-    - pwsh: |
-        $env:PATH="$PATH;C:\msys64\$(prefix)\bin;C:\msys64\usr\bin;"
-        cd mingw-w64-${{ p }}
+  - pwsh: |
+      $env:PATH="$PATH;C:\msys64\$(prefix)\bin;C:\msys64\usr\bin;"
+      $packages = "$(Packages)" -split ","
+      foreach ($p in $packages)
+      {
+        Write-Host "Package $p"
+        pushd mingw-w64-$p
         C:\msys64\usr\bin\bash.exe -c "makepkg-mingw -s --noconfirm --nocheck WINAPI_NO_BUNDLED_LIBRARIES=1"
-      #condition: and(succeeded(), and(ne(variables.MSYSTEM, 'CLANG32'), ne(variables.MSYSTEM, 'CLANG64')))
-      displayName: "Package ${{ p }}"
-      env:
-        MSYSTEM: $(MSYSTEM)
+        popd
+      }
+    displayName: "Package"
+    env:
+      MSYSTEM: $(MSYSTEM)
 
   - task: CopyFiles@2
     inputs:
@@ -98,12 +90,31 @@ jobs:
     inputs:
       ArtifactName: 'g4w'
 
-- job: RepoAdd
-  dependsOn: Package
+- job: Publish
+  dependsOn:
+  - Determine
+  - Package
   pool:
     vmImage: 'windows-latest'
 
+  variables:
+  - name: packages
+    value: $[ dependencies.Determine.outputs['Det.Packages'] ]
+  - group: GitHubPATGroup
+
   steps:
+  - pwsh: |
+      git clone https://github.com/Berrysoft/msys-git-for-windows.git --branch publish $(Build.SourcesDirectory)/repo
+      cd $(Build.SourcesDirectory)/repo
+      rm -r -Force .git
+      rm g4w*
+      $packages = "$(Packages)" -split ","
+      foreach ($p in $packages)
+      {
+        rm *-$p-*
+      }
+    displayName: "Clone registry"
+
   - task: DownloadPipelineArtifact@2
     inputs:
       artifact: 'g4w'
@@ -112,48 +123,17 @@ jobs:
 
   - pwsh: |
       $env:PATH="$PATH;C:\msys64\usr\bin;"
-      cd repo
+      cd $(Build.SourcesDirectory)/repo
       C:\msys64\usr\bin\bash.exe -c "repo-add g4w.db.tar.gz *"
     displayName: "Run repo-add"
 
-  - task: CopyFiles@2
-    inputs:
-      contents: 'repo/g4w*' 
-      targetFolder: $(build.artifactstagingdirectory)
-      flattenFolders: true
-      preserveTimestamp: true
-    displayName: "Copy repo"
-
-  - task: PublishBuildArtifacts@1
-    inputs:
-      ArtifactName: 'g4w'
-
-- job: Publish
-  dependsOn: RepoAdd
-  pool:
-    vmImage: 'ubuntu-latest'
-
-  variables:
-  - group: GitHubPATGroup
-
-  steps:
-  - task: DownloadPipelineArtifact@2
-    inputs:
-      artifact: 'g4w'
-      path: $(Build.SourcesDirectory)/repo
-    displayName: "Download packages"
-
-  - script: |
-      git config --global user.name "$NAME"
-      git config --global user.email "$EMAIL"
+  - pwsh: |
+      git config --global user.name "$(GitHubName)"
+      git config --global user.email "$(GitHubEmail)"
       cd $(Build.SourcesDirectory)/repo
       git init
       git checkout -b publish
       git add -A
       git commit -m "Create build $(Build.BuildId)"
-      git push -f https://$PAT@github.com/Berrysoft/msys-git-for-windows.git publish
+      git push -f https://$(GitHubPAT)@github.com/Berrysoft/msys-git-for-windows.git publish
     displayName: 'Publish to GitHub'
-    env:
-      PAT: $(GitHubPAT)
-      NAME: $(GitHubName)
-      EMAIL: $(GitHubEmail)
