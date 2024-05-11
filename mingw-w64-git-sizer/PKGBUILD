@@ -4,7 +4,7 @@ pkgbase="mingw-w64-${_realname}"
 pkgname=("${MINGW_PACKAGE_PREFIX}-${_realname}")
 pkgver=1.5.0
 # pkgrel should be larger than the official one
-pkgrel=2
+pkgrel=3
 pkgdesc="Compute various size metrics for a Git repository, flagging those that might cause problems"
 arch=('any')
 url="https://github.com/github/git-sizer"

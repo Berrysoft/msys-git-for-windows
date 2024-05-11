@@ -2,7 +2,6 @@ post_install() {
     git config --system core.pager "delta"
     git config --system interactive.diffFilter "delta --color-only"
     git config --system delta.navigate true
-    git config --system delta.light false
     git config --system merge.conflictstyle "diff3"
     git config --system diff.colorMoved "default"
 }

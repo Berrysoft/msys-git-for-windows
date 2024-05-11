@@ -111,7 +111,7 @@ jobs:
       $packages = "$(Packages)" -split ","
       foreach ($p in $packages)
       {
-        rm *-$p-*
+        rm *-$p-[0-9]*
       }
     displayName: "Clone registry"
 
