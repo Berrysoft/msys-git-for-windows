@@ -50,7 +50,7 @@ source=("https://github.com/git-for-windows/git/archive/refs/tags/v$pkgver.tar.g
         "0003-fix-version.patch"
         "0007-use-env-as-interpreter.patch"
         "0008-fix-python-script-shebang.patch"
-        "0101-arm-remove-nedmalloc.patch")
+        "0009-curl-lib.patch")
 
 sha256sums=('e4afa3b15ab58173766cfecf9c6811a613cc8589c5cbad07d23475845b23564c'
             '5119b9b816a8fc0de5f677bc1aa69b92fe11ecb4ecd4e65b7583aff727cb4222'
@@ -58,7 +58,7 @@ sha256sums=('e4afa3b15ab58173766cfecf9c6811a613cc8589c5cbad07d23475845b23564c'
             'dd4a269ffdf9c0e5ea3d921e7fc9309c65babe40916113759950d64cdec468ce'
             '2af342592696fa4c55439634a82ae0c37133e82fcf623f4b70d59a0bb4450cad'
             'bdf4f6026c6ad81620e5b4402873d30ea4bb19fb361f5ec13aff8ea9600ce219'
-            '2464016253e6f8f35d27036d7708c779b599350d8d062007ab52a6341df3fd77')
+            'baebfc70dd433760bc71c156a895f2702c77221509bb6d6acc1dd978afc32aec')
 
 prepare() {
     cd "$srcdir/$_realname-$pkgver"
@@ -67,10 +67,7 @@ prepare() {
     patch -Np1 -i $srcdir/0003-fix-version.patch
     patch -Np1 -i $srcdir/0007-use-env-as-interpreter.patch
     patch -Np1 -i $srcdir/0008-fix-python-script-shebang.patch
-    if test "CLANGARM64" == "$MSYSTEM"
-    then
-        patch -Np1 -i $srcdir/0101-arm-remove-nedmalloc.patch
-    fi
+    patch -Np1 -i $srcdir/0009-curl-lib.patch
     echo "v$pkgver-$pkgrel" > version
 }
 
