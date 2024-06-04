@@ -2,8 +2,8 @@
 _realname=git
 pkgbase="mingw-w64-${_realname}"
 pkgname=("${MINGW_PACKAGE_PREFIX}-${_realname}")
-pkgver=2.45.1.windows.1
-pkgrel=2
+pkgver=2.45.2.windows.1
+pkgrel=1
 pkgdesc="The fast distributed version control system (mingw-w64)"
 arch=('any')
 mingw_arch=('mingw32' 'mingw64' 'ucrt64' 'clang64' 'clang32' 'clangarm64')
@@ -52,9 +52,9 @@ source=("https://github.com/git-for-windows/git/archive/refs/tags/v$pkgver.tar.g
         "0008-fix-python-script-shebang.patch"
         "0101-arm-remove-nedmalloc.patch")
 
-sha256sums=('6e3c48cfc99cb8edbee77d6e109b1f33179f9ab92e19c9cec81b0e90bc5d9ba6'
+sha256sums=('e4afa3b15ab58173766cfecf9c6811a613cc8589c5cbad07d23475845b23564c'
             '5119b9b816a8fc0de5f677bc1aa69b92fe11ecb4ecd4e65b7583aff727cb4222'
-            'be17cad4f3ed6bf8185fe35fb77bdc4490bde313406ae35d9544da8a89681d97'
+            'c51f2249932ac6197c134fe5d4ed6df94dcbf97d60714fb38566e2e9553a921e'
             'dd4a269ffdf9c0e5ea3d921e7fc9309c65babe40916113759950d64cdec468ce'
             '2af342592696fa4c55439634a82ae0c37133e82fcf623f4b70d59a0bb4450cad'
             'bdf4f6026c6ad81620e5b4402873d30ea4bb19fb361f5ec13aff8ea9600ce219'
