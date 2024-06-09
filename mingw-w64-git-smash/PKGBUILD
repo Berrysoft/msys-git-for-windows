@@ -13,7 +13,7 @@ makedepends=("git"
              "make"
              "${MINGW_PACKAGE_PREFIX}-rust")
 
-source=("git"::"git+https://github.com/anthraxx/git-smash#tag=$pkgver")
+source=("git"::"git+https://github.com/anthraxx/git-smash#tag=v$pkgver")
 
 sha256sums=('SKIP')
 
