@@ -2,7 +2,7 @@
 _realname=git-warp-time
 pkgbase="mingw-w64-${_realname}"
 pkgname=("${MINGW_PACKAGE_PREFIX}-${_realname}")
-pkgver=0.7.7
+pkgver=0.8.3
 pkgrel=1
 pkgdesc='reset timestamps of Git repository files to the time of the last modifying commit'
 arch=('any')
@@ -10,7 +10,6 @@ url="https://github.com/alerque/git-warp-time"
 license=(GPL3)
 
 makedepends=("diffutils"
-             "git"
              "make"
              "${MINGW_PACKAGE_PREFIX}-autotools"
              "${MINGW_PACKAGE_PREFIX}-jq"
@@ -19,29 +18,24 @@ makedepends=("diffutils"
 
 depends=("${MINGW_PACKAGE_PREFIX}-libgit2")
 
-source=("git"::"git+https://github.com/alerque/git-warp-time#tag=v$pkgver")
-sha256sums=('SKIP')
+source=("https://github.com/alerque/git-warp-time/releases/download/v$pkgver/git-warp-time-$pkgver.tar.zst")
+sha256sums=('2db38b2fa0513b8f49dcb37004fc1ed9d482e005e0ea438d1fda368afcb21437')
 
 options=('strip')
 
-prepare() {
-    cd "$srcdir/git"
-	./bootstrap.sh
-}
-
 build() {
-    cd "$srcdir/git"
+    cd "$srcdir/git-warp-time-$pkgver"
     echo "$pkgver.Berrysoft.$pkgrel" > .tarball-version
-	./configure --prefix $MINGW_PREFIX
-	make
+    ./configure --prefix $MINGW_PREFIX
+    make
 }
 
 check() {
-    cd "$srcdir/git"
-	make check
+    cd "$srcdir/git-warp-time-$pkgver"
+    make check
 }
 
 package() {
-    cd "$srcdir/git"
-	make DESTDIR="$pkgdir" bindir="$MINGW_PREFIX/libexec/git-core" install
+    cd "$srcdir/git-warp-time-$pkgver"
+    make DESTDIR="$pkgdir" bindir="$MINGW_PREFIX/libexec/git-core" install
 }

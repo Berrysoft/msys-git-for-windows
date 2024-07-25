@@ -2,8 +2,8 @@
 _realname="git-filter-repo"
 pkgbase="mingw-w64-${_realname}"
 pkgname=("${MINGW_PACKAGE_PREFIX}-${_realname}")
-pkgver=2.38.0
-pkgrel=2
+pkgver=2.45.0
+pkgrel=1
 pkgdesc='Quickly rewrite git repository history (filter-branch replacement)'
 arch=('any')
 url='https://github.com/newren/git-filter-repo'
