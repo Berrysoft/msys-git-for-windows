@@ -1,15 +1,3 @@
-diff --git a/compat/mingw.c b/compat/mingw.c
-index 182498bbb4..1291d1cd59 100644
---- a/compat/mingw.c
-+++ b/compat/mingw.c
-@@ -23,7 +23,6 @@
- void open_in_gdb(void)
- {
- 	static struct child_process cp = CHILD_PROCESS_INIT;
--	extern char *_pgmptr;
- 
- 	strvec_pushl(&cp.args, "mintty", "gdb", NULL);
- 	strvec_pushf(&cp.args, "--pid=%d", getpid());
 diff --git a/contrib/buildsystems/CMakeLists.txt b/contrib/buildsystems/CMakeLists.txt
 index 2cab53b630..948baf0312 100644
 --- a/contrib/buildsystems/CMakeLists.txt
