@@ -2,7 +2,7 @@
 _realname=git
 pkgbase="mingw-w64-${_realname}"
 pkgname=("${MINGW_PACKAGE_PREFIX}-${_realname}")
-pkgver=2.45.2.windows.1
+pkgver=2.46.0.windows.1
 pkgrel=1
 pkgdesc="The fast distributed version control system (mingw-w64)"
 arch=('any')
@@ -52,7 +52,7 @@ source=("https://github.com/git-for-windows/git/archive/refs/tags/v$pkgver.tar.g
         "0008-fix-python-script-shebang.patch"
         "0009-curl-lib.patch")
 
-sha256sums=('e4afa3b15ab58173766cfecf9c6811a613cc8589c5cbad07d23475845b23564c'
+sha256sums=('2bebb79de10ee59e9245c26085a75afecd87c8b6dc4023b0178ea75aa277e63a'
             '5119b9b816a8fc0de5f677bc1aa69b92fe11ecb4ecd4e65b7583aff727cb4222'
             'c51f2249932ac6197c134fe5d4ed6df94dcbf97d60714fb38566e2e9553a921e'
             'dd4a269ffdf9c0e5ea3d921e7fc9309c65babe40916113759950d64cdec468ce'
