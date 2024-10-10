@@ -80,11 +80,11 @@ prepare() {
 build() {
     # Git wants to decide itself whether to use ANSI stdio emulation or not
     CFLAGS="$(echo "$CFLAGS" |
-        sed 's/-D__USE_MINGW_ANSI_STDIO\(=[0-9]*\)\?//')"
+        sed 's/-Wp,-D__USE_MINGW_ANSI_STDIO\(=[0-9]*\)\?//')"
     CPPFLAGS="$(echo "$CPPFLAGS" |
-        sed 's/-D__USE_MINGW_ANSI_STDIO\(=[0-9]*\)\?//')"
+        sed 's/-Wp,-D__USE_MINGW_ANSI_STDIO\(=[0-9]*\)\?//')"
     CXXFLAGS="$(echo "$CXXFLAGS" |
-        sed 's/-D__USE_MINGW_ANSI_STDIO\(=[0-9]*\)\?//')"
+        sed 's/-Wp,-D__USE_MINGW_ANSI_STDIO\(=[0-9]*\)\?//')"
 
     # run cmake first, it will generate GIT-VERSION-FILE
     mkdir -p $srcdir/build-${MSYSTEM}
