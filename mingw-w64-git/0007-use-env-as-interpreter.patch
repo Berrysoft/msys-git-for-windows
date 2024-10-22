@@ -1,17 +1,17 @@
 diff --git a/compat/mingw.c b/compat/mingw.c
-index 262ab940b5..503a4be6f6 100644
+index be0c7a7a24..d7abdac8b2 100644
 --- a/compat/mingw.c
 +++ b/compat/mingw.c
-@@ -1609,8 +1609,6 @@ static const char *quote_arg_msys2(const char *arg)
+@@ -1626,8 +1626,6 @@ static const char *quote_arg_msys2(const char *arg)
  
  static const char *parse_interpreter(const char *cmd)
  {
 -	static char buf[MAX_PATH];
 -	char *p, *opt;
- 	int n, fd;
+ 	ssize_t n; /* read() can return negative values */
+ 	int fd;
  
- 	/* don't even try a .exe */
-@@ -1621,25 +1619,8 @@ static const char *parse_interpreter(const char *cmd)
+@@ -1639,25 +1637,8 @@ static const char *parse_interpreter(const char *cmd)
  	fd = open(cmd, O_RDONLY);
  	if (fd < 0)
  		return NULL;
