@@ -2,9 +2,9 @@
 _realname="git-lfs"
 pkgbase="mingw-w64-${_realname}"
 pkgname=("${MINGW_PACKAGE_PREFIX}-${_realname}")
-pkgver=3.5.1
+pkgver=3.6.0
 # pkgrel should be larger than the official one
-pkgrel=3
+pkgrel=2
 pkgdesc="An open source Git extension for versioning large files"
 install=git-lfs.install
 arch=('any')
