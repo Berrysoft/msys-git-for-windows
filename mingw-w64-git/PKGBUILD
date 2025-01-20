@@ -2,7 +2,7 @@
 _realname=git
 pkgbase="mingw-w64-${_realname}"
 pkgname=("${MINGW_PACKAGE_PREFIX}-${_realname}")
-pkgver=2.47.1.windows.1
+pkgver=2.47.1.windows.2
 pkgrel=1
 pkgdesc="The fast distributed version control system (mingw-w64)"
 arch=('any')
@@ -54,7 +54,7 @@ source=("https://github.com/git-for-windows/git/archive/refs/tags/v$pkgver.tar.g
         "0010-fix-clar-include.patch"
         "0011-credential-cache-win.patch")
 
-sha256sums=('7457e380bc7e86f543059f429ab5cbbd25889ca42df5675cbb06872c41ececd0'
+sha256sums=('e4f5c5738a230044118d08eb0a9cba3b7ccd93da461f4f945e340c3c356f7163'
             '5119b9b816a8fc0de5f677bc1aa69b92fe11ecb4ecd4e65b7583aff727cb4222'
             'c2bd87824dbd697200630ecb12bdc200435a9fd87b424a3ddd1b784b6a843d8f'
             'dd4a269ffdf9c0e5ea3d921e7fc9309c65babe40916113759950d64cdec468ce'

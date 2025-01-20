@@ -2,7 +2,7 @@
 _realname=git-warp-time
 pkgbase="mingw-w64-${_realname}"
 pkgname=("${MINGW_PACKAGE_PREFIX}-${_realname}")
-pkgver=0.8.4
+pkgver=0.8.5
 pkgrel=1
 pkgdesc='reset timestamps of Git repository files to the time of the last modifying commit'
 arch=('any')
@@ -19,7 +19,7 @@ makedepends=("diffutils"
 depends=("${MINGW_PACKAGE_PREFIX}-libgit2")
 
 source=("https://github.com/alerque/git-warp-time/releases/download/v$pkgver/git-warp-time-$pkgver.tar.zst")
-sha256sums=('5e1df49c0efb709efe51f2a522c967c83fbddc0b6743ef0fdec085b06d030149')
+sha256sums=('6edf7863510870bcf3d6fd8dc3275eeb7cba1560fe89a164a046284295955866')
 
 options=('strip')
 
