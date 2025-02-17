@@ -37,7 +37,7 @@ depends=("${MINGW_PACKAGE_PREFIX}-ca-certificates"
          "perl-TermReadKey")
 
 optdepends=("subversion: git-svn"
-            "${MINGW_PACKAGE_PREFIX}-python: git-p4"
+            "python: git-p4"
             "${MINGW_PACKAGE_PREFIX}-tk: gitk & git-gui")
 
 # These packages are provided by git-sdk by git-for-windows project.
@@ -47,33 +47,21 @@ replaces=("${MINGW_PACKAGE_PREFIX}-${_realname}-doc-html"
 source=("https://github.com/git-for-windows/git/archive/refs/tags/v$pkgver.tar.gz"
         "0001-fix-create-link-destdir.patch"
         "0002-fix-build-with-mingw32-and-clang.patch"
-        "0003-fix-version.patch"
         "0007-use-env-as-interpreter.patch"
-        "0008-fix-python-script-shebang.patch"
-        "0009-curl-lib.patch"
-        "0010-fix-clar-include.patch"
-        "0011-credential-cache-win.patch")
+        "0009-curl-lib.patch")
 
 sha256sums=('a304618ee1cae33d5f0d9539d70a1cf2231a1585cfd93951beb57fae30905197'
             '5119b9b816a8fc0de5f677bc1aa69b92fe11ecb4ecd4e65b7583aff727cb4222'
             'c2bd87824dbd697200630ecb12bdc200435a9fd87b424a3ddd1b784b6a843d8f'
-            'dd4a269ffdf9c0e5ea3d921e7fc9309c65babe40916113759950d64cdec468ce'
             '82ad932bb1f8da53cf64bcad9205a1d8ca681b177e3b49ef072e3625353bfc38'
-            'bdf4f6026c6ad81620e5b4402873d30ea4bb19fb361f5ec13aff8ea9600ce219'
-            'baebfc70dd433760bc71c156a895f2702c77221509bb6d6acc1dd978afc32aec'
-            'b95b88c3bdc6dc71065734437f1c5db51797f8cbdfb02696b9b12f4403909645'
-            '0b71fdefed27c44569fc13ed40941f8908b5a9af394586af104a7497e5199afa')
+            'baebfc70dd433760bc71c156a895f2702c77221509bb6d6acc1dd978afc32aec')
 
 prepare() {
     cd "$srcdir/$_realname-$pkgver"
     patch -Np1 -i $srcdir/0001-fix-create-link-destdir.patch
     patch -Np1 -i $srcdir/0002-fix-build-with-mingw32-and-clang.patch
-    patch -Np1 -i $srcdir/0003-fix-version.patch
     patch -Np1 -i $srcdir/0007-use-env-as-interpreter.patch
-    patch -Np1 -i $srcdir/0008-fix-python-script-shebang.patch
     patch -Np1 -i $srcdir/0009-curl-lib.patch
-    patch -Np1 -i $srcdir/0010-fix-clar-include.patch
-    patch -Np1 -i $srcdir/0011-credential-cache-win.patch
     echo "v$pkgver-$pkgrel" > version
 }
 
