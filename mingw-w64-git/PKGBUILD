@@ -48,13 +48,15 @@ source=("https://github.com/git-for-windows/git/archive/refs/tags/v$pkgver.tar.g
         "0001-fix-create-link-destdir.patch"
         "0002-fix-build-with-mingw32-and-clang.patch"
         "0007-use-env-as-interpreter.patch"
-        "0009-curl-lib.patch")
+        "0009-curl-lib.patch"
+        "0012-fix-install-scripts.patch")
 
 sha256sums=('a304618ee1cae33d5f0d9539d70a1cf2231a1585cfd93951beb57fae30905197'
             '5119b9b816a8fc0de5f677bc1aa69b92fe11ecb4ecd4e65b7583aff727cb4222'
             'c2bd87824dbd697200630ecb12bdc200435a9fd87b424a3ddd1b784b6a843d8f'
             '82ad932bb1f8da53cf64bcad9205a1d8ca681b177e3b49ef072e3625353bfc38'
-            'baebfc70dd433760bc71c156a895f2702c77221509bb6d6acc1dd978afc32aec')
+            'baebfc70dd433760bc71c156a895f2702c77221509bb6d6acc1dd978afc32aec'
+            '263f2527aabc1a8b3ed0c5aef3b2843dc22a58f01f822ef5857de825e34d9e55')
 
 prepare() {
     cd "$srcdir/$_realname-$pkgver"
@@ -62,6 +64,7 @@ prepare() {
     patch -Np1 -i $srcdir/0002-fix-build-with-mingw32-and-clang.patch
     patch -Np1 -i $srcdir/0007-use-env-as-interpreter.patch
     patch -Np1 -i $srcdir/0009-curl-lib.patch
+    patch -Np1 -i $srcdir/0012-fix-install-scripts.patch
     echo "v$pkgver-$pkgrel" > version
 }
 
