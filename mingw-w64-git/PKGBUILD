@@ -94,8 +94,7 @@ build() {
         -DSKIP_DASHED_BUILT_INS=ON \
         -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_INSTALL_PREFIX="$MINGW_PREFIX" \
-        -DFALLBACK_RUNTIME_PREFIX="$MINGW_PREFIX" \
-        -DBUILD_TESTING=OFF
+        -DFALLBACK_RUNTIME_PREFIX="$MINGW_PREFIX"
     ${MINGW_PREFIX}/bin/cmake --build .
 }
 
