@@ -2,8 +2,8 @@
 _realname=git
 pkgbase="mingw-w64-${_realname}"
 pkgname=("${MINGW_PACKAGE_PREFIX}-${_realname}")
-pkgver=2.48.1.windows.1
-pkgrel=2
+pkgver=2.49.0.windows.1
+pkgrel=1
 pkgdesc="The fast distributed version control system (mingw-w64)"
 arch=('any')
 mingw_arch=('mingw32' 'mingw64' 'ucrt64' 'clang64' 'clang32' 'clangarm64')
@@ -52,7 +52,7 @@ source=("https://github.com/git-for-windows/git/archive/refs/tags/v$pkgver.tar.g
         "0012-fix-install-scripts.patch"
         "0101-arm-remove-nedmalloc.patch")
 
-sha256sums=('a304618ee1cae33d5f0d9539d70a1cf2231a1585cfd93951beb57fae30905197'
+sha256sums=('b1bf0ff7e25404e7199052f7b92628952a8d8c8daf081691d74b47e3286e2cc0'
             '5119b9b816a8fc0de5f677bc1aa69b92fe11ecb4ecd4e65b7583aff727cb4222'
             'c2bd87824dbd697200630ecb12bdc200435a9fd87b424a3ddd1b784b6a843d8f'
             '82ad932bb1f8da53cf64bcad9205a1d8ca681b177e3b49ef072e3625353bfc38'
