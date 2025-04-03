@@ -1,0 +1,13 @@
+diff --git a/meson.build b/meson.build
+index ed6133696d..301091ed10 100644
+--- a/meson.build
++++ b/meson.build
+@@ -707,7 +707,7 @@ libgit_c_args = [
+   '-DGIT_LOCALE_PATH="' + get_option('localedir') + '"',
+   '-DGIT_MAN_PATH="' + get_option('mandir') + '"',
+   '-DPAGER_ENV="' + get_option('pager_environment') + '"',
+-  '-DSHELL_PATH="' + fs.as_posix(shell.full_path()) + '"',
++  '-DSHELL_PATH="/bin/sh"',
+ ]
+ libgit_include_directories = [ '.' ]
+ libgit_dependencies = [ ]

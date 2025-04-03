@@ -16,7 +16,7 @@ makedepends=("docbook-xsl"
              "${MINGW_PACKAGE_PREFIX}-asciidoc"
              "${MINGW_PACKAGE_PREFIX}-cc"
              "${MINGW_PACKAGE_PREFIX}-cmake"
-             "${MINGW_PACKAGE_PREFIX}-ninja"
+             "${MINGW_PACKAGE_PREFIX}-meson"
              "${MINGW_PACKAGE_PREFIX}-pkgconf"
              "${MINGW_PACKAGE_PREFIX}-tk")
 
@@ -45,31 +45,28 @@ replaces=("${MINGW_PACKAGE_PREFIX}-${_realname}-doc-html"
           "${MINGW_PACKAGE_PREFIX}-${_realname}-doc-man")
 
 source=("https://github.com/git-for-windows/git/archive/refs/tags/v$pkgver.tar.gz"
-        "0001-fix-create-link-destdir.patch"
-        "0002-fix-build-with-mingw32-and-clang.patch"
         "0007-use-env-as-interpreter.patch"
-        "0009-curl-lib.patch"
-        "0012-fix-install-scripts.patch"
-        "0101-arm-remove-nedmalloc.patch")
+        "0013-fix-meson-symlink.patch"
+        "0014-shell-path.patch"
+        "0015-xmlto.patch"
+        "0102-arm-remove-nedmalloc.patch")
 
 sha256sums=('b1bf0ff7e25404e7199052f7b92628952a8d8c8daf081691d74b47e3286e2cc0'
-            '5119b9b816a8fc0de5f677bc1aa69b92fe11ecb4ecd4e65b7583aff727cb4222'
-            'c2bd87824dbd697200630ecb12bdc200435a9fd87b424a3ddd1b784b6a843d8f'
             '82ad932bb1f8da53cf64bcad9205a1d8ca681b177e3b49ef072e3625353bfc38'
-            'baebfc70dd433760bc71c156a895f2702c77221509bb6d6acc1dd978afc32aec'
-            '263f2527aabc1a8b3ed0c5aef3b2843dc22a58f01f822ef5857de825e34d9e55'
-            '000a189aeb72319729fbb303c0f6d0ad4a48686fe87786f2e4e5b204b534dcc7')
+            '3462c63fb50bfd8cbc9ce9b24444daf300a290dc2f59686bc167bba098d92a78'
+            'c2d94e1955362c199f98900f4dd358333d597fb4a7b0d06cf73289c11da16ebf'
+            'a32601a63ed73465aa5bbe43543e3bc374096042e5e8fa7e1f7a4f06dee19369'
+            '84a5887a8887d16ef451357f7c3295c5366cf58f30f0104ea81cb3e850c3675f')
 
 prepare() {
     cd "$srcdir/$_realname-$pkgver"
-    patch -Np1 -i $srcdir/0001-fix-create-link-destdir.patch
-    patch -Np1 -i $srcdir/0002-fix-build-with-mingw32-and-clang.patch
     patch -Np1 -i $srcdir/0007-use-env-as-interpreter.patch
-    patch -Np1 -i $srcdir/0009-curl-lib.patch
-    patch -Np1 -i $srcdir/0012-fix-install-scripts.patch
+    patch -Np1 -i $srcdir/0013-fix-meson-symlink.patch
+    patch -Np1 -i $srcdir/0014-shell-path.patch
+    patch -Np1 -i $srcdir/0015-xmlto.patch
     if test "CLANGARM64" == "$MSYSTEM"
     then
-        patch -Np1 -i $srcdir/0101-arm-remove-nedmalloc.patch
+        patch -Np1 -i $srcdir/0102-arm-remove-nedmalloc.patch
     fi
     echo "v$pkgver-$pkgrel" > version
 }
@@ -83,35 +80,38 @@ build() {
     CXXFLAGS="$(echo "$CXXFLAGS" |
         sed 's/-Wp,-D__USE_MINGW_ANSI_STDIO\(=[0-9]*\)\?//')"
 
-    # run cmake first, it will generate GIT-VERSION-FILE
     mkdir -p $srcdir/build-${MSYSTEM}
-    cd $srcdir/build-${MSYSTEM}
-    MSYS2_ARG_CONV_EXCL="-DCMAKE_INSTALL_PREFIX=;-DFALLBACK_RUNTIME_PREFIX=" \
-        ${MINGW_PREFIX}/bin/cmake.exe \
-        $srcdir/$_realname-$pkgver/contrib/buildsystems \
-        -GNinja \
-        -DUSE_VCPKG=off \
-        -DSKIP_DASHED_BUILT_INS=ON \
-        -DCMAKE_BUILD_TYPE=Release \
-        -DCMAKE_INSTALL_PREFIX="$MINGW_PREFIX" \
-        -DFALLBACK_RUNTIME_PREFIX="$MINGW_PREFIX"
-    ${MINGW_PREFIX}/bin/cmake --build .
+
+    cd "$srcdir/$_realname-$pkgver"
+    MSYS2_ARG_CONV_EXCL="--prefix=" \
+        ${MINGW_PREFIX}/bin/meson setup \
+        --prefix="$MINGW_PREFIX" \
+        --buildtype=release \
+        $srcdir/build-${MSYSTEM} \
+        -Druntime_prefix=true \
+        -Dcredential_helpers=wincred \
+        -Dgettext=enabled \
+        -Dgitweb=enabled \
+        -Diconv=enabled \
+        -Dperl=enabled \
+        -Dpython=enabled \
+        -Dtests=false \
+        -Ddefault_editor=vim \
+        -Ddefault_help_format=html
+        # don't make docs with meson to keep compatible with legacy components
+        # "-Ddocs=['man', 'html']"
+    ${MINGW_PREFIX}/bin/meson compile -C $srcdir/build-${MSYSTEM}
 }
 
 package () {
-    cd $srcdir/build-${MSYSTEM}
-    DESTDIR="${pkgdir}" ${MINGW_PREFIX}/bin/cmake --install .
-
     cd "$srcdir/$_realname-$pkgver"
+    DESTDIR="${pkgdir}" ${MINGW_PREFIX}/bin/meson install -C $srcdir/build-${MSYSTEM}
 
     # gitk
     make -C gitk-git prefix="$pkgdir/$MINGW_PREFIX" install
 
     # git-gui
     DESTDIR="$pkgdir" make -C git-gui gitexecdir="$MINGW_PREFIX/libexec/git-core" install
-
-    # gitweb
-    DESTDIR="$pkgdir" make prefix="$MINGW_PREFIX" gitwebdir="$MINGW_PREFIX/var/www/cgi-bin" install-gitweb
 
     # docs
     DESTDIR="$pkgdir" make prefix="$MINGW_PREFIX" install-html
@@ -133,9 +133,6 @@ package () {
 
     # mw
     DESTDIR="$pkgdir" make -C contrib/mw-to-git prefix="$MINGW_PREFIX" perllibdir="$MINGW_PREFIX/share/perl5" install
-
-    # git-credential-wincred.exe
-    make -C contrib/credential/wincred prefix="$pkgdir/$MINGW_PREFIX" install
 
     # completions
     install -d "$pkgdir/$MINGW_PREFIX/share/git/completion/"

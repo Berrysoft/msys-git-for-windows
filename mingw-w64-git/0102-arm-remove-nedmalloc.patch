@@ -1,0 +1,12 @@
+diff --git a/meson.build b/meson.build
+index 6c28d12a9f..584edc70a1 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1118,7 +1118,6 @@ elif host_machine.system() == 'windows'
+     'compat/win32/syslog.c',
+     'compat/win32/wsl.c',
+     'compat/win32mmap.c',
+-    'compat/nedmalloc/nedmalloc.c',
+   ]
+ 
+   libgit_c_args += [
