@@ -16,7 +16,7 @@ index ed6133696d..301091ed10 100644
  endforeach
  
 +build_options_config.set_quoted('PERL_PATH', '/usr/bin/perl')
-+build_options_config.set_quoted('PYTHON_PATH', '/usr/bin/python')
++build_options_config.set_quoted('PYTHON_PATH', '/usr/bin/env python3')
 +build_options_config.set_quoted('SHELL_PATH', '/bin/sh')
 +
  configure_file(
