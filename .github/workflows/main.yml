@@ -100,7 +100,7 @@ jobs:
     name: Publish packages
     needs: [determine, package]
     runs-on: windows-latest
-    if: needs.determine.outputs.must_package == 'true'
+    if: needs.determine.outputs.must_package == 'true' && github.ref == 'refs/heads/master'
     
     steps:
       - name: Download all artifacts
@@ -128,7 +128,6 @@ jobs:
       - uses: msys2/setup-msys2@v2
         with:
           msystem: MSYS
-          update: true
           location: '${{ env.MSYS_ROOT }}'
 
       - name: Run repo-add
