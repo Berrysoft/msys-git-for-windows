@@ -1,0 +1,154 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - LICENSE
+      - README.md
+
+env:
+  MSYS_ROOT: C:/M
+
+jobs:
+  determine:
+    name: Determine changed packages
+    runs-on: windows-latest
+    outputs:
+      packages: ${{ steps.det.outputs.packages }}
+      must_package: ${{ steps.det.outputs.must_package }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Find changed packages
+        id: det
+        shell: pwsh
+        run: |
+          $changedFiles = git diff --name-only HEAD~1
+          $matches = $changedFiles | Select-Object | Select-String -Pattern "mingw-w64-(.*)/PKGBUILD" | %{$_.matches.groups[1].value} | Select-Object -Unique
+          $mustPackage = $matches.Count -gt 0
+          $cm = $matches | Join-String -Separator ","
+          echo "packages=$cm" >> $env:GITHUB_OUTPUT
+          echo "must_package=$mustPackage" >> $env:GITHUB_OUTPUT
+
+  package:
+    name: Package (${{ matrix.MSYSTEM }})
+    needs: determine
+    if: needs.determine.outputs.must_package == 'true'
+    runs-on: ${{ matrix.image }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: 'x86_64'
+            prefix: 'mingw64'
+            MSYSTEM: 'MINGW64'
+            image: 'windows-latest'
+          - target: 'ucrt-x86_64'
+            prefix: 'ucrt64'
+            MSYSTEM: 'UCRT64'
+            image: 'windows-latest'
+          - target: 'clang-x86_64'
+            prefix: 'clang64'
+            MSYSTEM: 'CLANG64'
+            image: 'windows-latest'
+          - target: 'clang-aarch64'
+            prefix: 'clangarm64'
+            MSYSTEM: 'CLANGARM64'
+            image: 'windows-11-arm'
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Fix CRLF
+        shell: pwsh
+        run: |
+          git config core.autocrlf false
+          rm .git/index
+          git reset --hard
+
+      - uses: msys2/setup-msys2@v2
+        with:
+          msystem: ${{ matrix.MSYSTEM }}
+          install: binutils diffutils make patch
+          update: true
+          location: '${{ env.MSYS_ROOT }}'
+      
+      - name: Package
+        shell: pwsh
+        env:
+          MSYSTEM: ${{ matrix.MSYSTEM }}
+        run: |
+          $packages = "${{ needs.determine.outputs.packages }}" -split ","
+          foreach ($p in $packages) {
+            Write-Host "Package $p"
+            pushd mingw-w64-$p
+            msys2 -c "makepkg-mingw -s --noconfirm --nocheck WINAPI_NO_BUNDLED_LIBRARIES=1"
+            popd
+          }
+      
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: g4w-${{ matrix.target }}
+          path: '**/*.pkg.tar.*'
+
+  publish:
+    name: Publish packages
+    needs: [determine, package]
+    runs-on: windows-latest
+    if: needs.determine.outputs.must_package == 'true'
+    
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+      
+      - name: Clone registry
+        shell: pwsh
+        run: |
+          git clone https://github.com/Berrysoft/msys-git-for-windows.git --branch publish repo
+          cd repo
+          rm -r -Force .git
+          rm g4w*
+          $packages = "${{ needs.determine.outputs.packages }}" -split ","
+          foreach ($p in $packages) {
+            rm *-$p-[0-9]*
+          }
+      
+      - name: Copy packages to repo
+        shell: pwsh
+        run: |
+          Get-ChildItem artifacts -Filter "*.pkg.tar.*" -Recurse | Copy-Item -Destination repo
+
+      - uses: msys2/setup-msys2@v2
+        with:
+          msystem: MSYS
+          update: true
+          location: '${{ env.MSYS_ROOT }}'
+
+      - name: Run repo-add
+        shell: pwsh
+        run: |
+          cd repo
+          msys2 -c "repo-add g4w.db.tar.gz *"
+      
+      - name: Publish to GitHub
+        shell: pwsh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GIT_USER_NAME: Yuyi Wang
+          GIT_USER_EMAIL: Strawberry_Str@hotmail.com
+        run: |
+          cd repo
+          git init
+          git config --global user.name "$env:GIT_USER_NAME"
+          git config --global user.email "$env:GIT_USER_EMAIL"
+          git checkout -b publish
+          git add -A
+          git commit -m "Create build ${{ github.run_id }}"
+          git push -f https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/Berrysoft/msys-git-for-windows.git publish
