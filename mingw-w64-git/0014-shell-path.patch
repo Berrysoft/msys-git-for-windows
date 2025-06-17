@@ -2,15 +2,24 @@ diff --git a/meson.build b/meson.build
 index ed6133696d..301091ed10 100644
 --- a/meson.build
 +++ b/meson.build
+@@ -245,7 +245,7 @@
+ # "/bin/sh" over a PATH-based lookup, which provides a working shell on most
+ # supported systems. This path is also the default shell path used by our
+ # Makefile. This lookup can be overridden via `program_path`.
+-target_shell = find_program('sh', dirs: program_path + [ '/bin' ], native: false)
++target_shell = find_program('sh', dirs: program_path, native: false)
+
+ # Sanity-check that programs required for the build exist.
+ foreach tool : ['cat', 'cut', 'grep', 'sort', 'tr', 'uname']
 @@ -707,7 +707,7 @@ libgit_c_args = [
    '-DGIT_LOCALE_PATH="' + get_option('localedir') + '"',
    '-DGIT_MAN_PATH="' + get_option('mandir') + '"',
    '-DPAGER_ENV="' + get_option('pager_environment') + '"',
--  '-DSHELL_PATH="' + fs.as_posix(shell.full_path()) + '"',
+-  '-DSHELL_PATH="' + fs.as_posix(target_shell.full_path()) + '"',
 +  '-DSHELL_PATH="/bin/sh"',
  ]
- libgit_include_directories = [ '.' ]
- libgit_dependencies = [ ]
+ 
+ system_attributes = get_option('gitattributes')
 @@ -1990,6 +1990,10 @@ foreach key, value : {
    build_options_config.set_quoted(key, value)
  endforeach
@@ -22,3 +31,16 @@ index ed6133696d..301091ed10 100644
  configure_file(
    input: 'GIT-BUILD-OPTIONS.in',
    output: 'GIT-BUILD-OPTIONS',
+diff --git a/templates/meson.build b/templates/meson.build
+index ed6133696d..301091ed10 100644
+--- a/templates/meson.build
++++ b/templates/meson.build
+@@ -1,6 +1,6 @@
+ template_config = configuration_data()
+-template_config.set('PERL_PATH', target_perl.found() ? fs.as_posix(target_perl.full_path()) : '')
+-template_config.set('SHELL_PATH', fs.as_posix(target_shell.full_path()))
++template_config.set('PERL_PATH', '/usr/bin/perl')
++template_config.set('SHELL_PATH', '/bin/sh')
+ template_config.set('GITWEBDIR', fs.as_posix(get_option('prefix') / get_option('datadir') / 'gitweb'))
+ 
+ configure_file(
