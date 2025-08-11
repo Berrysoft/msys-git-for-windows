@@ -3,7 +3,7 @@ _realname=git
 pkgbase="mingw-w64-${_realname}"
 pkgname=("${MINGW_PACKAGE_PREFIX}-${_realname}")
 pkgver=2.50.1.windows.1
-pkgrel=1
+pkgrel=2
 pkgdesc="The fast distributed version control system (mingw-w64)"
 arch=('any')
 mingw_arch=('mingw32' 'mingw64' 'ucrt64' 'clang64' 'clang32' 'clangarm64')
@@ -50,6 +50,7 @@ source=("https://github.com/git-for-windows/git/archive/refs/tags/v$pkgver.tar.g
         "0013-fix-meson-symlink.patch"
         "0014-shell-path.patch"
         "0015-xmlto.patch"
+        "0016-link-whole.patch"
         "0102-arm-remove-nedmalloc.patch")
 
 sha256sums=('8aed071bbedcd0c04e4a81d69afd4cf6384f40238976b8f466b5669bdef9a677'
@@ -57,6 +58,7 @@ sha256sums=('8aed071bbedcd0c04e4a81d69afd4cf6384f40238976b8f466b5669bdef9a677'
             '3462c63fb50bfd8cbc9ce9b24444daf300a290dc2f59686bc167bba098d92a78'
             'ec6605b9cad481d23ff954d79effa02c3f979b91e6b00da781a2ce92dc6ac4e8'
             'a32601a63ed73465aa5bbe43543e3bc374096042e5e8fa7e1f7a4f06dee19369'
+            '7e4419dde8ebb69a5459b7d8cec5c88ccfccc11b9df3b219c7c7e0bb0f607058'
             '84a5887a8887d16ef451357f7c3295c5366cf58f30f0104ea81cb3e850c3675f')
 
 prepare() {
@@ -65,6 +67,10 @@ prepare() {
     patch -Np1 -i $srcdir/0013-fix-meson-symlink.patch
     patch -Np1 -i $srcdir/0014-shell-path.patch
     patch -Np1 -i $srcdir/0015-xmlto.patch
+    if [[ "$MSYSTEM" == CLANG* ]];
+    then
+        patch -Np1 -i $srcdir/0016-link-whole.patch
+    fi
     if test "CLANGARM64" == "$MSYSTEM"
     then
         patch -Np1 -i $srcdir/0102-arm-remove-nedmalloc.patch
