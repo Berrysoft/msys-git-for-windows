@@ -7,7 +7,7 @@ index ed6133696d..96fb3aa674 100644
      )
  
 -    install_symlink(alias + executable_suffix,
--      install_dir: get_option('libexecdir') / 'git-core',
+-      install_dir: git_exec_path,
 -      pointing_to: 'git-remote-http',
 +    install_dir = '$MESON_INSTALL_DESTDIR_PREFIX/' + get_option('libexecdir') + '/git-core'
 +    meson.add_install_script(
@@ -22,7 +22,7 @@ index ed6133696d..96fb3aa674 100644
    )
  
 -  install_symlink(alias + executable_suffix,
--    install_dir: get_option('libexecdir') / 'git-core',
+-    install_dir: git_exec_path,
 -    pointing_to: 'git',
 +  install_dir = '$MESON_INSTALL_DESTDIR_PREFIX/' + get_option('libexecdir') + '/git-core'
 +  meson.add_install_script(

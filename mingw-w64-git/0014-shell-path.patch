@@ -2,15 +2,6 @@ diff --git a/meson.build b/meson.build
 index ed6133696d..301091ed10 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -245,7 +245,7 @@
- # "/bin/sh" over a PATH-based lookup, which provides a working shell on most
- # supported systems. This path is also the default shell path used by our
- # Makefile. This lookup can be overridden via `program_path`.
--target_shell = find_program('sh', dirs: program_path + [ '/bin' ], native: false)
-+target_shell = find_program('sh', dirs: program_path, native: false)
-
- # Sanity-check that programs required for the build exist.
- foreach tool : ['cat', 'cut', 'grep', 'sort', 'tr', 'uname']
 @@ -707,7 +707,7 @@ libgit_c_args = [
    '-DGIT_LOCALE_PATH="' + get_option('localedir') + '"',
    '-DGIT_MAN_PATH="' + get_option('mandir') + '"',

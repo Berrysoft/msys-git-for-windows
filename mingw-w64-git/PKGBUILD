@@ -55,8 +55,8 @@ source=("https://github.com/git-for-windows/git/archive/refs/tags/v$pkgver.tar.g
 
 sha256sums=('1e389ecc31462e2d1faf37f6a50ec583797dfc212f5b5c7f4779c57b7f92679c'
             '82ad932bb1f8da53cf64bcad9205a1d8ca681b177e3b49ef072e3625353bfc38'
-            '3462c63fb50bfd8cbc9ce9b24444daf300a290dc2f59686bc167bba098d92a78'
-            'ec6605b9cad481d23ff954d79effa02c3f979b91e6b00da781a2ce92dc6ac4e8'
+            'b17b93efd82d3c15b935ff90699dc193fc12795fc4781302a99e857117c8ce03'
+            '9d3d551be850d7df05e9b07c8f713e170d2d7b02533cab5f8b4026e721979b25'
             'a32601a63ed73465aa5bbe43543e3bc374096042e5e8fa7e1f7a4f06dee19369'
             '7e4419dde8ebb69a5459b7d8cec5c88ccfccc11b9df3b219c7c7e0bb0f607058'
             '84a5887a8887d16ef451357f7c3295c5366cf58f30f0104ea81cb3e850c3675f')
@@ -136,9 +136,6 @@ package () {
 
     # jump
     install contrib/git-jump/git-jump "$pkgdir/$MINGW_PREFIX/libexec/git-core/"
-
-    # resurrect
-    install contrib/git-resurrect.sh "$pkgdir/$MINGW_PREFIX/libexec/git-core/git-resurrect"
 
     # mw
     DESTDIR="$pkgdir" make -C contrib/mw-to-git prefix="$MINGW_PREFIX" perllibdir="$MINGW_PREFIX/share/perl5" install
