@@ -2,8 +2,8 @@
 _realname="git-crypt"
 pkgbase="mingw-w64-${_realname}"
 pkgname=("${MINGW_PACKAGE_PREFIX}-${_realname}")
-pkgver="0.7.0"
-pkgrel=3
+pkgver="0.8.0"
+pkgrel=1
 pkgdesc="Transparent file encryption in git"
 arch=('any')
 url="https://www.agwa.name/projects/git-crypt/"
@@ -22,10 +22,10 @@ sha256sums=('SKIP')
 
 build () {
     cd "${srcdir}/git"
-    CXXFLAGS='-DOPENSSL_API_COMPAT=0x30000000L' make ENABLE_MAN=yes 
+    make ENABLE_MAN=yes 
 }
 
 package () {
     cd "${srcdir}/git"
-    CXXFLAGS='-DOPENSSL_API_COMPAT=0x30000000L' make DESTDIR="${pkgdir}" PREFIX="$MINGW_PREFIX" BINDIR="$MINGW_PREFIX/libexec/git-core" ENABLE_MAN=yes install
+    make DESTDIR="${pkgdir}" PREFIX="$MINGW_PREFIX" BINDIR="$MINGW_PREFIX/libexec/git-core" ENABLE_MAN=yes install
 }
