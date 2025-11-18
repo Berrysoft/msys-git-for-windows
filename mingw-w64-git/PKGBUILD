@@ -2,7 +2,7 @@
 _realname=git
 pkgbase="mingw-w64-${_realname}"
 pkgname=("${MINGW_PACKAGE_PREFIX}-${_realname}")
-pkgver=2.51.2.windows.1
+pkgver=2.52.0.windows.1
 pkgrel=1
 pkgdesc="The fast distributed version control system (mingw-w64)"
 arch=('any')
@@ -37,8 +37,7 @@ depends=("${MINGW_PACKAGE_PREFIX}-ca-certificates"
          "perl-Net-SMTP-SSL"
          "perl-TermReadKey")
 
-optdepends=("subversion: git-svn"
-            "${MINGW_PACKAGE_PREFIX}-python: git-p4"
+optdepends=("${MINGW_PACKAGE_PREFIX}-python: git-p4"
             "${MINGW_PACKAGE_PREFIX}-tk: gitk & git-gui")
 
 # These packages are provided by git-sdk by git-for-windows project.
@@ -53,7 +52,7 @@ source=("https://github.com/git-for-windows/git/archive/refs/tags/v$pkgver.tar.g
         "0016-link-whole.patch"
         "0102-arm-remove-nedmalloc.patch")
 
-sha256sums=('19cf28e3cce81aefb5607568fa2fd1796e3ec1a133711de23d97a282cbfa7a64'
+sha256sums=('1bf3a0c162b5f5e9ecf1f457b0d15adc0e5f79369378b598d7dd6946fba3a0d0'
             '82ad932bb1f8da53cf64bcad9205a1d8ca681b177e3b49ef072e3625353bfc38'
             'b17b93efd82d3c15b935ff90699dc193fc12795fc4781302a99e857117c8ce03'
             '3bf879e738274bdcb4278f18a1fc55e853f12a7eb73efa54f56284993b119562'
