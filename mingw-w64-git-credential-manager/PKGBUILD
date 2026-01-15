@@ -4,22 +4,38 @@ pkgbase="mingw-w64-${_realname}"
 pkgname=("${MINGW_PACKAGE_PREFIX}-${_realname}")
 conflicts=("${MINGW_PACKAGE_PREFIX}-git-credential-manager-core")
 replaces=("${MINGW_PACKAGE_PREFIX}-git-credential-manager-core")
-pkgver=2.6.1
+pkgver=2.7.0
 # pkgrel should be larger than the official one
-pkgrel=3
+pkgrel=2
 _realver=$pkgver
 _realtag=v${pkgver}
 pkgdesc="Credential Manager for Git"
 install=git-credential-manager.install
 arch=('any')
 project_url="https://github.com/git-ecosystem/git-credential-manager"
-zip_url="${project_url}/releases/download/${_realtag}/gcm-win-x86-${_realver}.zip"
+
+case "$CARCH" in
+i686)
+    DOTNET_ARCH=x86
+    PCHKSUM=bbed7b0f56517f92825f4a6d2f98cae9757da6455c977f93d24745fceb48b806
+    ;;
+x86_64)
+    DOTNET_ARCH=x64
+    PCHKSUM=070c7cf706fbed844757f53d2f9d46ace09745820323264761e4f0bb4f0319bc
+    ;;
+aarch64)
+    DOTNET_ARCH=arm64
+    PCHKSUM=2b69098b1d772bf6c3cc70298bfa29d0ecf4b4f61ec86f810fd1121e79f81721
+    ;;
+esac
+
+zip_url="${project_url}/releases/download/${_realtag}/gcm-win-${DOTNET_ARCH}-${_realver}.zip"
 license=('MIT')
 options=('!strip')
 
 source=("${zip_url}")
 
-sha256sums=('bddbc4a051fbfa67d70cd2b89d49229fc1a7788f8a9296da914fb3c42b783d7e')
+sha256sums=("${PCHKSUM}")
 
 package() {
     prefix="$pkgdir/${MINGW_PREFIX}"
