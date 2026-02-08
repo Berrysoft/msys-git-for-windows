@@ -2,8 +2,8 @@
 _realname=git-smash
 pkgbase="mingw-w64-${_realname}"
 pkgname=("${MINGW_PACKAGE_PREFIX}-${_realname}")
-pkgver=0.1.1
-pkgrel=2
+pkgver=0.1.2
+pkgrel=1
 pkgdesc='Smash staged changes into previous commits to support your Git workflow'
 arch=('any')
 url="https://github.com/anthraxx/git-smash"
