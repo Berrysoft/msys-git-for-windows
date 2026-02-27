@@ -4,7 +4,7 @@ pkgbase="mingw-w64-${_realname}"
 pkgname=("${MINGW_PACKAGE_PREFIX}-${_realname}")
 pkgver=1.5.0
 # pkgrel should be larger than the official one
-pkgrel=4
+pkgrel=5
 pkgdesc="Compute various size metrics for a Git repository, flagging those that might cause problems"
 arch=('any')
 url="https://github.com/github/git-sizer"
@@ -13,11 +13,14 @@ options=('!strip')
 
 makedepends=("git"
              "make"
-             "${MINGW_PACKAGE_PREFIX}-go")
+             "${MINGW_PACKAGE_PREFIX}-go"
+             "${MINGW_PACKAGE_PREFIX}-cc")
 
-source=("git"::"git+https://github.com/github/git-sizer#tag=v$pkgver")
+source=("git"::"git+https://github.com/github/git-sizer#tag=v$pkgver"
+        "0001-arm64.patch")
 
-sha256sums=('SKIP')
+sha256sums=('SKIP'
+            'f1d0fd380b47054d758da44826cb00e6dfdbc3d7a6bd363faf5b1f47c07df1e7')
 
 case "$CARCH" in
 i686)
@@ -30,6 +33,14 @@ aarch64)
     GOARCH=arm64
     ;;
 esac
+
+prepare() {
+    cd "$srcdir/git"
+    if test "CLANGARM64" == "$MSYSTEM"
+    then
+        patch -Np1 -i $srcdir/0001-arm64.patch
+    fi
+}
 
 build() {
     cd "$srcdir/git"
