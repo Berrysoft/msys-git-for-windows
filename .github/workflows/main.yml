@@ -43,10 +43,6 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - target: 'x86_64'
-            prefix: 'mingw64'
-            MSYSTEM: 'MINGW64'
-            image: 'windows-latest'
           - target: 'ucrt-x86_64'
             prefix: 'ucrt64'
             MSYSTEM: 'UCRT64'
