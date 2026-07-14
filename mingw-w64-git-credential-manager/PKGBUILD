@@ -4,7 +4,7 @@ pkgbase="mingw-w64-${_realname}"
 pkgname=("${MINGW_PACKAGE_PREFIX}-${_realname}")
 conflicts=("${MINGW_PACKAGE_PREFIX}-git-credential-manager-core")
 replaces=("${MINGW_PACKAGE_PREFIX}-git-credential-manager-core")
-pkgver=2.8.0
+pkgver=2.9.1
 # pkgrel should be larger than the official one
 pkgrel=2
 _realver=$pkgver
@@ -17,15 +17,15 @@ project_url="https://github.com/git-ecosystem/git-credential-manager"
 case "$CARCH" in
 i686)
     DOTNET_ARCH=x86
-    PCHKSUM=82c5cd4753eb4ab78fdbbd87b565a2199a493f695d2620728875fc35a0e1b713
+    PCHKSUM=076d120618e876f06cf47cdb79aabda2d4afe89701a2b4e81f441d8b20200d35
     ;;
 x86_64)
     DOTNET_ARCH=x64
-    PCHKSUM=86c53aaa403d570b11fd48f17a277cd822b41b76c4e6b35f78344ad7c887b6c9
+    PCHKSUM=7dea2afd3b9ea22109d25f95066025d70e57281d96062605304f89fcca41b535
     ;;
 aarch64)
     DOTNET_ARCH=arm64
-    PCHKSUM=75ee79ea8a0da0f998735735cc693b97872e43f09dd1b91faba7f86055ad598d
+    PCHKSUM=1b573743a6162415d8398cbd9e2201aa8c43fd291bf45c242a5a12fa5ded3bd1
     ;;
 esac
 
