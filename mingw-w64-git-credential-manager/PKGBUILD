@@ -4,7 +4,7 @@ pkgbase="mingw-w64-${_realname}"
 pkgname=("${MINGW_PACKAGE_PREFIX}-${_realname}")
 conflicts=("${MINGW_PACKAGE_PREFIX}-git-credential-manager-core")
 replaces=("${MINGW_PACKAGE_PREFIX}-git-credential-manager-core")
-pkgver=2.9.1
+pkgver=3.0.0
 # pkgrel should be larger than the official one
 pkgrel=2
 _realver=$pkgver
@@ -17,15 +17,15 @@ project_url="https://github.com/git-ecosystem/git-credential-manager"
 case "$CARCH" in
 i686)
     DOTNET_ARCH=x86
-    PCHKSUM=076d120618e876f06cf47cdb79aabda2d4afe89701a2b4e81f441d8b20200d35
+    PCHKSUM=1f2dac980e4310539e8eeb1db7ecdab57251bfb449dabf5e7f021bbc31f75e94
     ;;
 x86_64)
     DOTNET_ARCH=x64
-    PCHKSUM=7dea2afd3b9ea22109d25f95066025d70e57281d96062605304f89fcca41b535
+    PCHKSUM=5a9e664e5cf92067b2514b2468c2e66ed1719522f7024ce61dcf0444b9e3e699
     ;;
 aarch64)
     DOTNET_ARCH=arm64
-    PCHKSUM=1b573743a6162415d8398cbd9e2201aa8c43fd291bf45c242a5a12fa5ded3bd1
+    PCHKSUM=bb05b21e802709a0db8da2327429b39bea4324dab1eacc058cc10f2cd047ecb5
     ;;
 esac
 
@@ -40,7 +40,7 @@ sha256sums=("${PCHKSUM}")
 package() {
     prefix="$pkgdir/${MINGW_PREFIX}"
     install -d -m755 "${prefix}"/libexec/git-core
-    install -m755 "$srcdir"/*.{dll,exe,config} "${prefix}"/libexec/git-core/
+    install -m755 "$srcdir"/*.{dll,exe} "${prefix}"/libexec/git-core/
     install -d -m755 "${prefix}"/share/licenses/git-credential-manager
     install -m644 "$srcdir"/NOTICE "${prefix}"/share/licenses/git-credential-manager
 }
