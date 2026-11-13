@@ -45,7 +45,7 @@ prepare() {
 build() {
     cd "$srcdir/git"
     LDFLAGS="$(echo "$LDFLAGS" | sed 's/-Wl,--no-seh//')"
-    GOPATH="$srcdir/go" make USE_ISATTY=true bin/git-sizer-windows-${GOARCH}.exe
+    GOPATH="$srcdir/go" make bin/git-sizer-windows-${GOARCH}.exe
 }
 
 package() {
